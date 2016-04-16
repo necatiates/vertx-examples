@@ -1,0 +1,25 @@
+
+.download{font:19px 'FranchiseRegular','HelveticaNeue-Bold','League Gothic','Impact',sans-serif;color:#f4f1de;font-weight:normal;text-transform:uppercase;text-decoration:none;background:url(../img/download_btn.png) no-repeat -5px center;height:55px;width:160px;padding:0px 10px;display:block;line-height:60px;font-weight:normal;position:relative;top:-8px;left:-10px;}
+#logo{
+	font-weight: normal;text-transform:uppercase;font-family:'FranchiseRegular','HelveticaNeue-Bold','League Gothic','Impact',sans-serif;
+	font-size:4em;margin-bottom:5%;margin-left:10px;color:#c44032;text-shadow:#863027 -1px 1px 0;margin-top:30px;
+}
+#logo span{display:inline-block;position:relative;letter-spacing:-1px;-webkit-transition:all 0.2s ease-out;}
+#logo span:hover{top:3px}
+#logo .char2, #logo .char11{color:#e36b23;text-shadow:#9b4d1f -1px -1px 0}
+#logo .char3, #logo .char10{z-index:10;color:#e6c92e;text-shadow:#9c8b26 -1px -1px 0}
+#logo .char4, #logo .char9{color:#5da028;text-shadow:#427021 -1px -1px 0}
+#logo .char5, #logo .char8{color:#4584be;text-shadow:#2f597f -1px -1px 0}
+#logo .char6, #logo .char7{color:#7073cf;text-shadow:#4a4d88 -1px -1px 0}
+#logo .char1{-webkit-transform:rotate(-3deg)}
+#logo .char3{top:-1px;-webkit-transform:rotate(2deg)}
+#logo .char4{top:-7px}
+#logo .char6{top:-7px;-webkit-transform:rotate(2deg)}
+#logo .char7{}
+#logo .char8{top:1px;-webkit-transform:rotate(-2deg)}
+#logo .char9{-webkit-transform:rotate(2deg)}
+#logo .char10{width:36px;}
+#logo .char10:hover{-webkit-transition-duration:0.4s;}
+#logo .char11{top:2px;width:50px;-webkit-transform:rotate(-3deg)}
+#logo .char12{}
+#logo-1{padding-bottom: 40px;}

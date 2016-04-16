@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>BONBON CASINO</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">        
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/typicons/typicons.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+		<link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+        <link rel="stylesheet" href="assets/css/flipclock.css">
+        <link rel="stylesheet" href="assets/css/responsive-tabs.css" />
+
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+
+    <body>
+
+        <!-- Loader -->
+    	<div class="loader">
+    		<div class="loader-img"></div>
+    	</div>
+
+        <!-- Top content -->
+        <div class="top-content">
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3" style="margin-top: 40px;margin-bottom: 40px">
+                            <img src="assets/img/backgrounds/top.png">
+                        </div>
+                        <div class="col-sm-3" style="margin-top: 100px;padding: 0px;">
+                            <div class="col-sm-12" id="money_container" style="padding: 0px;text-align: right;font-weight: 500">-/-</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul id="myTab" class="nav nav-tabs">
+                        </ul>
+                        <div class="col-md-8 col-sm-10 col-sm-offset-1 col-md-offset-2">
+                            <div class="col-md-12">
+                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2  menu-button" href="/private/games.html">Oyunlar</a></div>
+                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#about-us">Para Çek</a></div>
+                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="/private/cashin_old.html">Para Yatır</a></div>
+                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#pricing">İletişim</a></div>
+                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#how-it-works">Geçmişim</a></div>
+                                <div class="col-md-2 col-sm-2 col-xs-4"><a style="margin-bottom: -2px;" class="btn btn-link-2 menu-button" href="/logout">Çıkış</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="tab-content">
+                                <div id="home" class="tab-pane fade in active">
+                                    <div class="top-big-link wow fadeInUp">
+                                        <div class="col-sm-12 col-md-12">
+                                           <div class="tab-pane active" id="havale">
+                                                    <div class="top-big-link">
+                                                        <div class="row">
+                                                            <div class="col-sm-12 col-md-6">
+                                                                <ul style="padding-left: 20px">
+                                                                    <li style="float:left;">Havale Talebinizi Eksiksiz Girip Gönder Tuşuna Basınız</li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="col-sm-12 col-md-6 form-box">
+                                                                <div class="form-bottom" style="padding-bottom: 20px;">
+                                                                    <form role="form"  method="post" id="transfer_demand_form">
+                                                                        <div class="form-group">
+                                                                            <label class="sr-only" for="bank_name">Kullanıcı Adı</label>
+                                                                            <select id="bank_name" class="form-control" name="bank_name">
+                                                                                <option value="Akbank">Akbank</option>
+                                                                                <option value="Garanti">Garanti</option>
+                                                                                <option value="Yapı Kredi">Yapı Kredi</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="sr-only" for="name_surname">İsim Soyisim</label>
+                                                                            <input type="text" name="amount" placeholder="İsim Soyisim" class="form-last-name form-control" id="name_surname">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="sr-only" for="iban">IBAN</label>
+                                                                            <input type="text" name="iban" placeholder="IBAN" class="form-last-name form-control" id="iban">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="sr-only" for="tc_id">TC Kimlik No</label>
+                                                                            <input type="text" name="amount" placeholder="TC Kimlik No" class="form-last-name form-control" id="tc_id">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="sr-only" for="amount">Yatırılan Tutar</label>
+                                                                            <input type="text" name="amount" placeholder="Tutar" class="form-last-name form-control" id="amount">
+                                                                        </div>
+                                                                        <button type="submit" class="btn right-btn">Havale Gönder</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <footer style="padding: 0;margin: 0;position: relative;bottom: 0px">
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-12" style="padding: 0px">
+                    <img src="assets/img/backgrounds/bottom.png">
+                </div>
+            </div>
+
+        </footer>
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+        <script src="assets/js/flipclock.min.js"></script>
+        <script src="assets/js/responsive-tabs.js"></script>
+        <script src="assets/js/card.js"></script>
+
+
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+        <script src="https://js.braintreegateway.com/js/braintree-2.22.1.min.js"></script>
+        <script type="text/javascript" src="https://www.2checkout.com/checkout/api/2co.min.js"></script>
+        <script type="text/javascript">
+
+            $(function() {
+                // Pull in the public encryption key for our environment
+
+                $("#transfer_demand_form").submit(function(e) {
+                    // Call our token request function
+                    transferRequest();
+
+                    // Prevent form from submitting
+                    return false;
+                });
+            });
+            function transferRequest(){
+                var transferEntry = {
+                  bank : $('#bank_name').val(),
+                  name_surname : $('#name_surname').val(),
+                  tcno : $('#tc_id').val(),
+                  iban : $('#iban').val(),
+                  amount : $('#amount').val()
+                };
+                $.ajax({
+                    url: '/transfer/checkout',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(transferEntry),
+                    dataType: 'json',
+                    async: true,
+                    success: function (data) {
+                        alert('ok');
+                    },
+                });
+            }
+
+        </script>
+        <script>
+            $(document).ready(function(){
+                $(".nav-tabs a").click(function(){
+                    $(this).tab('show');
+                });
+                $.ajax({
+                    url: '/bet/info',
+                    type: 'get',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    async: true,
+                    success: function (data) {
+                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2));
+                    }
+                });
+            });
+        </script>
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/570824141417d79610fb40ab/default';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+            })();
+        </script>
+        <!--End of Tawk.to Script-->
+
+    </body>
+
+</html>
