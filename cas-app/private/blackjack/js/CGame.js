@@ -39,6 +39,7 @@ function CGame(oData){
     var _oInterface;
     var _oSeat;
     var _oGameOverPanel;
+    var _iCurRes = null;
     
     this._init = function(){
         _iMaxBet = MAX_BET;
@@ -179,15 +180,23 @@ function CGame(oData){
                 //CHECK IF THERE IS AVAILABLE GAME CASH
                 var iRand;
 
-                if(_iGameCash < (_oSeat.getCurBet() * 2) ){
-                    //USER MUST LOSE
-                    iRand = WIN_OCCURRENCE;
-                }else{
-                    //DECIDE IF DEALER MUST LOSE
-                    iRand = Math.random() * 100;
-                }
+                var bet = {
+                    bet:_oSeat.getCurBet(),
+                    minWin: (_oSeat.getCurBet() * 2)
+                };
+                $.ajax({
+                    url: '/bet/blackjack',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(bet),
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        _iCurRes = data;
+                    },
+                });
 
-                if(iRand < WIN_OCCURRENCE){
+                if(_iCurRes._win_){
                     _bDealerLoseInCurHand = true;
 
                     do{
@@ -388,11 +397,31 @@ function CGame(oData){
         if(_oSeat.getHandValue(iHand) === 21 && _oSeat.getNumCardsForHand(iHand) === 2){
             iMult =  BLACKJACK_PAYOUT;
         }
-        
+
+
         var iTotalWin = _oSeat.getBetForHand(iHand) + parseFloat((_oSeat.getBetForHand(iHand) * iMult).toFixed(2));
 
-        _oSeat.increaseCredit(iTotalWin);
-        _iGameCash -= iTotalWin;
+        var bet = {
+            totalWin: iTotalWin,
+            id : _iCurRes.id
+        };
+        $.ajax({
+            url: '/blackjack/accept',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(bet),
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                if(data._accepted_) {
+                    _oSeat.increaseCredit(iTotalWin);
+                    _iGameCash -= iTotalWin;
+                }
+            },
+        });
+
+
+
 
         _oSeat.showWinner(iHand,TEXT_SHOW_WIN_PLAYER,iTotalWin);
         _oInterface.displayMsg(TEXT_DISPLAY_MSG_PLAYER_WIN);

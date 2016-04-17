@@ -93,6 +93,10 @@ public class Server{
     router.get("/bet/info").handler(InfoServiceHandler::getInfo);
     router.post("/poker/bet").handler(PokerBetHandler::bet);
     router.post("/poker/accept").handler(PokerBetAcceptHandler::accept);
+    router.post("/bet/strach").handler(StrachBetHandler::bet);
+    router.post("/scratch/accept").handler(StrachBetAcceptHandler::accept);
+    router.post("/bet/blackjack").handler(BlackJackBetHandler::bet);
+    router.post("/blackjack/accept").handler(BlackJackBetAcceptHandler::accept);
     router.get("/tokengen").handler(BrainTreeTokanizerHandler::getToken);
     router.post("/checkout").handler(BrainTreeCheckoutHandler::checkout);
     router.post("/creditCardHandler").handler(CreditCardHandler::handleCardOK);

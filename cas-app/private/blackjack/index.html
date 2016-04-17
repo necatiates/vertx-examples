@@ -38,13 +38,22 @@
     <body ondragstart="return false;" ondrop="return false;" >
 	<div style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%"></div>
           <script>
+            TOTAL_MONEY = 0;
             $(document).ready(function(){
+                $.ajax({
+                    url: '/bet/info',
+                    type: 'get',
+                    async: false,
+                    success: function (data) {
+                        TOTAL_MONEY = data.cash;
+                    },
+                });
                      var oMain = new CMain({
                                     win_occurrence: 40,          //WIN OCCURRENCE PERCENTAGE. VALUES BETWEEN 0-100
                                     min_bet: 0.1,                //MIN BET PLAYABLE BY USER. DEFAULT IS 0.1$
                                     max_bet: 300,                //MAX BET PLAYABLE BY USER. 
-                                    bet_time: 10000,             //WAITING TIME FOR PLAYER BETTING
-                                    money: 1000,                 //STARING CREDIT FOR THE USER
+                                    bet_time: 1000000,             //WAITING TIME FOR PLAYER BETTING
+                                    money: TOTAL_MONEY,                 //STARING CREDIT FOR THE USER
                                     blackjack_payout: 1.5,       //PAYOUT WHEN USER WINS WITH BLACKJACK (DEFAULT IS 3 TO 2). BLACKJACK OCCURS WHEN USER GET 21 WITH FIRST 2 CARDS
                                     game_cash: 1500,             //GAME CASH AVAILABLE WHEN GAME STARTS
                                     //////////////////////////////////////////////////////////////////////////////////////////

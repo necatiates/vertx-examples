@@ -40,10 +40,20 @@ function CGame(oData){
     var _aWin;  
     var _aResult;
     var _aRow;
+    var _iCurRes = null;
     
     var _oFade;
     
     this._init = function(){
+        $.ajax({
+            url: '/bet/info',
+            type: 'get',
+            async: false,
+            success: function (data) {
+                CREDIT = data.cash;
+                CASH_CREDIT = data.cash;
+            },
+        });
         _bTouchActive=false;
         _iSize=SIZE*2;
         _iPxlImage=342;
@@ -197,9 +207,25 @@ function CGame(oData){
         
         var iIndex;
         var iNumberOfWinLine;
-        if(iWinProbability < WIN_OCCURRENCE){
-            iIndex = Math.floor(Math.random()*_aProbWin.length);
-            iNumberOfWinLine = _aProbWin[iIndex];
+        _iCurRes = null;
+        var MIN_WIN = 1 * _iCurBet;
+        var bet = {
+            bet:_iCurBet,
+            minWin:MIN_WIN
+        };
+        $.ajax({
+            url: '/bet/strach',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(bet),
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                _iCurRes = data;
+            },
+        });
+        if(_iCurRes._win_){
+            iNumberOfWinLine = 1;
         } else {
             iNumberOfWinLine = 0;
         }
@@ -222,11 +248,13 @@ function CGame(oData){
 
                 }break;
                 case 1:{
+                    do {
                     _aWin[_aRandom[0]]=true;   
                     iRandomic = Math.floor(Math.random()*_aProbability.length);
                     _aTypeWin[_aRandom[0]] = _aProbability[iRandomic];
                     _iPosWin = _aRandom[0];
-                    iTotalWin = PRIZE[_aTypeWin[_aRandom[0]]]*_iCurBet;   
+                    iTotalWin = PRIZE[_aTypeWin[_aRandom[0]]]*_iCurBet;
+                    }while (iTotalWin > _iCurRes._maxWin_)
                         
                 }break;      
                 case 2:{
@@ -355,11 +383,7 @@ function CGame(oData){
     
     this._resetScratchCard = function(){
         
-        _iCurCash -= _iTotalWin;
-        
-        s_iCurCredit += _iTotalWin;
-        _oInterface.refreshCredit(s_iCurCredit);
-        
+
         _iTotalWin = 0;
         _oInterface.refreshTotWin(_iTotalWin);
         
@@ -821,14 +845,36 @@ function CGame(oData){
     };
     
     this._endScratch = function(){
-        
+        if(_iTotalWin > 0){
+            var bet = {
+                totalWin: _iTotalWin,
+                id : _iCurRes.id
+            };
+            $.ajax({
+                url: '/scratch/accept',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(bet),
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    if(data._accepted_) {
+                        _oInterface.refreshTotWin(_iTotalWin);
+                        _iCurCash -= _iTotalWin;
+                        s_iCurCredit += _iTotalWin;
+                        _oInterface.refreshCredit(s_iCurCredit);
+
+                    }
+                },
+            });
+        }
         s_oStageScratch.removeAllChildren();
         s_oStageScratch.clear();
         $("#clear-image").css("display","none");
         
         _oInterface.enablePlayAgain(true);
         
-        _oInterface.refreshTotWin(_iTotalWin);
+
         
         _oTimeOutEndScratch = setTimeout(function(){_oParent._resetScratchCard();},5000); 
         
