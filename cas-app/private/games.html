@@ -203,7 +203,7 @@
                     dataType: 'json',
                     async: true,
                     success: function (data) {
-                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2));
+                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2) + "₺");
                     }
                 });
 
