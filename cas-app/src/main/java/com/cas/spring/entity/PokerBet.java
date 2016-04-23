@@ -30,6 +30,9 @@ public class PokerBet implements Bet{
     @Column
     long update_time;
 
+    @Column
+    String loseCause;
+
     public double getBet() {
         return bet;
     }
@@ -89,5 +92,14 @@ public class PokerBet implements Bet{
 
     public void setUpdate_time(long update_time) {
         this.update_time = update_time;
+    }
+
+    public String getLoseCause() {
+        return loseCause;
+    }
+
+    @Override
+    public void setLoseCause(String loseCause) {
+        this.loseCause = loseCause;
     }
 }

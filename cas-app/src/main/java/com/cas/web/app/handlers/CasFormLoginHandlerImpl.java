@@ -81,6 +81,9 @@ public class CasFormLoginHandlerImpl implements CasFormLoginHandler{
                     }else{
                         context.fail(400);
                     }
+                }else {
+                  this.doRedirect(req.response(),"/index.html?context=LoginFail");
+                  return;
                 }
                 context.session().put("user",user);
                 if(this.directLoggedInOKURL != null) {

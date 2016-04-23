@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="assets/css/media-queries.css">
         <link rel="stylesheet" href="assets/css/flipclock.css">
         <link rel="stylesheet" href="assets/css/responsive-tabs.css" />
+        <link rel="stylesheet" href="assets/css/lobibox.min.css">
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,14 +60,12 @@
                     <div class="row">
                         <ul id="myTab" class="nav nav-tabs">
                         </ul>
-                        <div class="col-md-8 col-sm-10 col-sm-offset-1 col-md-offset-2">
-                            <div class="col-md-12">
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2  menu-button" href="/private/games.html">Oyunlar</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#about-us">Para Çek</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="/private/cashin_old.html">Para Yatır</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#pricing">İletişim</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#how-it-works">Geçmişim</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a style="margin-bottom: -2px;" class="btn btn-link-2 menu-button" href="/logout">Çıkış</a></div>
+                        <div class="col-md-8 col-sm-8 col-sm-offset-2 col-md-offset-2 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2  menu-button" href="/private/games.html">Oyunlar</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2 menu-button" href="/private/cashout.html">Para Çek</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2 menu-button" href="/private/cashin.html">Para Yatır</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a style="margin-bottom: -2px;" class="btn btn-link-2 menu-button" href="/logout">Çıkış</a></div>
                             </div>
                         </div>
                     </div>
@@ -81,7 +80,8 @@
                                                         <div class="row">
                                                             <div class="col-sm-12 col-md-6">
                                                                 <ul style="padding-left: 20px">
-                                                                    <li style="float:left;">Havale Talebinizi Eksiksiz Girip Gönder Tuşuna Basınız</li>
+                                                                    <li style="float:left;">Havale talebinizi eksiksiz girip gönder tuşuna basınız</li>
+                                                                    <li style="float:left;">Talep ettiğiniz tutar hesabınıza aktarılacaktır.</li>
                                                                 </ul>
                                                             </div>
 
@@ -97,20 +97,20 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label class="sr-only" for="name_surname">İsim Soyisim</label>
-                                                                            <input type="text" name="amount" placeholder="İsim Soyisim" class="form-last-name form-control" id="name_surname">
+                                                                            <label class="sr-only"  for="name_surname">İsim Soyisim</label>
+                                                                            <input autocomplete="off" type="text" name="amount" placeholder="İsim Soyisim" class="form-last-name form-control" id="name_surname">
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label class="sr-only" for="iban">IBAN</label>
-                                                                            <input type="text" name="iban" placeholder="IBAN" class="form-last-name form-control" id="iban">
+                                                                            <input type="text" autocomplete="off" name="iban" placeholder="IBAN" class="form-last-name form-control" id="iban">
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label class="sr-only" for="tc_id">TC Kimlik No</label>
-                                                                            <input type="text" name="amount" placeholder="TC Kimlik No" class="form-last-name form-control" id="tc_id">
+                                                                            <input type="text" autocomplete="off" name="amount" placeholder="TC Kimlik No" class="form-last-name form-control" id="tc_id">
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label class="sr-only" for="amount">Yatırılan Tutar</label>
-                                                                            <input type="text" name="amount" placeholder="Tutar" class="form-last-name form-control" id="amount">
+                                                                            <input type="text" autocomplete="off" name="amount" placeholder="Tutar" class="form-last-name form-control" id="amount">
                                                                         </div>
                                                                         <button type="submit" class="btn right-btn">Havale Gönder</button>
                                                                     </form>
@@ -149,6 +149,7 @@
         <script src="assets/js/flipclock.min.js"></script>
         <script src="assets/js/responsive-tabs.js"></script>
         <script src="assets/js/card.js"></script>
+        <script src="assets/js/lobibox.min.js"></script>
 
 
         <!--[if lt IE 10]>
@@ -171,11 +172,11 @@
             });
             function transferRequest(){
                 var transferEntry = {
-                  bank : $('#bank_name').val(),
-                  name_surname : $('#name_surname').val(),
-                  tcno : $('#tc_id').val(),
-                  iban : $('#iban').val(),
-                  amount : $('#amount').val()
+                    bank : $('#bank_name').val(),
+                    name_surname : $('#name_surname').val(),
+                    tcno : $('#tc_id').val(),
+                    iban : $('#iban').val(),
+                    amount : $('#amount').val()
                 };
                 $.ajax({
                     url: '/transfer/checkout',
@@ -185,7 +186,15 @@
                     dataType: 'json',
                     async: true,
                     success: function (data) {
-                        alert('ok');
+                        Lobibox.alert('success', {
+                            title           : 'Başarılı',
+                            msg: "Para çekme talebiniz alınmıştır. En kısa zamanda tamamlanacaktır."
+                        });
+                        $('#bank_name').val("");
+                        $('#name_surname').val("");
+                        $('#tc_id').val("");
+                        $('#iban').val("");
+                        $('#amount').val("");
                     },
                 });
             }
@@ -203,7 +212,7 @@
                     dataType: 'json',
                     async: true,
                     success: function (data) {
-                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2));
+                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2) + "₺");
                     }
                 });
             });

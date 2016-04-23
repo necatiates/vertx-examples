@@ -103,13 +103,20 @@ public class Server{
 
     router.get("/admin/gameCash").handler(GameCashHandler::getCashes);
     router.post("/admin/gameCash").handler(GameCashHandler::updateCash);
-    router.get("/admin/users").handler(UserAdminHandler::getUsers);
+    router.post("/admin/users").handler(UserAdminHandler::getUsers);
     router.post("/admin/users").handler(UserAdminHandler::updateuser);
 
     router.post("/transfer/checkout").handler(TransferCheckoutHandler::handle);
-    router.post("/transfer/history").handler(TransferCheckoutHandler::getTransfers);
+    router.post("/transfer/checkin").handler(TransferCheckinHandler::handle);
+    router.post("/transfer/checkout_history").handler(TransferCheckoutHandler::getTransfers);
+    router.post("/transfer/checkout_flag").handler(TransferCheckoutHandler::changeFlag);
+    router.post("/transfer/checkin_history").handler(TransferCheckinHandler::getTransfers);
+    router.post("/transfer/checkin_flag").handler(TransferCheckinHandler::changeFlag);
 
-    router.get("/admin/slotGames").handler(SlotMachineBetHandler::getGames);
+    router.post("/admin/slotGames").handler(SlotMachineBetHandler::getGames);
+    router.post("/admin/strachGames").handler(StrachBetHandler::getGames);
+    router.post("/admin/blackJackGames").handler(BlackJackBetHandler::getGames);
+      router.post("/admin/pokerGames").handler(PokerBetHandler::getGames);
     // Implement logout
     router.route("/logout").handler(context -> {
       context.clearUser();

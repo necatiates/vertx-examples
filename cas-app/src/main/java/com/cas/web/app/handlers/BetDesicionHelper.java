@@ -24,16 +24,26 @@ public class BetDesicionHelper {
             Bet.setWinResult(true);
             response.put("_win_",true);
             response.put("_maxWin_",avaliableCash);
+            Bet.setLoseCause("RatioWin");
         }else if(Bet.getMinWin() < avaliableCash && ratio == 1){
-            boolean genRandom = random.nextBoolean();
+            boolean genRandom = randomBoolean();
             Bet.setWinResult(genRandom);
+            if(genRandom){
+                Bet.setLoseCause("RandomWin");
+            }else{
+                Bet.setLoseCause("RandomLose");
+            }
             response.put("_win_",genRandom);
             response.put("_maxWin_",avaliableCash);
         } else{
             Bet.setWinResult(false);
             response.put("_win_",false);
             response.put("_maxWin_",0);
+            Bet.setLoseCause("RatioLose");
         }
         return response;
+    }
+    public static boolean randomBoolean(){
+        return Math.random() < 0.5;
     }
 }

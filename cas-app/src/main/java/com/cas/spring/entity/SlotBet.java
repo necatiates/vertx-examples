@@ -1,5 +1,8 @@
 package com.cas.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="slot_bets")
+@JsonSerialize(include= JsonSerialize.Inclusion.NON_NULL)
 public class SlotBet {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -16,7 +20,7 @@ public class SlotBet {
     double bet;
 
     @Column
-    int lineCount;
+    Integer lineCount;
 
     @Column
     double minWin;
@@ -25,20 +29,22 @@ public class SlotBet {
     boolean winResult;
 
     @Column
-    int numLineWin;
+    Integer numLineWin;
 
     @Column
     double totalWin;
 
     @Column
-    boolean bonus;
+    Boolean bonus;
 
     @Column
-    boolean freeSpin;
+    Boolean freeSpin;
 
     @Column
     long update_time;
 
+    @Column
+    String loseCause;
 
     @Column
     String username;
@@ -84,6 +90,9 @@ public class SlotBet {
     }
 
     public int getLineCount() {
+        if(lineCount == null){
+            return 0;
+        }
         return lineCount;
     }
 
@@ -108,6 +117,9 @@ public class SlotBet {
     }
 
     public int getNumLineWin() {
+        if(numLineWin == null){
+            return 0;
+        }
         return numLineWin;
     }
 
@@ -116,6 +128,9 @@ public class SlotBet {
     }
 
     public boolean isBonus() {
+        if(bonus == null){
+            return false;
+        }
         return bonus;
     }
 
@@ -124,10 +139,21 @@ public class SlotBet {
     }
 
     public boolean isFreeSpin() {
+        if(freeSpin == null){
+            return false;
+        }
         return freeSpin;
     }
 
     public void setFreeSpin(boolean freeSpin) {
         this.freeSpin = freeSpin;
+    }
+
+    public String getLoseCause() {
+        return loseCause;
+    }
+
+    public void setLoseCause(String loseCause) {
+        this.loseCause = loseCause;
     }
 }

@@ -1,5 +1,6 @@
 package com.cas.web.app.handlers;
 
+import com.cas.service.model.CheckinsRequest;
 import com.cas.service.model.CheckoutsRequest;
 import com.cas.service.model.FlagChangeRequest;
 import com.cas.spring.entity.TransferCheckin;
@@ -19,9 +20,9 @@ import java.util.List;
 /**
  * Created by tolga on 09.04.2016.
  */
-public class TransferCheckoutHandler {
+public class TransferCheckinHandler {
     public static void handle(RoutingContext routingContext){
-        final TransferCheckout transferRequest = Json.decodeValue(routingContext.getBodyAsString(),TransferCheckout.class);
+        final TransferCheckin transferRequest = Json.decodeValue(routingContext.getBodyAsString(),TransferCheckin.class);
         transferRequest.setUsername(((User)routingContext.session().get("user")).getUsername());
         EntityManager em = Server.factory.createEntityManager();
         em.getTransaction().begin();
@@ -32,9 +33,9 @@ public class TransferCheckoutHandler {
                 .end(Json.encodePrettily(new JsonObject().put("id",transferRequest.getId())));
     }
     public static void getTransfers(RoutingContext routingContext){
-        final CheckoutsRequest transferRequest = Json.decodeValue(routingContext.getBodyAsString(),CheckoutsRequest.class);
+        final CheckinsRequest transferRequest = Json.decodeValue(routingContext.getBodyAsString(),CheckinsRequest.class);
         EntityManager em = Server.factory.createEntityManager();
-        Criteria criteria = ((Session)em.getDelegate()).createCriteria(TransferCheckout.class);
+        Criteria criteria = ((Session)em.getDelegate()).createCriteria(TransferCheckin.class);
         criteria.setFirstResult(0 + (transferRequest.getPage() - 1) * 25);
         criteria.setMaxResults(25 + (transferRequest.getPage() - 1) * 25);
         if(transferRequest.getUsername() != null && !transferRequest.getUsername().equals("")) {
@@ -44,11 +45,12 @@ public class TransferCheckoutHandler {
         List<TransferCheckout> result = criteria.list();
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(result));
+        em.close();
     }
     public static void changeFlag(RoutingContext routingContext){
         final FlagChangeRequest request =  Json.decodeValue(routingContext.getBodyAsString(),FlagChangeRequest.class);
         EntityManager em = Server.factory.createEntityManager();
-        TransferCheckout checkin = em.find(TransferCheckout.class,request.getId());
+        TransferCheckin checkin = em.find(TransferCheckin.class,request.getId());
         checkin.setProcessed(request.isFlag());
         em.getTransaction().begin();
         em.persist(checkin);

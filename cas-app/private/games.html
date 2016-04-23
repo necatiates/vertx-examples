@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/media-queries.css">
         <link rel="stylesheet" href="assets/css/flipclock.css">
+        <link rel="stylesheet" href="assets/css/lobibox.min.css">
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -48,24 +49,22 @@
             <div class="inner-bg">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3" style="margin-top: 40px;margin-bottom: 40px">
+                        <div class="col-sm-6 col-sm-offset-3" style="margin-top: 35px">
                           <img src="assets/img/backgrounds/top.png">
                         </div>
-                        <div class="col-sm-3" style="margin-top: 100px;padding: 0px;">
+                        <div class="col-sm-3" style="margin-top: 90px;padding: 0px;">
                             <div class="col-sm-12" id="money_container" style="padding: 0px;text-align: right;font-weight: 500">-/-</div>
                         </div>
                     </div>
                     <div class="row">
                         <ul id="myTab" class="nav nav-tabs">
                         </ul>
-                        <div class="col-md-8 col-sm-10 col-sm-offset-1 col-md-offset-2">
-                            <div class="col-md-12">
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2  menu-button" href="#features">Oyunlar</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="/private/cashout.html">Para Çek</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="/private/cashin.html">Para Yatır</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#pricing">İletişim</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#how-it-works">Geçmişim</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a style="margin-bottom: -2px;" class="btn btn-link-2 menu-button" href="/logout">Çıkış</a></div>
+                        <div class="col-md-8 col-sm-8 col-sm-offset-2 col-md-offset-2 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2  menu-button" href="#features">Oyunlar</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2 menu-button" href="/private/cashout.html">Para Çek</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2 menu-button" href="/private/cashin.html">Para Yatır</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a style="margin-bottom: -2px;" class="btn btn-link-2 menu-button" href="/logout">Çıkış</a></div>
                             </div>
                         </div>
                     </div>
@@ -186,12 +185,14 @@
         <script src="assets/js/jquery.magnific-popup.min.js"></script>
         <script src="assets/js/scripts.js"></script>
         <script src="assets/js/flipclock.min.js"></script>
+        <script src="assets/js/lobibox.min.js"></script>
 
 
         <!--[if lt IE 10]>
             <script src="assets/js/placeholder.js"></script>
         <![endif]-->
         <script>
+
             $(document).ready(function(){
                 $(".nav-tabs a").click(function(){
                     $(this).tab('show');

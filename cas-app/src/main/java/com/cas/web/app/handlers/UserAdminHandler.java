@@ -1,12 +1,17 @@
 package com.cas.web.app.handlers;
 
+import com.cas.service.model.UsersRequest;
 import com.cas.spring.entity.Cash;
+import com.cas.spring.entity.TransferCheckin;
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,11 +22,16 @@ import java.util.List;
  */
 public class UserAdminHandler {
     public static void getUsers(RoutingContext routingContext){
+        final UsersRequest usersRequest = Json.decodeValue(routingContext.getBodyAsString(),UsersRequest.class);
         EntityManager em = Server.factory.createEntityManager();
-        CriteriaQuery<User> criteria = em.getCriteriaBuilder().createQuery(User.class);
-        criteria.select(criteria.from(User.class));
-        List<User> userList = em.createQuery(criteria).getResultList();
+        Criteria criteria = ((Session)em.getDelegate()).createCriteria(User.class);
+        criteria.setFirstResult(0 + (usersRequest.getPage() - 1) * 25);
+        criteria.setMaxResults(25 + (usersRequest.getPage() - 1) * 25);
+        if(usersRequest.getUsername() != null && !usersRequest.getUsername().equals("")) {
+            criteria.add(Restrictions.eq("username",usersRequest.getUsername()));
+        }
         JsonArray usersArray = new JsonArray();
+        List<User> userList = criteria.list();
         for(User user : userList){
             JsonObject obj = new JsonObject();
             obj.put("username",user.getUsername());

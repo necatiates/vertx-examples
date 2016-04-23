@@ -1,14 +1,16 @@
 package com.cas.web.app.handlers;
 
 import com.cas.cache.CacheManager;
-import com.cas.spring.entity.Cash;
-import com.cas.spring.entity.SlotBet;
-import com.cas.spring.entity.StrachBet;
-import com.cas.spring.entity.User;
+import com.cas.service.model.SlotGamesHistoryRequest;
+import com.cas.service.model.StrachHistoryRequest;
+import com.cas.spring.entity.*;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
@@ -41,15 +43,22 @@ public class StrachBetHandler {
             strachBet.setWinResult(true);
             response.put("_win_",true);
             response.put("_maxWin_",avaliableCash);
+            strachBet.setLoseCause("WinRatio");
         }else if(strachBet.getMinWin() < avaliableCash && ratio == 1){
             boolean genRandom = random.nextBoolean();
             strachBet.setWinResult(genRandom);
+            if(genRandom){
+                strachBet.setLoseCause("WinRandom");
+            }else{
+                strachBet.setLoseCause("LoseRandom");
+            }
             response.put("_win_",genRandom);
             response.put("_maxWin_",avaliableCash);
         } else{
             strachBet.setWinResult(false);
             response.put("_win_",false);
             response.put("_maxWin_",0);
+            strachBet.setLoseCause("LoseRatio");
         }
         entityManager.persist(strachBet);
 
@@ -62,5 +71,19 @@ public class StrachBetHandler {
                 .end(Json.encodePrettily(response));
         entityManager.close();
         return;
+    }
+    public static void getGames(RoutingContext routingContext) {
+        final StrachHistoryRequest strachHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),StrachHistoryRequest.class);
+        EntityManager entityManager = Server.factory.createEntityManager();
+        Criteria criteria = ((Session)entityManager.getDelegate()).createCriteria(StrachBet.class);
+        criteria.setFirstResult(0 + (strachHistoryRequest.getPage() - 1) * 25);
+        criteria.setMaxResults(25 + (strachHistoryRequest.getPage() - 1) * 25);
+        if(strachHistoryRequest.getUsername() != null && !strachHistoryRequest.getUsername().equals("")) {
+            criteria.add(Restrictions.eq("username",strachHistoryRequest.getUsername()));
+        }
+        List<TransferCheckout> result = criteria.list();
+        routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
+                .end(Json.encodePrettily(result));
+        entityManager.close();
     }
 }

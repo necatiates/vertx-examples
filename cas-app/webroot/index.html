@@ -22,6 +22,7 @@
         <link rel="stylesheet" type="text/css" href="assets/sliderman/css/sliderman.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/screen-mobilelast.css" />
         <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="assets/css/lobibox.min.css">
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -69,21 +70,22 @@
                         <div class="col-md-6 col-md-offset-3 form-box wow fadeInUp animated">
                         	<div class="form-top">
                         		<h1 style="font: 400 30px/1.3 'Arizonia', Helvetica, sans-serif;color: #2b2b2b;text-shadow: 4px 4px 0px rgba(0,0,0,0.1);text-align: center ">
-                                    Ready to make some bonbon
+                                    Biraz bonbon'a ne dersin ?
                                 </h1>
                             </div>
                             <div class="form-bottom">
 			                    <form role="form" action="/loginhandler" method="post" id="login_form">
 			                    	<div class="form-group">
 			                    		<label class="sr-only" for="form-first-name">First name</label>
-			                        	<input type="text" style="background: black !important;" name="username" placeholder="Username..." class="form-first-name form-control" id="form-first-name">
+			                        	<input type="text" autocomplete="off" style="background: black !important;" name="username" placeholder="Kullanıcı Adı..." class="form-first-name form-control" id="form-first-name">
 			                        </div>
 			                        <div class="form-group">
 			                        	<label class="sr-only" for="form-last-name">Last name</label>
-			                        	<input type="password" name="password" placeholder="Password..." class="form-last-name form-control" id="form-last-name">
+			                        	<input type="password" autocomplete="off" name="password" placeholder="Şifre..." class="form-last-name form-control" id="form-last-name">
 			                        </div>
-                                    <button type="button" onclick="window.location='/register.html'" style=" background: url('assets/img/backgrounds/sign_up.png');width: 50px;height: 50px;border: none;" />
-                                    <button onclick="$('#login_form').submit()" style=" background: url('assets/img/backgrounds/sign_in.png');width: 50px;height: 50px;border: none;float: right" />
+                                    <button type="button" class="btn" onclick="window.location='/register.html'" style="float:left;padding: 0 21px;background-color:rebeccapurple;">Kayıt Ol</button>
+
+                                    <button class="btn" onclick="$('#login_form').submit()" style="float: right;background-color: green;padding: 0 30px;" >Giriş</button>
 			                    </form>
 		                    </div>
                         </div>
@@ -110,37 +112,24 @@
         <script src="assets/js/jquery.magnific-popup.min.js"></script>
         <script src="assets/js/scripts.js"></script>
         <script src="assets/js/jquery.lettering.js"></script>
+        <script src="assets/js/lobibox.min.js"></script>
         
         <!--[if lt IE 10]>
             <script src="assets/js/placeholder.js"></script>
         <![endif]-->
         <script>
             $(document).ready(function() {
-                effectsDemo2 = 'rain,stairs,fade';
-                var demoSlider_2 = Sliderman.slider({container: 'SliderName_2', width: $('#slider-container').width(), height: 450, effects: effectsDemo2,
-                    display: {
-                        autoplay: 3000,
-                        loading: {background: '#000000', opacity: 0.5, image: 'assets/sliderman/img/loading.gif'},
-                        buttons: {hide: true, opacity: 1, prev: {className: 'SliderNamePrev_2', label: ''}, next: {className: 'SliderNameNext_2', label: ''}},
-                        description: {hide: true, background: '#000000', opacity: 0.4, height: 50, position: 'bottom'},
-                        navigation: {container: 'SliderNameNavigation_2', label: '<img src="assets/sliderman/img/clear.gif" />'}
-                    }
-                });
-                $("#logo").lettering();
-                /*$("#logo").append("<div class='col-sm-12 col-md-6' id='logo-1'></div>");
-                $("#logo").append("<div class='col-sm-12 col-md-6' id='logo-2'></div>");
-                $('.char1').appendTo('#logo-1');
-                $('.char2').appendTo('#logo-1');
-                $('.char3').appendTo('#logo-1');
-                $('.char4').appendTo('#logo-1');
-                $('.char5').appendTo('#logo-1');
-                $('.char6').appendTo('#logo-1');
-                $('.char7').appendTo('#logo-2');
-                $('.char8').appendTo('#logo-2');
-                $('.char9').appendTo('#logo-2');
-                $('.char10').appendTo('#logo-2');
-                $('.char11').appendTo('#logo-2');
-                $('.char12').appendTo('#logo-2');*/
+                if(window.location.href.indexOf("context=LoginFail") > -1) {
+                    Lobibox.alert('error', {
+                        title           : 'Başarısız',
+                        msg: "Kullanıcı adınız veya şifreniz hatalıdır !"
+                    });
+                }else if(window.location.href.indexOf("context=RegisterSuccess") > -1){
+                    Lobibox.alert('success', {
+                        title           : 'Başarılı',
+                        msg: "Kullanıcı kaydınız başarı ile tamamlanmıştır"
+                    });
+                }
             });
         </script>
 

@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by tolga on 12.03.2016.
  */
 @Entity
-@Table(name="slot_bets")
+@Table(name="blackjack_bets")
 public class BlackJackBet {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -27,6 +27,8 @@ public class BlackJackBet {
     @Column
     double minWin;
 
+    @Column
+    String loseCause;
 
     @Column
     String username;
@@ -85,5 +87,13 @@ public class BlackJackBet {
 
     public void setWinResult(boolean winResult) {
         this.winResult = winResult;
+    }
+
+    public String getLoseCause() {
+        return loseCause;
+    }
+
+    public void setLoseCause(String loseCause) {
+        this.loseCause = loseCause;
     }
 }

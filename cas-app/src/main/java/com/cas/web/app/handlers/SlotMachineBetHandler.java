@@ -1,13 +1,15 @@
 package com.cas.web.app.handlers;
 
 import com.cas.cache.CacheManager;
-import com.cas.spring.entity.Cash;
-import com.cas.spring.entity.SlotBet;
-import com.cas.spring.entity.User;
+import com.cas.service.model.SlotGamesHistoryRequest;
+import com.cas.spring.entity.*;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
@@ -18,7 +20,6 @@ import java.util.Random;
  * Created by tolga on 06.03.2016.
  */
 public class SlotMachineBetHandler {
-    private static Random random = new Random();
     public static void bet(RoutingContext routingContext){
         final SlotBet slotBet = Json.decodeValue(routingContext.getBodyAsString(),SlotBet.class);
 
@@ -40,15 +41,22 @@ public class SlotMachineBetHandler {
             slotBet.setWinResult(true);
             response.put("_win_",true);
             response.put("_maxWin_",avaliableCash);
+            slotBet.setLoseCause("WinRatio");
         }else if(slotBet.getMinWin() < avaliableCash && ratio == 1){
-            boolean genRandom = random.nextBoolean();
+            boolean genRandom = randomBoolean();
             slotBet.setWinResult(genRandom);
+            if(genRandom){
+                slotBet.setLoseCause("WinRandom");
+            }else{
+                slotBet.setLoseCause("LoseRandom");
+            }
             response.put("_win_",genRandom);
             response.put("_maxWin_",avaliableCash);
         } else{
             slotBet.setWinResult(false);
             response.put("_win_",false);
             response.put("_maxWin_",0);
+            slotBet.setLoseCause("LoseRatio");
         }
         entityManager.persist(slotBet);
 
@@ -64,12 +72,20 @@ public class SlotMachineBetHandler {
     }
 
     public static void getGames(RoutingContext routingContext) {
+        final SlotGamesHistoryRequest slotGamesHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),SlotGamesHistoryRequest.class);
         EntityManager entityManager = Server.factory.createEntityManager();
-        CriteriaQuery<SlotBet> criteria = entityManager.getCriteriaBuilder().createQuery(SlotBet.class);
-        criteria.select(criteria.from(SlotBet.class));
-        List<SlotBet> slotBets = entityManager.createQuery(criteria).getResultList();
+        Criteria criteria = ((Session)entityManager.getDelegate()).createCriteria(SlotBet.class);
+        criteria.setFirstResult(0 + (slotGamesHistoryRequest.getPage() - 1) * 25);
+        criteria.setMaxResults(25 + (slotGamesHistoryRequest.getPage() - 1) * 25);
+        if(slotGamesHistoryRequest.getUsername() != null && !slotGamesHistoryRequest.getUsername().equals("")) {
+            criteria.add(Restrictions.eq("username",slotGamesHistoryRequest.getUsername()));
+        }
+        List<TransferCheckout> result = criteria.list();
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encodePrettily(slotBets));
+                .end(Json.encodePrettily(result));
         entityManager.close();
+    }
+    public static boolean randomBoolean(){
+        return Math.random() < 0.5;
     }
 }

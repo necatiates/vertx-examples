@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="assets/css/media-queries.css">
         <link rel="stylesheet" href="assets/css/flipclock.css">
         <link rel="stylesheet" href="assets/css/responsive-tabs.css" />
+        <link rel="stylesheet" href="assets/css/lobibox.min.css">
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,14 +60,12 @@
                     <div class="row">
                         <ul id="myTab" class="nav nav-tabs">
                         </ul>
-                        <div class="col-md-8 col-sm-10 col-sm-offset-1 col-md-offset-2">
-                            <div class="col-md-12">
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2  menu-button" href="/private/games.html">Oyunlar</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="/private/cashout.html">Para Çek</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="/private/cashin.html">Para Yatır</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#pricing">İletişim</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a class="btn-link-2 menu-button" href="#how-it-works">Geçmişim</a></div>
-                                <div class="col-md-2 col-sm-2 col-xs-4"><a style="margin-bottom: -2px;" class="btn btn-link-2 menu-button" href="/logout">Çıkış</a></div>
+                        <div class="col-md-8 col-sm-8 col-sm-offset-2 col-md-offset-2 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2  menu-button" href="/private/games.html">Oyunlar</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2 menu-button" href="/private/cashout.html">Para Çek</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a class="btn-link-2 menu-button" href="/private/cashin.html">Para Yatır</a></div>
+                                <div class="col-md-3 col-sm-3 col-xs-6"><a style="margin-bottom: -2px;" class="btn btn-link-2 menu-button" href="/logout">Çıkış</a></div>
                             </div>
                         </div>
                     </div>
@@ -122,7 +121,7 @@
 
                                                             <div class="col-sm-12 col-md-6 form-box">
                                                                 <div class="form-bottom" style="padding-bottom: 20px;">
-                                                                    <form role="form" action="/paymentAcceptHandler" method="post">
+                                                                    <form role="form" action="/" method="post" id="transfer_demand_form">
                                                                         <div class="form-group">
                                                                             <label class="sr-only" for="bank_name">Kullanıcı Adı</label>
                                                                             <select id="bank_name" class="form-control" name="bank_name">
@@ -257,64 +256,65 @@
         <script src="assets/js/flipclock.min.js"></script>
         <script src="assets/js/responsive-tabs.js"></script>
         <script src="assets/js/card.js"></script>
+        <script src="assets/js/lobibox.min.js"></script>
 
 
         <!--[if lt IE 10]>
             <script src="assets/js/placeholder.js"></script>
         <![endif]-->
-        <script src="https://js.braintreegateway.com/js/braintree-2.22.1.min.js"></script>
-        <script type="text/javascript" src="https://www.2checkout.com/checkout/api/2co.min.js"></script>
-        <script type="text/javascript">
+        <!-- <script src="https://js.braintreegateway.com/js/braintree-2.22.1.min.js"></script>
+         <script type="text/javascript" src="https://www.2checkout.com/checkout/api/2co.min.js"></script>
+         <script type="text/javascript">
 
-            // Called when token created successfully.
-            var successCallback = function(data) {
-                var myForm = document.getElementById('credit_card_form');
+             // Called when token created successfully.
+             var successCallback = function(data) {
+                 var myForm = document.getElementById('credit_card_form');
 
-                // Set the token as the value for the token input
-                $('#token').val(data.response.token.token)
+                 // Set the token as the value for the token input
+                 $('#token').val(data.response.token.token)
 
-                // IMPORTANT: Here we call `submit()` on the form element directly instead of using jQuery to prevent and infinite token request loop.
-                myForm.submit();
-            };
+                 // IMPORTANT: Here we call `submit()` on the form element directly instead of using jQuery to prevent and infinite token request loop.
+                 myForm.submit();
+             };
 
-            // Called when token creation fails.
-            var errorCallback = function(data) {
-                if (data.errorCode === 200) {
-                    // This error code indicates that the ajax call failed. We recommend that you retry the token request.
-                } else {
-                    alert(data.errorMsg);
-                }
-            };
+             // Called when token creation fails.
+             var errorCallback = function(data) {
+                 if (data.errorCode === 200) {
+                     // This error code indicates that the ajax call failed. We recommend that you retry the token request.
+                 } else {
+                     alert(data.errorMsg);
+                 }
+             };
 
-            var tokenRequest = function() {
-                // Setup token request arguments
-                var args = {
-                    sellerId: "901313892",
-                    publishableKey: "A388757B-A70C-4BB4-97B5-EA358339126E",
-                    ccNo: $("#ccNo").val().replace(/\s/g,"").trim(),
-                    cvv: $("#cvv").val().replace(/\s/g,"").trim(),
-                    expMonth: $("#expMonth").val().split("/")[0].replace(/\s/g,"").trim(),
-                    expYear: $("#expMonth").val().split("/")[1].replace(/\s/g,"").trim()
-                };
+             var tokenRequest = function() {
+                 // Setup token request arguments
+                 var args = {
+                     sellerId: "901313892",
+                     publishableKey: "A388757B-A70C-4BB4-97B5-EA358339126E",
+                     ccNo: $("#ccNo").val().replace(/\s/g,"").trim(),
+                     cvv: $("#cvv").val().replace(/\s/g,"").trim(),
+                     expMonth: $("#expMonth").val().split("/")[0].replace(/\s/g,"").trim(),
+                     expYear: $("#expMonth").val().split("/")[1].replace(/\s/g,"").trim()
+                 };
 
-                // Make the token request
-                TCO.requestToken(successCallback, errorCallback, args);
-            };
+                 // Make the token request
+                 TCO.requestToken(successCallback, errorCallback, args);
+             };
 
-            $(function() {
-                // Pull in the public encryption key for our environment
-                TCO.loadPubKey('sandbox');
+             $(function() {
+                 // Pull in the public encryption key for our environment
+                 TCO.loadPubKey('sandbox');
 
-                $("#credit_card_form").submit(function(e) {
-                    // Call our token request function
-                    tokenRequest();
+                 $("#credit_card_form").submit(function(e) {
+                     // Call our token request function
+                     tokenRequest();
 
-                    // Prevent form from submitting
-                    return false;
-                });
-            });
+                     // Prevent form from submitting
+                     return false;
+                 });
+             });
 
-        </script>
+         </script>-->
         <script>
             $.ajax({
                 url: '/tokengen',
@@ -353,10 +353,10 @@
                     dataType: 'json',
                     async: true,
                     success: function (data) {
-                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2));
+                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2) + "₺");
                     }
                 });
-                var card = new Card({
+               /* var card = new Card({
                     // a selector or DOM element for the form where users will
                     // be entering their information
                     form: document.getElementById('credit_card_form'), // *required*
@@ -390,8 +390,45 @@
 
                     // if true, will log helpful messages for setting up Card
                     debug: false // optional - default false
+                });*/
+            })
+            $(function() {
+                // Pull in the public encryption key for our environment
+
+                $("#transfer_demand_form").submit(function(e) {
+                    // Call our token request function
+                    transferRequest();
+
+                    // Prevent form from submitting
+                    return false;
                 });
             });
+            function transferRequest(){
+                var transferEntry = {
+                    bank : $('#bank_name').val(),
+                    name_surname : $('#name_surname').val(),
+                    tcno : $('#tc_id').val(),
+                    amount : $('#amount').val()
+                };
+                $.ajax({
+                    url: '/transfer/checkin',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(transferEntry),
+                    dataType: 'json',
+                    async: true,
+                    success: function (data) {
+                        Lobibox.alert('success', {
+                            title           : 'Başarılı',
+                            msg: "Para yatırma talebiniz alınmıştır. En kısa zamanda aktif edilecektir."
+                        });
+                        $('#bank_name').val("Akbank")
+                        $('#name_surname').val("");
+                        $('#tc_id').val("");
+                        $('#amount').val("");
+                    },
+                });
+            }
         </script>
         <!--Start of Tawk.to Script-->
         <script type="text/javascript">

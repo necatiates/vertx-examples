@@ -64,7 +64,7 @@ public class FormRegisterHandlerImpl implements FormRegisterHandler {
                 em.persist(user);
                 em.getTransaction().commit();
                 em.close();
-                this.doRedirect(context.response(),this.returnUrl);
+                this.doRedirect(context.response(),this.returnUrl + "?context=RegisterSuccess");
                 return;
             }
         }

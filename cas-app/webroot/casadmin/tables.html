@@ -28,16 +28,12 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
     <div class="template-page-wrapper">
       <div class="navbar-collapse collapse templatemo-sidebar">
         <ul class="templatemo-sidebar-menu">
-          <li>
-            <form class="navbar-form">
-              <input type="text" class="form-control" id="templatemo_search_box" placeholder="Search...">
-              <span class="btn btn-default">Go</span>
-            </form>
-          </li>
           <li><a href="index.html"><i class="fa fa-home"></i>Kasa</a></li>
           <li><a href="data-visualization.html"><i class="fa fa-cubes"></i>Oyunlar</a></li>
           <!--<li><a href="maps.html"><i class="fa fa-map-marker"></i><span class="badge pull-right">42</span>Maps</a></li>-->
           <li class="active"><a href="#"><i class="fa fa-users"></i>Kullanıcılar</a></li>
+          <li><a href="havale_giden.html"><i class="fa fa-bank"></i>Para Çekme İstekleri</a></li>
+          <li><a href="havale_gelen.html"><i class="fa fa-bank"></i>Para Yatırma İstekleri</a></li>
           <li><a href="preferences.html"><i class="fa fa-cog"></i>Ayarlar</a></li>
           <li><a href="javascript:;" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-sign-out"></i>Sign Out</a></li>
         </ul>
@@ -45,15 +41,22 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
 
       <div class="templatemo-content-wrapper">
         <div class="templatemo-content">
-          <ol class="breadcrumb">
-            <li><a href="index.html">Admin Panel</a></li>
-            <li class="active">Kullanıcılar
-            </li>
-          </ol>
           <h1>Kayıtlı Kullanıcılar</h1>
           <div class="row">
+            <div class="col-md-6 margin-bottom-15">
+              <label for="username" class="control-label">Kullanıcı Adı</label>
+              <input type="text" class="form-control" id="username" value="">
+            </div>
+            <div class="col-md-2">
+              <button type="button" onclick="getUsers()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px">Filtrele</button>
+            </div>
+            <div class="col-md-4">
+              <button type="button" onclick="prevUsers()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px"><< Önceki  </button>
+              <button type="button" onclick="nextUsers()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px">Sonraki >></button>
+            </div>
+          <div class="row">
             <div class="col-md-12">
-              <div class="table-responsive">
+              <div class="table-responsie">
                 <table class="table table-striped table-hover table-bordered" id="users_table">
                   <thead>
                     <tr>
@@ -98,41 +101,62 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
     <script src="js/templatemo_script.js"></script>
     <script src="js/mindmup-editabletable.js"></script>
     <script type="text/javascript">
-      $.ajax({
-        url: '/admin/users',
-        type: 'get',
-        async: false,
-        success: function (data) {
-          for(var i = 0 ; i < data.length ; i++){
-            html = '<tr><td>' + data[i].username + '</td><td id="' + data[i].username + '">' +  data[i].cash + '</td>';
-            $('#users_table tbody').append(html);
-          }
-        },
-      });
-      $('#users_table').editableTableWidget();
-      $('table td').on('validate', function(evt, newValue) {
-        if($(evt.target).attr('id') == undefined){
-          return false;
+      page = 1
+      function getUsers(){
+        $('#users_table tbody').html("");
+        var requestData = {
+          username : $("#username").val(),
+          page : page
         }
-      });
-      $('table td').on('change', function(evt, newValue) {
-        var userData = new Object();
-        userData.username = $(evt.target).attr('id');
-        userData.cash = newValue;
         $.ajax({
           url: '/admin/users',
           type: 'post',
           contentType: 'application/json',
-          data: JSON.stringify(userData),
+          data: JSON.stringify(requestData),
           dataType: 'json',
-          async: false,
+          async: true,
           success: function (data) {
-            console.log(data);
+            for(var i = 0 ; i < data.length ; i++){
+              html = '<tr><td>' + data[i].username + '</td><td id="' + data[i].username + '">' +  data[i].cash + '</td>';
+              $('#users_table tbody').append(html);
+            }
           },
         });
-        console.log($(evt.target));
-        console.log(newValue);
-      });
+
+        $('#users_table').editableTableWidget();
+        $('table td').on('validate', function(evt, newValue) {
+          if($(evt.target).attr('id') == undefined){
+            return false;
+          }
+        });
+        $('table td').on('change', function(evt, newValue) {
+          var userData = new Object();
+          userData.username = $(evt.target).attr('id');
+          userData.cash = newValue;
+          $.ajax({
+            url: '/admin/users',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(userData),
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+              console.log(data);
+            },
+          });
+          console.log($(evt.target));
+          console.log(newValue);
+        });
+      }
+      function prevUsers(){
+        page--;
+        getUsers();
+      }
+      function nextUsers(){
+        page++;
+        getUsers();
+      }
+      getUsers();
     </script>
-  </body>
+  </div></body>
 </html>

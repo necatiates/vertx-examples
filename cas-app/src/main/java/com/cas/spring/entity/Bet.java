@@ -6,4 +6,5 @@ package com.cas.spring.entity;
 public interface Bet {
     Double getMinWin();
     void  setWinResult(boolean winResult);
+    void  setLoseCause(String cause);
 }
