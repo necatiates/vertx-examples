@@ -15,7 +15,7 @@ public class BetDesicionHelper {
     private static Random random = new Random();
     public static JsonObject invoke(Bet Bet, Cash cash) {
         JsonObject response = new JsonObject();
-        double ratio = CacheManager.getHappinessRatio();
+        double ratio = 1;
         /*
             Decide to win or not
         */

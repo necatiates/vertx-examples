@@ -54,6 +54,9 @@ public class TransferCheckinHandler {
         checkin.setProcessed(request.isFlag());
         em.getTransaction().begin();
         em.persist(checkin);
+        User user = em.find(User.class,checkin.getUsername());
+        user.setCash(user.getCash() + checkin.getAmount());
+        em.persist(user);
         em.getTransaction().commit();
         JsonObject response = new JsonObject();
         response.put("ok","ok");

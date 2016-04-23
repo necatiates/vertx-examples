@@ -48,10 +48,13 @@ public class TransferCheckoutHandler {
     public static void changeFlag(RoutingContext routingContext){
         final FlagChangeRequest request =  Json.decodeValue(routingContext.getBodyAsString(),FlagChangeRequest.class);
         EntityManager em = Server.factory.createEntityManager();
-        TransferCheckout checkin = em.find(TransferCheckout.class,request.getId());
-        checkin.setProcessed(request.isFlag());
+        TransferCheckout checkout = em.find(TransferCheckout.class,request.getId());
+        checkout.setProcessed(request.isFlag());
         em.getTransaction().begin();
-        em.persist(checkin);
+        em.persist(checkout);
+        User user = em.find(User.class,checkout.getUsername());
+        user.setCash(user.getCash() - checkout.getAmount());
+        em.persist(user);
         em.getTransaction().commit();
         JsonObject response = new JsonObject();
         response.put("ok","ok");

@@ -31,7 +31,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
           <li><a href="index.html"><i class="fa fa-home"></i>Kasa</a></li>
           <li><a href="data-visualization.html"><i class="fa fa-cubes"></i>Oyunlar</a></li>
           <!--<li><a href="maps.html"><i class="fa fa-map-marker"></i><span class="badge pull-right">42</span>Maps</a></li>-->
-          <li><a href="#"><i class="fa fa-users"></i>Kullanıcılar</a></li>
+          <li><a href="tables.html"><i class="fa fa-users"></i>Kullanıcılar</a></li>
           <li><a href="havale_giden.html"><i class="fa fa-bank"></i>Para Çekme İstekleri</a></li>
           <li class="active"><a href="havale_gelen.html"><i class="fa fa-bank"></i>Para Yatırma İstekleri</a></li>
           <li><a href="preferences.html"><i class="fa fa-cog"></i>Ayarlar</a></li>
@@ -65,6 +65,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       <th>Banka</th>
                       <th>İsim Soyisim</th>
                       <th>TC No</th>
+                      <th>Tutar</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -98,6 +99,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                     <th>Banka</th>
                     <th>İsim Soyisim</th>
                     <th>TC No</th>
+                    <th>Tutar</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -181,6 +183,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       + '</td><td id="'
                       + data[i].tcno + '">'
                       + data[i].tcno + '</td>'
+                      + '<td>' + data[i].amount +'</td>'
                       + '<td><button onclick="confirmTransfer(' + data[i].id + ')" type="button" class="btn btn-primary">Tamamla</button></td></tr>'
               $('#pending_transfers tbody').append(html);
             }
@@ -212,7 +215,8 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       +  data[i].name_surname
                       + '</td><td id="'
                       + data[i].tcno + '">'
-                      + data[i].tcno + '</td></tr>';
+                      + data[i].tcno + '</td>'
+                      + '<td>' + data[i].amount +'</td></tr>';
               $('#completed_transfers tbody').append(html);
             }
           },

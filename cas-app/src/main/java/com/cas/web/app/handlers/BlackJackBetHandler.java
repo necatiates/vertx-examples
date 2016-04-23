@@ -33,7 +33,7 @@ public class BlackJackBetHandler {
         blackJackBet.setUsername(user.getUsername());
 
 
-        double ratio = CacheManager.getHappinessRatio();
+        double ratio = 1;
         /*
             Decide to win or not
         */
