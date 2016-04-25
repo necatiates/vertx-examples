@@ -273,7 +273,7 @@ ul.navbar-nav {
 .top-content { width: 100%; }
 
 .inner-bg {
-    padding: 50px 0 0px 0;
+    padding: 20px 0 0px 0;
 }
 
 .top-content .text {
@@ -711,7 +711,7 @@ ul.navbar-nav {
 /***** Footer *****/
 
 footer {
-	padding: 40px 0 35px 0;
+	padding: 10px 0 35px 0;
 }
 
 .footer-social {
@@ -737,9 +737,27 @@ footer {
 }
 
 .form-control{
-	background: #000000;
-	height: 48px;
+	background: white;
+	height: 25px;
 }
 .lobibox-body-text{
 	color: black;
+}
+body{
+	background-color: black;
+}
+.form-control{
+	font-size: 13px;
+	margin: 3px 0px 0px 0px;
+	padding: 0 20px 0px 5px;
+}
+#login_form div{
+	padding:0;
+}
+label {
+	display: inline-block;
+	max-width: 100%;
+	margin-bottom: 5px;
+	font-weight: 500;
+	color: white;
 }

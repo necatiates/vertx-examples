@@ -13,6 +13,7 @@
 	
 	.testimonial-list .testimonial-image { width: 20%; }
 	.testimonial-list .testimonial-text { width: 80%; }
+
 	
 }
 
@@ -37,6 +38,9 @@
 	
 	.testimonial-list .testimonial-image { width: 25%; }
 	.testimonial-list .testimonial-text { width: 75%; }
+	button.btn {
+		margin: 30px 0px 20px 0px;
+	}
 
 }
 
@@ -54,7 +58,7 @@
 	.navbar-inverse ul.navbar-nav li a.btn-link-2:active, 
 	.navbar-inverse ul.navbar-nav li a.btn-link-2:active:focus { outline: 0; opacity: 0.6; background: rgba(0, 0, 0, 0.3); border: 1px solid #fff; color: #fff; }
 	
-	.inner-bg { padding: 60px 0 110px 0; }
+	.inner-bg { padding: 20px 0 10px 0; }
 	.top-content .text { padding-top: 0; padding-bottom: 60px; }
 	.top-content .top-big-link { margin-top: 25px; }
 	.top-content .top-big-link a.btn { margin-top: 10px; }
@@ -80,12 +84,18 @@
 	.testimonial-list .testimonial-text { float: none; width: auto; margin-top: 30px; text-align: center; }
 	.testimonial-list .nav-tabs { margin-top: 20px; text-align: center; }
 	.testimonial-list .testimonial-image .testimonial-icon { display: none; }
+	button.btn {
+		margin: 30px 0px 20px 0px;
+	}
 
 }
 
 @media (max-width: 415px) {
 	
 	h1, h2 { font-size: 32px; }
+	button.btn {
+		margin: 30px 0px 20px 0px;
+	}
 
 }
 
