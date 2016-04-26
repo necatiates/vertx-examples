@@ -8,7 +8,7 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 300;
-    color: black;
+    color: #e59f1f;
     line-height: 30px;
     text-align: center;
 	background-color: black;
@@ -824,7 +824,6 @@ th{
 .bottom-text{
 	font-weight: 500;
 	font-size: 1.3em;
-	color: whitesmoke;
 }
 .table-bordered{
 	margin-top: 20px;
@@ -840,7 +839,7 @@ th{
 	margin:  0px;
 	padding: 0px;
 }
-#money_container{
+#money_container,#user_container{
 	padding: 0px;
 	text-align: center;
 	font-weight: 500;
@@ -851,5 +850,8 @@ th{
 	padding: 0;
 }
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-	background-color: whitesmoke;
+	background-color: black;
+	color: #e59f1f;
+	font-weight: 500;
+	padding: 10px 0.73em;
 }

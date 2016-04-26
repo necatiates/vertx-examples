@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="assets/css/flipclock.css">
         <link rel="stylesheet" href="assets/css/responsive-tabs.css" />
         <link rel="stylesheet" href="assets/css/lobibox.min.css">
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -61,7 +62,8 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-xs-12 money-div">
-                            <div class="col-sm-12" id="money_container">-/-</div>
+                            <div class="col-sm-6" id="user_container"><i class="fa fa-user" aria-hidden="true"></i></div>
+                            <div class="col-sm-6" id="money_container">-/-</div>
                         </div>
                     </div>
                     <div class="row">
@@ -212,7 +214,8 @@
                     dataType: 'json',
                     async: true,
                     success: function (data) {
-                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2) + "₺");
+                        $('#money_container').html("₺ " + data.cash.toFixed(2) );
+                        $('#user_container').append("  " +  data.username);
                     }
                 });
             });

@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="assets/css/flipclock.css">
         <link rel="stylesheet" href="assets/css/responsive-tabs.css" />
         <link rel="stylesheet" href="assets/css/lobibox.min.css">
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -60,9 +61,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-xs-12 money-div">
-                            <div class="col-sm-12" id="money_container">-/-</div>
-                        </div>
+                            <div class="col-md-3 col-xs-12 money-div">
+                                <div class="col-sm-6" id="user_container"><i class="fa fa-user" aria-hidden="true"></i></div>
+                                <div class="col-sm-6" id="money_container">-/-</div>
+                            </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -86,7 +88,7 @@
                                                     <div class="">
                                                         <div class="row">
                                                             <div class="col-sm-12 col-md-6">
-                                                                <table class="table table-sm table-bordered" style="margin-top: 0px;background-color: whitesmoke">
+                                                                <table class="table table-sm table-bordered" style="margin-top: 0px;background-color: black">
                                                                     <thead>
                                                                     <tr>
                                                                         <th>#</th>
@@ -353,7 +355,8 @@
                     dataType: 'json',
                     async: true,
                     success: function (data) {
-                        $('#money_container').html(data.username + "/" + data.cash.toFixed(2) + "₺");
+                        $('#money_container').html("₺ " + data.cash.toFixed(2) );
+                        $('#user_container').append("  " +  data.username);
                     }
                 });
                /* var card = new Card({
