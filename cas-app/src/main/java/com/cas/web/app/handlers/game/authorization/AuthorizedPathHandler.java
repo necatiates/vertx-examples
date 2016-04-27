@@ -1,11 +1,10 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.authorization;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.GenIgnore;
 import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.impl.StaticHandlerImpl;
 
 /**
  * Created by tolga on 18.03.2016.

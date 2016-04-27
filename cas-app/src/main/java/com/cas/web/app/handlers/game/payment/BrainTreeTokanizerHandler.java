@@ -1,4 +1,4 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.payment;
 
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.Environment;

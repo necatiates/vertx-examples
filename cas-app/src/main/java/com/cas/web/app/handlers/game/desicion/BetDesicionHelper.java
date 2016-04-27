@@ -1,4 +1,4 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.desicion;
 
 import com.cas.cache.CacheManager;
 import com.cas.spring.entity.Bet;
@@ -12,7 +12,6 @@ import java.util.Random;
  * Created by tolga on 26.03.2016.
  */
 public class BetDesicionHelper {
-    private static Random random = new Random();
     public static JsonObject invoke(Bet Bet, Cash cash) {
         JsonObject response = new JsonObject();
         double ratio = 1;

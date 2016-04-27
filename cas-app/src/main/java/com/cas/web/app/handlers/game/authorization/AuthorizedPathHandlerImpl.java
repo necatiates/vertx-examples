@@ -14,7 +14,7 @@
  *  You may elect to redistribute this code under either of these licenses.
  */
 
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.authorization;
 
 import io.vertx.core.*;
 import io.vertx.core.file.FileProps;
@@ -27,7 +27,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.impl.LRUCache;
 import io.vertx.ext.web.impl.Utils;
 

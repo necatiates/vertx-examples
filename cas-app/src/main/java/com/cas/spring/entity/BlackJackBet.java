@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="blackjack_bets")
-public class BlackJackBet {
+public class BlackJackBet implements Bet{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
@@ -73,7 +73,7 @@ public class BlackJackBet {
         this.bet = bet;
     }
 
-    public double getMinWin() {
+    public Double getMinWin() {
         return minWin;
     }
 

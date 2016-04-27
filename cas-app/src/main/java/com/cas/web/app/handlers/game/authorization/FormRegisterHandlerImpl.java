@@ -1,15 +1,14 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.authorization;
 
 import com.cas.spring.entity.User;
-import com.cas.util.HashUtil;
 import com.cas.web.app.Server;
+import com.cas.web.app.handlers.game.authorization.FormRegisterHandler;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.jdbc.JDBCClient;
-import io.vertx.ext.sql.SQLConnection;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.SessionFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -55,8 +54,8 @@ public class FormRegisterHandlerImpl implements FormRegisterHandler {
             String username = params.get(this.usernameParam);
             String password = params.get(this.passwordParam);
             if(username != null && password != null) {
-                EntityManagerFactory entityManagerFactory = Server.factory;
-                EntityManager em = entityManagerFactory.createEntityManager();
+                SessionFactory entityManagerFactory = Server.factory;
+                EntityManager em = (EntityManager) entityManagerFactory.openSession();
                 em.getTransaction().begin();
                 User user = new User();
                 user.setUsername(username);

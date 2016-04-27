@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Enable L2 cache. -->
+        <property name="cache.use_second_level_cache">true</property>
+
+        <!-- Generate L2 cache statistics. -->
+        <property name="generate_statistics">true</property>
+
+        <!-- Specify GridGain as L2 cache provider. -->
+        <property name="cache.region.factory_class"> org.apache.ignite.cache.hibernate.HibernateRegionFactory</property>
+
+        <!-- Specify the name of the grid, that will be used for second level caching. -->
+        <property name="org.apache.ignite.hibernate.grid_name">hibernate-grid</property>
+
+        <!-- Set default L2 cache access type. -->
+        <property name="org.gridgain.hibernate.default_access_type">READ_ONLY</property>
+
+        <!-- Specify the entity classes for mapping. -->
+        <mapping class="com.cas.spring.entity.User"/>
+        <mapping class="com.cas.spring.entity.BlackJackBet"/>
+        <mapping class="com.cas.spring.entity.Cash"/>
+        <mapping class="com.cas.spring.entity.PokerBet"/>
+        <mapping class="com.cas.spring.entity.Product"/>
+        <mapping class="com.cas.spring.entity.SlotBet"/>
+        <mapping class="com.cas.spring.entity.StrachBet"/>
+        <mapping class="com.cas.spring.entity.TransferCheckin"/>
+        <mapping class="com.cas.spring.entity.TransferCheckout"/>
+
+
+        <!-- Per-class L2 cache settings. -->
+        <class-cache class="com.cas.spring.entity.User" usage="read-write"/>
+
+    </session-factory>
+</hibernate-configuration>

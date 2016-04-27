@@ -1,4 +1,4 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.payment;
 
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
@@ -6,6 +6,7 @@ import com.twocheckout.Twocheckout;
 import com.twocheckout.TwocheckoutCharge;
 import com.twocheckout.model.Authorization;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 import java.util.HashMap;
@@ -39,8 +40,8 @@ public class CreditCardHandler {
 
             Authorization response = TwocheckoutCharge.authorize(request);
             String message = response.getResponseMsg();
-            EntityManager em = Server.factory.createEntityManager();
-            User user = em.find(User.class,((User)context.session().get("user")).getUsername());
+            Session em = Server.factory.openSession();
+            User user = (User) em.get(User.class,((User)context.session().get("user")).getUsername());
             em.getTransaction().begin();
             user.setCash(user.getCash() + Double.parseDouble(context.request().formAttributes().get("amount_card")));
             em.merge(user);

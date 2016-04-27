@@ -1,9 +1,8 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.authorization;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.Handler;
-import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.web.RoutingContext;
 
 /**

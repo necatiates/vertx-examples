@@ -1,5 +1,6 @@
 package com.cas.spring.context;
 
+import org.apache.ignite.cache.hibernate.HibernateRegionFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.persistence.SharedCacheMode;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -51,20 +53,25 @@ public class ExampleSpringConfiguration {
   @Bean(name="helloBean")
   @Autowired
   public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource dataSource) {
-    final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-    factory.setDataSource(dataSource);
-    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-    vendorAdapter.setGenerateDdl(Boolean.TRUE); vendorAdapter.setShowSql(Boolean.TRUE);
-    factory.setDataSource(dataSource);
-    factory.setJpaVendorAdapter(vendorAdapter);
-    factory.setPackagesToScan("com.cas.spring.entity");
-    Properties jpaProperties = new Properties();
-    jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-    jpaProperties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-    factory.setJpaProperties(jpaProperties);
-    factory.setPersistenceUnitName("com.cas.entityManager");
-    factory.setPersistenceProvider(new HibernatePersistenceProvider());
-    return factory;
+    final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+    factoryBean.setDataSource(dataSource);
+    factoryBean.setPackagesToScan("com.cas.spring.entity");
+    factoryBean.getJpaPropertyMap().put("hibernate.jdbc.batch_size", 0);
+    factoryBean.getJpaPropertyMap().put("hibernate.use_sql_comments", true);
+    factoryBean.getJpaPropertyMap().put("hibernate.show_sql", true);
+    factoryBean.getJpaPropertyMap().put("org.apache.ignite.hibernate.grid_name", "meceap-grid");
+    factoryBean.getJpaPropertyMap().put("hibernate.cache.region.factory_class", HibernateRegionFactory.class.getCanonicalName());
+    factoryBean.getJpaPropertyMap().put("hibernate.cache.use_second_level_cache", true);
+    factoryBean.getJpaPropertyMap().put("hibernate.cache.use_query_cache", true);
+    factoryBean.getJpaPropertyMap().put("javax.persistence.sharedCache.mode", SharedCacheMode.ALL);
+    factoryBean.getJpaPropertyMap().put("hibernate.cache.default_cache_concurrency_strategy", "read-write");
+    factoryBean.getJpaPropertyMap().put("hibernate.generate_statistics", true);
+    factoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+
+    factoryBean.setMappingResources("com.cas.entity.User");
+
+
+    return factoryBean;
   }
 
   @Bean

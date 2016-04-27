@@ -1,12 +1,9 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.authorization;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.Handler;
-import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.FormLoginHandler;
-import io.vertx.ext.web.handler.impl.FormLoginHandlerImpl;
 
 /**
  * Created by tolga on 13.03.2016.

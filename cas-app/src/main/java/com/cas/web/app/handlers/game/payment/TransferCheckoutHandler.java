@@ -1,6 +1,5 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.payment;
 
-import com.cas.service.model.CheckinsRequest;
 import com.cas.service.model.CheckoutsRequest;
 import com.cas.service.model.FlagChangeRequest;
 import com.cas.spring.entity.TransferCheckin;
@@ -20,11 +19,11 @@ import java.util.List;
 /**
  * Created by tolga on 09.04.2016.
  */
-public class TransferCheckinHandler {
+public class TransferCheckoutHandler {
     public static void handle(RoutingContext routingContext){
-        final TransferCheckin transferRequest = Json.decodeValue(routingContext.getBodyAsString(),TransferCheckin.class);
+        final TransferCheckout transferRequest = Json.decodeValue(routingContext.getBodyAsString(),TransferCheckout.class);
         transferRequest.setUsername(((User)routingContext.session().get("user")).getUsername());
-        EntityManager em = Server.factory.createEntityManager();
+        Session em = Server.factory.openSession();
         em.getTransaction().begin();
         em.persist(transferRequest);
         em.getTransaction().commit();
@@ -33,9 +32,9 @@ public class TransferCheckinHandler {
                 .end(Json.encodePrettily(new JsonObject().put("id",transferRequest.getId())));
     }
     public static void getTransfers(RoutingContext routingContext){
-        final CheckinsRequest transferRequest = Json.decodeValue(routingContext.getBodyAsString(),CheckinsRequest.class);
-        EntityManager em = Server.factory.createEntityManager();
-        Criteria criteria = ((Session)em.getDelegate()).createCriteria(TransferCheckin.class);
+        final CheckoutsRequest transferRequest = Json.decodeValue(routingContext.getBodyAsString(),CheckoutsRequest.class);
+        Session em = Server.factory.openSession();
+        Criteria criteria = em.createCriteria(TransferCheckout.class);
         criteria.setFirstResult(0 + (transferRequest.getPage() - 1) * 25);
         criteria.setMaxResults(25 + (transferRequest.getPage() - 1) * 25);
         if(transferRequest.getUsername() != null && !transferRequest.getUsername().equals("")) {
@@ -45,17 +44,16 @@ public class TransferCheckinHandler {
         List<TransferCheckout> result = criteria.list();
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(result));
-        em.close();
     }
     public static void changeFlag(RoutingContext routingContext){
         final FlagChangeRequest request =  Json.decodeValue(routingContext.getBodyAsString(),FlagChangeRequest.class);
-        EntityManager em = Server.factory.createEntityManager();
-        TransferCheckin checkin = em.find(TransferCheckin.class,request.getId());
-        checkin.setProcessed(request.isFlag());
+        Session em = Server.factory.openSession();
+        TransferCheckout checkout = (TransferCheckout) em.get(TransferCheckout.class,request.getId());
+        checkout.setProcessed(request.isFlag());
         em.getTransaction().begin();
-        em.persist(checkin);
-        User user = em.find(User.class,checkin.getUsername());
-        user.setCash(user.getCash() + checkin.getAmount());
+        em.persist(checkout);
+        User user = (User) em.get(User.class,checkout.getUsername());
+        user.setCash(user.getCash() - checkout.getAmount());
         em.persist(user);
         em.getTransaction().commit();
         JsonObject response = new JsonObject();

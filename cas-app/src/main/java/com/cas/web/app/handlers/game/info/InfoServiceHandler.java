@@ -1,10 +1,11 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.info;
 
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 
@@ -14,9 +15,9 @@ import javax.persistence.EntityManager;
 public class InfoServiceHandler {
     public static void getInfo(RoutingContext routingContext){
         User user = routingContext.session().get("user");
-        EntityManager em = Server.factory.createEntityManager();
+        Session em = Server.factory.openSession();
         JsonObject response = new JsonObject();
-        response.put("cash",em.find(User.class,user.getUsername()).getCash());
+        response.put("cash",((User)em.get(User.class,user.getUsername())).getCash());
         response.put("username",user.getUsername());
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(response));

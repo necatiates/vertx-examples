@@ -1,9 +1,11 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.info;
 
 import com.cas.spring.entity.Cash;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,17 +16,16 @@ import java.util.List;
  */
 public class GameCashHandler {
     public static void getCashes(RoutingContext routingContext){
-        EntityManager em = Server.factory.createEntityManager();
-        CriteriaQuery<Cash> criteria = em.getCriteriaBuilder().createQuery(Cash.class);
-        criteria.select(criteria.from(Cash.class));
-        List<Cash> cashList = em.createQuery(criteria).getResultList();
+        Session em = Server.factory.openSession();
+        Criteria criteria = em.createCriteria(Cash.class);
+        List<Cash> cashList = criteria.list();
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(cashList));
         em.close();
     }
 
     public static void updateCash(RoutingContext routingContext) {
-        EntityManager em = Server.factory.createEntityManager();
+        Session em = Server.factory.openSession();
         Cash cash = Json.decodeValue(routingContext.getBodyAsString(),Cash.class);
         em.getTransaction().begin();
         em.merge(cash);

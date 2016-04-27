@@ -1,4 +1,4 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.authorization;
 
 import com.cas.cache.CacheManager;
 import com.cas.game.model.HapinnessStatus;
@@ -12,14 +12,14 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import com.cas.spring.entity.User;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  * Created by tolga on 13.03.2016.
  */
-public class CasFormLoginHandlerImpl implements CasFormLoginHandler{
+public class CasFormLoginHandlerImpl implements CasFormLoginHandler {
     private static final Logger log = LoggerFactory.getLogger(CasFormLoginHandlerImpl.class);
     private String usernameParam;
     private String passwordParam;
@@ -67,9 +67,9 @@ public class CasFormLoginHandlerImpl implements CasFormLoginHandler{
             String username = params.get(this.usernameParam);
             String password = params.get(this.passwordParam);
             if(username != null && password != null) {
-                EntityManagerFactory entityManagerFactory = Server.factory;
-                EntityManager em = entityManagerFactory.createEntityManager();
-                User user = em.find(User.class,username);
+                org.hibernate.SessionFactory entityManagerFactory = Server.factory;
+                Session em = entityManagerFactory.openSession();
+                User user = (User) em.get(User.class,username);
                 if(user != null) {
                     String hashedStoredPwd = user.getPassword();
                     String salt = user.getPassword_salt();

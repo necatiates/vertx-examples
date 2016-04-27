@@ -1,9 +1,10 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.payment;
 
 import com.braintreegateway.*;
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -30,8 +31,8 @@ public class BrainTreeCheckoutHandler {
 
         Result<Transaction> result = gateway.transaction().sale(request);
         if(result.isSuccess()){
-            EntityManager em = Server.factory.createEntityManager();
-            User user = em.find(User.class,((User)routingContext.session().get("user")).getUsername());
+            Session em = Server.factory.openSession();
+            User user = (User) em.get(User.class,((User)routingContext.session().get("user")).getUsername());
             em.getTransaction().begin();
             user.setCash(user.getCash() + result.getTarget().getAmount().doubleValue());
             em.persist(user);

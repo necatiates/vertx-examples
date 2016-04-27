@@ -1,4 +1,4 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.desicion;
 
 import com.cas.cache.CacheManager;
 import com.cas.service.model.BlackJackHistoryRequest;
@@ -24,41 +24,14 @@ public class BlackJackBetHandler {
     public static void bet(RoutingContext routingContext){
         final BlackJackBet blackJackBet = Json.decodeValue(routingContext.getBodyAsString(),BlackJackBet.class);
 
-        JsonObject response = new JsonObject();
-
-        EntityManager entityManager = Server.factory.createEntityManager();
+        Session entityManager = Server.factory.openSession();
         entityManager.getTransaction().begin();
-        Cash cash = entityManager.find(Cash.class,"Cards");
-        User user = entityManager.find(User.class,((User)routingContext.session().get("user")).getUsername());
+        Cash cash = (Cash) entityManager.get(Cash.class,"Cards");
+        User user = (User) entityManager.get(User.class,((User)routingContext.session().get("user")).getUsername());
         blackJackBet.setUsername(user.getUsername());
 
 
-        double ratio = 1;
-        /*
-            Decide to win or not
-        */
-        Double avaliableCash = ((cash.getCapital() * 0.20 + cash.getCash())  / 2 ) / 5;
-        if(blackJackBet.getMinWin() < avaliableCash && ratio < 1){
-            blackJackBet.setWinResult(true);
-            response.put("_win_",true);
-            response.put("_maxWin_",avaliableCash);
-            blackJackBet.setLoseCause("WinRatio");
-        }else if(blackJackBet.getMinWin() < avaliableCash && ratio == 1){
-            boolean genRandom = random.nextBoolean();
-            blackJackBet.setWinResult(genRandom);
-            if(genRandom){
-                blackJackBet.setLoseCause("WinRandom");
-            }else {
-                blackJackBet.setLoseCause("LoseRandom");
-            }
-            response.put("_win_",genRandom);
-            response.put("_maxWin_",avaliableCash);
-        } else{
-            blackJackBet.setWinResult(false);
-            response.put("_win_",false);
-            response.put("_maxWin_",0);
-            blackJackBet.setLoseCause("LoseRatio");
-        }
+        JsonObject response = BetDesicionHelper.invoke(blackJackBet, cash);
         entityManager.persist(blackJackBet);
 
         cash.setCash(cash.getCash() + blackJackBet.getBet());
@@ -73,8 +46,8 @@ public class BlackJackBetHandler {
     }
     public static void getGames(RoutingContext routingContext) {
         final BlackJackHistoryRequest blackJackHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),BlackJackHistoryRequest.class);
-        EntityManager entityManager = Server.factory.createEntityManager();
-        Criteria criteria = ((Session)entityManager.getDelegate()).createCriteria(BlackJackBet.class);
+        Session entityManager = Server.factory.openSession();
+        Criteria criteria = entityManager.createCriteria(BlackJackBet.class);
         criteria.setFirstResult(0 + (blackJackHistoryRequest.getPage() - 1) * 25);
         criteria.setMaxResults(25 + (blackJackHistoryRequest.getPage() - 1) * 25);
         if(blackJackHistoryRequest.getUsername() != null && !blackJackHistoryRequest.getUsername().equals("")) {

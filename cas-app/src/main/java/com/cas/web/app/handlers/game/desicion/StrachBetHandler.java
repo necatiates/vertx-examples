@@ -1,4 +1,4 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.desicion;
 
 import com.cas.cache.CacheManager;
 import com.cas.service.model.SlotGamesHistoryRequest;
@@ -25,41 +25,13 @@ public class StrachBetHandler {
     public static void bet(RoutingContext routingContext){
         final StrachBet strachBet = Json.decodeValue(routingContext.getBodyAsString(),StrachBet.class);
 
-        JsonObject response = new JsonObject();
-
-        EntityManager entityManager = Server.factory.createEntityManager();
+        Session entityManager = Server.factory.openSession();
         entityManager.getTransaction().begin();
-        Cash cash = entityManager.find(Cash.class,"Strach");
-        User user = entityManager.find(User.class,((User)routingContext.session().get("user")).getUsername());
+        Cash cash = (Cash) entityManager.get(Cash.class,"Strach");
+        User user = (User) entityManager.get(User.class,((User)routingContext.session().get("user")).getUsername());
         strachBet.setUsername(user.getUsername());
 
-
-        double ratio = 1;
-        /*
-            Decide to win or not
-        */
-        Double avaliableCash = ((cash.getCapital() * 0.20 + cash.getCash())  / 2 ) / 5;
-        if(strachBet.getMinWin() < avaliableCash && ratio < 1){
-            strachBet.setWinResult(true);
-            response.put("_win_",true);
-            response.put("_maxWin_",avaliableCash);
-            strachBet.setLoseCause("WinRatio");
-        }else if(strachBet.getMinWin() < avaliableCash && ratio == 1){
-            boolean genRandom = random.nextBoolean();
-            strachBet.setWinResult(genRandom);
-            if(genRandom){
-                strachBet.setLoseCause("WinRandom");
-            }else{
-                strachBet.setLoseCause("LoseRandom");
-            }
-            response.put("_win_",genRandom);
-            response.put("_maxWin_",avaliableCash);
-        } else{
-            strachBet.setWinResult(false);
-            response.put("_win_",false);
-            response.put("_maxWin_",0);
-            strachBet.setLoseCause("LoseRatio");
-        }
+        JsonObject response = BetDesicionHelper.invoke(strachBet, cash);
         entityManager.persist(strachBet);
 
         cash.setCash(cash.getCash() + strachBet.getBet());
@@ -74,8 +46,8 @@ public class StrachBetHandler {
     }
     public static void getGames(RoutingContext routingContext) {
         final StrachHistoryRequest strachHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),StrachHistoryRequest.class);
-        EntityManager entityManager = Server.factory.createEntityManager();
-        Criteria criteria = ((Session)entityManager.getDelegate()).createCriteria(StrachBet.class);
+        Session entityManager = Server.factory.openSession();
+        Criteria criteria = entityManager.createCriteria(StrachBet.class);
         criteria.setFirstResult(0 + (strachHistoryRequest.getPage() - 1) * 25);
         criteria.setMaxResults(25 + (strachHistoryRequest.getPage() - 1) * 25);
         if(strachHistoryRequest.getUsername() != null && !strachHistoryRequest.getUsername().equals("")) {

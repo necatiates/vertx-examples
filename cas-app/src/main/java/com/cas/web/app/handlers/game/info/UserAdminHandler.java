@@ -1,4 +1,4 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.info;
 
 import com.cas.service.model.UsersRequest;
 import com.cas.spring.entity.Cash;
@@ -23,8 +23,8 @@ import java.util.List;
 public class UserAdminHandler {
     public static void getUsers(RoutingContext routingContext){
         final UsersRequest usersRequest = Json.decodeValue(routingContext.getBodyAsString(),UsersRequest.class);
-        EntityManager em = Server.factory.createEntityManager();
-        Criteria criteria = ((Session)em.getDelegate()).createCriteria(User.class);
+        Session em = Server.factory.openSession();
+        Criteria criteria = em.createCriteria(User.class);
         criteria.setFirstResult(0 + (usersRequest.getPage() - 1) * 25);
         criteria.setMaxResults(25 + (usersRequest.getPage() - 1) * 25);
         if(usersRequest.getUsername() != null && !usersRequest.getUsername().equals("")) {
@@ -44,9 +44,9 @@ public class UserAdminHandler {
     }
 
     public static void updateuser(RoutingContext routingContext) {
-        EntityManager em = Server.factory.createEntityManager();
+        Session em = Server.factory.openSession();
         User user = Json.decodeValue(routingContext.getBodyAsString(),User.class);
-        User persistedUser= em.find(User.class,user.getUsername());
+        User persistedUser= (User) em.get(User.class,user.getUsername());
         persistedUser.setCash(user.getCash());
         em.getTransaction().begin();
         em.merge(persistedUser);

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="slot_bets")
 @JsonSerialize(include= JsonSerialize.Inclusion.NON_NULL)
-public class SlotBet {
+public class SlotBet implements Bet{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
@@ -100,7 +100,7 @@ public class SlotBet {
         this.lineCount = lineCount;
     }
 
-    public double getMinWin() {
+    public Double getMinWin() {
         return minWin;
     }
 

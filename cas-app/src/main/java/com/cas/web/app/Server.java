@@ -1,17 +1,38 @@
 package com.cas.web.app;
 
 import com.cas.spring.entity.Cash;
-import com.cas.web.app.handlers.*;
+import com.cas.web.app.handlers.game.accept.BlackJackBetAcceptHandler;
+import com.cas.web.app.handlers.game.accept.PokerBetAcceptHandler;
+import com.cas.web.app.handlers.game.accept.SlotMachineBetAcceptHandler;
+import com.cas.web.app.handlers.game.accept.StrachBetAcceptHandler;
+import com.cas.web.app.handlers.game.authorization.AuthorizedPathHandler;
+import com.cas.web.app.handlers.game.authorization.CasFormLoginHandler;
+import com.cas.web.app.handlers.game.authorization.FormRegisterHandler;
+import com.cas.web.app.handlers.game.desicion.BlackJackBetHandler;
+import com.cas.web.app.handlers.game.desicion.PokerBetHandler;
+import com.cas.web.app.handlers.game.desicion.SlotMachineBetHandler;
+import com.cas.web.app.handlers.game.desicion.StrachBetHandler;
+import com.cas.web.app.handlers.game.info.GameCashHandler;
+import com.cas.web.app.handlers.game.info.InfoServiceHandler;
+import com.cas.web.app.handlers.game.info.UserAdminHandler;
+import com.cas.web.app.handlers.game.payment.*;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.*;
 import io.vertx.ext.web.sstore.LocalSessionStore;
+import org.apache.ignite.Ignite;
+import org.apache.ignite.Ignition;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.cas.spring.context.ExampleSpringConfiguration;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.io.File;
 
 public class Server{
   private static String WEBROOT_FOLDER =  "cas-app/webroot";
@@ -20,10 +41,15 @@ public class Server{
 
   /*private static String WEBROOT_FOLDER =  "webroot";
   private static String PRIVATE_FOLDER =  "private";*/
-  public static EntityManagerFactory factory;
+  public static SessionFactory factory;
 
   public static void main(String[] args) throws Exception {
     System.out.println(System.getProperty("user.dir"));
+    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+    Ignite ignite = Ignition.start(classloader.getResource("ignite-conf.xml"));
+    ignite.getOrCreateCache("org.hibernate.cache.spi.UpdateTimestampsCache");
+    ignite.getOrCreateCache("org.hibernate.cache.internal.StandardQueryCache");
+
     start();
   }
 
@@ -31,17 +57,18 @@ public class Server{
 
     final Vertx vertx = Vertx.vertx();
 
-    ApplicationContext context = new AnnotationConfigApplicationContext(ExampleSpringConfiguration.class);
+    //ApplicationContext context = new AnnotationConfigApplicationContext(ExampleSpringConfiguration.class);
+    ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-    factory =   (EntityManagerFactory)context.getBean("helloBean");
+    factory =   (SessionFactory)context.getBean("sessionFactory");
     Router router = initRoutes();
     initCashes();
     vertx.createHttpServer().requestHandler(router::accept).listen(8080);
   }
 
   private static void initCashes() {
-    EntityManager em =factory.createEntityManager();
-    Cash slotCash = em.find(Cash.class,"Slots");
+    Session em = factory.openSession();
+    Cash slotCash = (Cash) em.get(Cash.class,"Slots");
     em.getTransaction().begin();
     if(slotCash == null){
       slotCash = new Cash();
@@ -50,7 +77,7 @@ public class Server{
       slotCash.setCapital(0.0);
       em.persist(slotCash);
     }
-    Cash strachCash = em.find(Cash.class,"Strach");
+    Cash strachCash = (Cash) em.get(Cash.class,"Strach");
     if(strachCash == null){
       strachCash = new Cash();
       strachCash.setCash(0.0);
@@ -58,7 +85,7 @@ public class Server{
       strachCash.setCapital(0.0);
       em.persist(strachCash);
     }
-    Cash cardsCash = em.find(Cash.class,"Cards");
+    Cash cardsCash = (Cash) em.get(Cash.class,"Cards");
     if(cardsCash == null){
       cardsCash = new Cash();
       cardsCash.setCash(0.0);

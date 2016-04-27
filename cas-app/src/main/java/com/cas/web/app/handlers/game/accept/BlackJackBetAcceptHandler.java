@@ -1,45 +1,47 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.accept;
 
 import com.cas.cache.CacheManager;
+import com.cas.service.model.BlackJackResult;
+import com.cas.spring.entity.BlackJackBet;
 import com.cas.spring.entity.Cash;
-import com.cas.service.model.SlotBetResult;
-import com.cas.spring.entity.SlotBet;
+import com.cas.spring.entity.StrachBet;
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Session;
+
 import javax.persistence.EntityManager;
 
 /**
  * Created by tolga on 06.03.2016.
  */
-public class SlotMachineBetAcceptHandler {
+public class BlackJackBetAcceptHandler {
     public static void accept(RoutingContext routingContext){
-        final SlotBetResult slotBet = Json.decodeValue(routingContext.getBodyAsString(),SlotBetResult.class);
-        EntityManager entityManager = Server.factory.createEntityManager();
-        User user = entityManager.find(User.class,
+        final BlackJackResult strachResult = Json.decodeValue(routingContext.getBodyAsString(),BlackJackResult.class);
+        Session entityManager = Server.factory.openSession();
+        User user = (User) entityManager.get(User.class,
                 ((User)routingContext.session().get("user")).getUsername());
 
         entityManager.getTransaction().begin();
 
-        user.setCash(user.getCash() + slotBet.getTotalWin());
+        user.setCash(user.getCash() + strachResult.getTotalWin());
         CacheManager.getHapinessCache()
                 .get(routingContext.session().id())
-                .addGameResult(slotBet.getTotalWin());
+                .addGameResult(strachResult.getTotalWin());
 
         entityManager.persist(user);
 
-        Cash cash = entityManager.find(Cash.class,"Slots");
-        cash.setCash(cash.getCash() - slotBet.getTotalWin());
+        Cash cash = (Cash) entityManager.get(Cash.class,"Cards");
+        cash.setCash(cash.getCash() - strachResult.getTotalWin());
         entityManager.persist(cash);
 
-        SlotBet storedSlotBet = entityManager.find(SlotBet.class,slotBet.getId());
-        storedSlotBet.setTotalWin(slotBet.getTotalWin());
-        storedSlotBet.setNumLineWin(slotBet.getNumLineWin());
-        storedSlotBet.setUpdate_time(System.currentTimeMillis());
+        BlackJackBet blackJackBet = (BlackJackBet) entityManager.get(BlackJackBet.class,strachResult.getId());
+        blackJackBet.setTotalWin(strachResult.getTotalWin());
+        blackJackBet.setUpdate_time(System.currentTimeMillis());
 
-        entityManager.merge(storedSlotBet);
+        entityManager.merge(blackJackBet);
         entityManager.getTransaction().commit();
         entityManager.close();
 

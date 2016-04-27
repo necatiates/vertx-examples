@@ -1,4 +1,4 @@
-package com.cas.web.app.handlers;
+package com.cas.web.app.handlers.game.accept;
 
 import com.cas.cache.CacheManager;
 import com.cas.service.model.PokerResult;
@@ -9,6 +9,7 @@ import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 
@@ -18,8 +19,8 @@ import javax.persistence.EntityManager;
 public class PokerBetAcceptHandler {
     public static void accept(RoutingContext routingContext){
         final PokerResult pokerBetResult = Json.decodeValue(routingContext.getBodyAsString(),PokerResult.class);
-        EntityManager entityManager = Server.factory.createEntityManager();
-        User user = entityManager.find(User.class,
+        Session entityManager = Server.factory.openSession();
+        User user = (User) entityManager.get(User.class,
                 ((User)routingContext.session().get("user")).getUsername());
         entityManager.getTransaction().begin();
         user.setCash(user.getCash() + pokerBetResult.getTotalWin());
@@ -28,11 +29,11 @@ public class PokerBetAcceptHandler {
                 .addGameResult(pokerBetResult.getTotalWin());
         entityManager.persist(user);
 
-        Cash cash = entityManager.find(Cash.class,"Cards");
+        Cash cash = (Cash) entityManager.get(Cash.class,"Cards");
         cash.setCash(cash.getCash() - pokerBetResult.getTotalWin());
         entityManager.persist(cash);
 
-        PokerBet storedPokerBet = entityManager.find(PokerBet.class,pokerBetResult.getId());
+        PokerBet storedPokerBet = (PokerBet) entityManager.get(PokerBet.class,pokerBetResult.getId());
         storedPokerBet.setTotalWin(pokerBetResult.getTotalWin());
         storedPokerBet.setUpdate_time(System.currentTimeMillis());
 
