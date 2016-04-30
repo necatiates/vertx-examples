@@ -102,4 +102,14 @@ public class PokerBet implements Bet{
     public void setLoseCause(String loseCause) {
         this.loseCause = loseCause;
     }
+
+    @Override
+    public Boolean hasFreeSpin() {
+        return false;
+    }
+
+    @Override
+    public Boolean hasBonus() {
+        return false;
+    }
 }

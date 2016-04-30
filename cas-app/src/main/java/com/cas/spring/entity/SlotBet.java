@@ -156,4 +156,14 @@ public class SlotBet implements Bet{
     public void setLoseCause(String loseCause) {
         this.loseCause = loseCause;
     }
+
+    @Override
+    public Boolean hasFreeSpin() {
+        return isFreeSpin();
+    }
+
+    @Override
+    public Boolean hasBonus() {
+        return isBonus();
+    }
 }

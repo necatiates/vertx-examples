@@ -18,11 +18,11 @@ public class GlobalSettings {
     private String value;
 
 
-    public String getGame() {
+    public String getName() {
         return name;
     }
 
-    public void setGame(String game) {
+    public void setName(String game) {
         this.name = game;
     }
 

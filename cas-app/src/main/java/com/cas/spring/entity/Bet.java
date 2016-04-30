@@ -7,4 +7,6 @@ public interface Bet {
     Double getMinWin();
     void  setWinResult(boolean winResult);
     void  setLoseCause(String cause);
+    Boolean  hasFreeSpin();
+    Boolean  hasBonus();
 }

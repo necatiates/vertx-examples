@@ -95,22 +95,9 @@ function _onSpin(iNumBettingLines,iCoin,iCurBet){
         },
     });
     //IF SLOT CASH IS LOWER THAN MINIMUM WIN, PLAYER MUST LOSE
-    if(!_iCurRes._win_){
-        //PLAYER MUST LOSE
-        generLosingPattern();
-        if(s_aSession["bFreeSpin"] === 1){
-            s_aSession["iTotFreeSpin"] = s_aSession["iTotFreeSpin"] -1;
 
-            if(s_aSession["iTotFreeSpin"] < 0){
-                    s_aSession["iTotFreeSpin"] = 0;
-                    s_aSession["bFreeSpin"] = 0;
-            }
-        }
-        return "res=true&win=false&pattern="+JSON.stringify(_aFinalSymbols)+"&money="+s_aSession["iMoney"]+"&freespin="+s_aSession["iTotFreeSpin"]+
-                                "&bonus=false&bonus_prize=-1&cash="+s_aSession["iSlotCash"] + "&id=" + _iCurRes.id;
-    }
 
-    if(_iCurRes._win_){
+    if(_iCurRes._win_ || _iCurRes.bonus || _iCurRes.freeSpin){
             //WIN
             if(s_aSession["bFreeSpin"] === 0 && s_aSession["bBonus"] === 0){
 
@@ -175,6 +162,19 @@ function _onSpin(iNumBettingLines,iCoin,iCurBet){
 
             
 
+    }else{
+        //PLAYER MUST LOSE
+        generLosingPattern();
+        if(s_aSession["bFreeSpin"] === 1){
+            s_aSession["iTotFreeSpin"] = s_aSession["iTotFreeSpin"] -1;
+
+            if(s_aSession["iTotFreeSpin"] < 0){
+                s_aSession["iTotFreeSpin"] = 0;
+                s_aSession["bFreeSpin"] = 0;
+            }
+        }
+        return "res=true&win=false&pattern="+JSON.stringify(_aFinalSymbols)+"&money="+s_aSession["iMoney"]+"&freespin="+s_aSession["iTotFreeSpin"]+
+            "&bonus=false&bonus_prize=-1&cash="+s_aSession["iSlotCash"] + "&id=" + _iCurRes.id;
     }
 }
 	

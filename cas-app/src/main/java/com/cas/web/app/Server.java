@@ -1,6 +1,7 @@
 package com.cas.web.app;
 
 import com.cas.spring.entity.Cash;
+import com.cas.spring.entity.GlobalSettings;
 import com.cas.web.app.handlers.game.accept.BlackJackBetAcceptHandler;
 import com.cas.web.app.handlers.game.accept.PokerBetAcceptHandler;
 import com.cas.web.app.handlers.game.accept.SlotMachineBetAcceptHandler;
@@ -63,7 +64,36 @@ public class Server{
     factory =   (SessionFactory)context.getBean("sessionFactory");
     Router router = initRoutes();
     initCashes();
+    initPreferences();
     vertx.createHttpServer().requestHandler(router::accept).listen(8080);
+  }
+
+  private static void initPreferences() {
+    Session em = factory.openSession();
+    em.getTransaction().begin();
+    GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,"WinPercentage");
+    if(winPerc == null){
+      winPerc = new GlobalSettings();
+      winPerc.setName("WinPercentage");
+      winPerc.setValue("49");
+      em.persist(winPerc);
+    }
+    GlobalSettings freeSpinPerc = (GlobalSettings) em.get(GlobalSettings.class,"FreeSpinPercentage");
+    if(freeSpinPerc == null){
+      freeSpinPerc = new GlobalSettings();
+      freeSpinPerc.setName("FreeSpinPercentage");
+      freeSpinPerc.setValue("30");
+      em.persist(freeSpinPerc);
+    }
+    GlobalSettings bonusPerc = (GlobalSettings) em.get(GlobalSettings.class,"BonusPercentage");
+    if(bonusPerc == null){
+      bonusPerc = new GlobalSettings();
+      bonusPerc.setName("BonusPercentage");
+      bonusPerc.setValue("20");
+      em.persist(bonusPerc);
+    }
+    em.getTransaction().commit();
+    em.close();
   }
 
   private static void initCashes() {
@@ -94,6 +124,7 @@ public class Server{
       em.persist(cardsCash);
     }
     em.getTransaction().commit();
+    em.close();
   }
 
   private static Router initRoutes() {

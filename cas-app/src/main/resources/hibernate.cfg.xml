@@ -30,6 +30,7 @@
         <mapping class="com.cas.spring.entity.StrachBet"/>
         <mapping class="com.cas.spring.entity.TransferCheckin"/>
         <mapping class="com.cas.spring.entity.TransferCheckout"/>
+        <mapping class="com.cas.spring.entity.GlobalSettings"/>
 
 
         <!-- Per-class L2 cache settings. -->
