@@ -8,6 +8,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.EntityManager;
@@ -55,7 +56,7 @@ public class FormRegisterHandlerImpl implements FormRegisterHandler {
             String password = params.get(this.passwordParam);
             if(username != null && password != null) {
                 SessionFactory entityManagerFactory = Server.factory;
-                EntityManager em = (EntityManager) entityManagerFactory.openSession();
+                Session em =lo entityManagerFactory.openSession();
                 em.getTransaction().begin();
                 User user = new User();
                 user.setUsername(username);
