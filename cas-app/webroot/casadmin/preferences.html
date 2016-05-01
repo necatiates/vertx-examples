@@ -59,11 +59,19 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                     <input type="text" class="form-control" id="bonus_perc" >
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary">Update</button>
+                <div class="row">
+                  <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary" onclick="updateSettings('WinPercentage',$('#game_win_perc').val());">Güncelle</button>
+                  </div>
+                  <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary" onclick="updateSettings('FreeSpinPercentage',$('#free_spin_perc').val());">Güncelle</button>
+                  </div>
+                  <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary" onclick="updateSettings('BonusPercentage',$('#bonus_perc').val());">Güncelle</button>
+                  </div>
                 </div>
+                </form>
               </div>
-            </form>
           </div>
         </div>
       </div>
@@ -87,7 +95,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
 
     <footer class="templatemo-footer">
       <div class="templatemo-copyright">
-        <p>Copyright &copy; 2084 Your Company Name <!-- Credit: www.templatemo.com --></p>
+        <p>Copyright &copy; 2016 Vartog Games <!-- Credit: www.templatemo.com --></p>
       </div>
     </footer>
   </div>
@@ -95,5 +103,41 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/templatemo_script.js"></script>
+  <script>
+    $.ajax({
+      url: '/admin/settings',
+      type: 'get',
+      async: false,
+      success: function (data) {
+        for(var i = 0 ; i < data.length ; i++){
+          if(data[i].name == "WinPercentage"){
+            $('#game_win_perc').val(data[i].value);
+          }else if(data[i].name == "FreeSpinPercentage"){
+            $('#free_spin_perc').val(data[i].value);
+          }else if(data[i].name == "BonusPercentage"){
+            $('#bonus_perc').val(data[i].value);
+          }
+        }
+        console.log(data);
+      },
+    });
+    function updateSettings(name,value){
+      var settings = new Object();
+      settings.name = name;
+      settings.value = value;
+      $.ajax({
+        url: '/admin/settings',
+        type: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify(settings),
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+          alert('ok')
+          console.log(data);
+        },
+      });
+    }
+  </script>
 </body>
 </html>

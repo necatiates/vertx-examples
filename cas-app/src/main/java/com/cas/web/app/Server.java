@@ -15,6 +15,7 @@ import com.cas.web.app.handlers.game.desicion.SlotMachineBetHandler;
 import com.cas.web.app.handlers.game.desicion.StrachBetHandler;
 import com.cas.web.app.handlers.game.info.GameCashHandler;
 import com.cas.web.app.handlers.game.info.InfoServiceHandler;
+import com.cas.web.app.handlers.game.info.SettingsHandler;
 import com.cas.web.app.handlers.game.info.UserAdminHandler;
 import com.cas.web.app.handlers.game.payment.*;
 import io.vertx.core.Vertx;
@@ -174,7 +175,11 @@ public class Server{
     router.post("/admin/slotGames").handler(SlotMachineBetHandler::getGames);
     router.post("/admin/strachGames").handler(StrachBetHandler::getGames);
     router.post("/admin/blackJackGames").handler(BlackJackBetHandler::getGames);
-      router.post("/admin/pokerGames").handler(PokerBetHandler::getGames);
+    router.post("/admin/pokerGames").handler(PokerBetHandler::getGames);
+
+    router.get("/admin/settings").handler(SettingsHandler::getSettings);
+    router.post("/admin/settings").handler(SettingsHandler::updateSettings);
+
     // Implement logout
     router.route("/logout").handler(context -> {
       context.clearUser();
