@@ -485,8 +485,8 @@ function CGame(oData){
             lineCount: _iLastLineActive,
             bet:_iCurBet,
             minWin:MIN_WIN,
-            bonus:true,
-            freeSpin:true
+            bonus:false,
+            freeSpin:false
         };
         $.ajax({
             url: '/bet/slotmachine',

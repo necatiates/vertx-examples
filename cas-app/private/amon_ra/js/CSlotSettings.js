@@ -142,15 +142,15 @@ function CSlotSettings() {
     this._initSymbolWin = function(){
         s_aSymbolWin = new Array();
         
-        s_aSymbolWin[0] = [0,0,1500,2500,5000];
-        s_aSymbolWin[1] = [0,0,1000,1500,2000];
-        s_aSymbolWin[2] = [0,0,500,1000,1500];
-        s_aSymbolWin[3] = [0,100,250,500,1000];
-        s_aSymbolWin[4] = [0,100,250,500,1000];
-        s_aSymbolWin[5] = [0,50,150,250,500];
-        s_aSymbolWin[6] = [0,20,100,200,350];
-        s_aSymbolWin[7] = [0,10,50,100,150];
-        s_aSymbolWin[8] = [0,10,50,100,150];
+        s_aSymbolWin[0] = [0,0,15,250,500];
+        s_aSymbolWin[1] = [0,0,10,150,200];
+        s_aSymbolWin[2] = [0,0,5,100,150];
+        s_aSymbolWin[3] = [0,10,25,50,100];
+        s_aSymbolWin[4] = [0,10,25,50,100];
+        s_aSymbolWin[5] = [0,5,15,25,50];
+        s_aSymbolWin[6] = [0,2,10,20,35];
+        s_aSymbolWin[7] = [0,1,5,10,15];
+        s_aSymbolWin[8] = [0,1,5,10,15];
     };
     
     this._initSymbolsOccurence = function(){

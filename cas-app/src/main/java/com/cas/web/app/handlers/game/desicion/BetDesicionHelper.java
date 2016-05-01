@@ -11,17 +11,23 @@ import org.hibernate.Session;
  * Created by tolga on 26.03.2016.
  */
 public class BetDesicionHelper {
-    public static JsonObject invoke(Bet Bet, Cash cash) {
+    public static JsonObject invoke(Bet Bet,Session em) {
         JsonObject response = new JsonObject();
+        Cash slotCash = (Cash) em.get(Cash.class,"Slots");
+        Cash cardsCash = (Cash) em.get(Cash.class,"Cards");
+        Cash strachCash = (Cash) em.get(Cash.class,"Strach");
 
         /*
             Decide to win or not
         */
-        Double avaliableCash = ((cash.getCapital() * 0.20 + cash.getCash())  / 2 ) / 5;
+
+        double totalCapital = slotCash.getCapital() + cardsCash.getCapital() + strachCash.getCapital();
+        double totalCash = slotCash.getCash() + cardsCash.getCash() + strachCash.getCash();
+
+        Double avaliableCash = ((totalCapital * 0.20 + totalCash)  / 2 ) / 5;
         if(Bet.getMinWin() <= avaliableCash ){
             double genRandom = randomBoolean();
 
-            Session em = Server.factory.openSession();
             boolean isBonus;
             if(Bet.hasBonus()){
                 double genRandomFreeSpin = randomBoolean();

@@ -31,7 +31,7 @@ public class BlackJackBetHandler {
         blackJackBet.setUsername(user.getUsername());
 
 
-        JsonObject response = BetDesicionHelper.invoke(blackJackBet, cash);
+        JsonObject response = BetDesicionHelper.invoke(blackJackBet,entityManager);
         entityManager.persist(blackJackBet);
 
         cash.setCash(cash.getCash() + blackJackBet.getBet());

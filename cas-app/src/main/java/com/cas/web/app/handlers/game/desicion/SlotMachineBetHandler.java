@@ -27,7 +27,7 @@ public class SlotMachineBetHandler {
         slotBet.setUsername(user.getUsername());
 
 
-        JsonObject response = BetDesicionHelper.invoke(slotBet, cash);
+        JsonObject response = BetDesicionHelper.invoke(slotBet,entityManager);
         entityManager.persist(slotBet);
 
         cash.setCash(cash.getCash() + slotBet.getBet() * slotBet.getLineCount());

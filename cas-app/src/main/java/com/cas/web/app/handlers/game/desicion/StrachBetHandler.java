@@ -31,7 +31,7 @@ public class StrachBetHandler {
         User user = (User) entityManager.get(User.class,((User)routingContext.session().get("user")).getUsername());
         strachBet.setUsername(user.getUsername());
 
-        JsonObject response = BetDesicionHelper.invoke(strachBet, cash);
+        JsonObject response = BetDesicionHelper.invoke(strachBet,entityManager);
         entityManager.persist(strachBet);
 
         cash.setCash(cash.getCash() + strachBet.getBet());

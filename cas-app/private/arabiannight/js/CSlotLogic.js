@@ -270,16 +270,16 @@ function _initSymbolsOccurence(){
 //COMBO 4 : 25$
 //COMBO 5 : 30$
 function _initSymbolWin(){
-    _aSymbolWin[0] = [0,0,90,150,200];
-    _aSymbolWin[1] = [0,0,80,110,160];
-    _aSymbolWin[2] = [0,0,70,100,150];
-    _aSymbolWin[3] = [0,0,50,80,110];
-    _aSymbolWin[4] = [0,0,40,60,80];
-    _aSymbolWin[5] = [0,0,30,50,70];
-    _aSymbolWin[6] = [0,0,20,30,50];
-    _aSymbolWin[7] = [0,0,0,0,0,50];
-    _aSymbolWin[8] = [0,0,0,0,0,50];
-    _aSymbolWin[9] = [0,0,0,0,0,50];
+    _aSymbolWin[0] = [0,0,9,15,20];
+    _aSymbolWin[1] = [0,0,8,11,16];
+    _aSymbolWin[2] = [0,0,7,10,15];
+    _aSymbolWin[3] = [0,0,5,8,11];
+    _aSymbolWin[4] = [0,0,4,6,8];
+    _aSymbolWin[5] = [0,0,3,5,7];
+    _aSymbolWin[6] = [0,0,2,3,5];
+    _aSymbolWin[7] = [0,0,0,0,0,5];
+    _aSymbolWin[8] = [0,0,0,0,0,5];
+    _aSymbolWin[9] = [0,0,0,0,0,5];
 
     return _aSymbolWin;
 };

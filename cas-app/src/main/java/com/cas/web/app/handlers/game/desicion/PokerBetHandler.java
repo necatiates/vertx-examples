@@ -30,7 +30,7 @@ public class PokerBetHandler {
         pokerBet.setUsername(user.getUsername());
 
 
-        JsonObject response = BetDesicionHelper.invoke(pokerBet, cash);
+        JsonObject response = BetDesicionHelper.invoke(pokerBet,entityManager);
         response.put("freeSpin",false);
         response.put("bonus",false);
         entityManager.persist(pokerBet);
