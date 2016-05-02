@@ -56,7 +56,7 @@ public class FormRegisterHandlerImpl implements FormRegisterHandler {
             String password = params.get(this.passwordParam);
             if(username != null && password != null) {
                 SessionFactory entityManagerFactory = Server.factory;
-                Session em =lo entityManagerFactory.openSession();
+                Session em = entityManagerFactory.openSession();
                 em.getTransaction().begin();
                 User user = new User();
                 user.setUsername(username);

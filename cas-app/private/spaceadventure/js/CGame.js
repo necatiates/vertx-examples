@@ -706,9 +706,19 @@ function CGame(oData){
         //CHECK IF THERE IS MINIMUM AMOUNT FOR AT LEAST WORST WINNING
         if(!_iCurRes._win_){
             //PLAYER MUST LOSE
-             do{
-                var bRet = this.generateFinalSymbols();
-            }while(bRet === true);
+            if(!_iCurRes.bonus) {
+                do {
+                    var bRet = this.generateFinalSymbols();
+                } while (bRet === true);
+            }else {
+                do{
+                    var bRet = this.generateFinalSymbols();
+                    var iIndex = 0;
+                    if(_bBonus){
+                        iIndex = _iNumItemInBonus - 3;
+                    }
+                }while(bRet === false || (_iTotWin*_iCurBet) > _iCurRes._maxWin_ || _bBonus === false || BONUS_PRIZE[iIndex][0] > _iCurRes._maxWin_);
+            }
         }else{
                 //PLAYER WINS
                 if(!_iCurRes.bonus){
@@ -716,19 +726,7 @@ function CGame(oData){
                         do{
                                 var bRet = this.generateFinalSymbols();
                         }while(bRet === false || (_iTotWin*_iCurBet) > _iCurRes._maxWin_ || _bBonus);
-                }else{
-                                //GET A BONUS
-                                do{
-                                        var bRet = this.generateFinalSymbols();
-                                        var iIndex = 0;
-                                        if(_bBonus){
-                                                iIndex = _iNumItemInBonus - 3;
-                                        }
-                                }while(bRet === false || (_iTotWin*_iCurBet) > _iCurRes._maxWin_ || _bBonus === false || BONUS_PRIZE[iIndex][0] > _iCurRes._maxWin_);
-
-
-                
-            }
+                }
         }
 
         _oInterface.hideAllLines();
