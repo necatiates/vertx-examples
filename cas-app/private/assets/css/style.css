@@ -825,6 +825,9 @@ th{
 	font-weight: 500;
 	font-size: 1.3em;
 }
+.online-text{
+	font-size: 9px;
+}
 .table-bordered{
 	margin-top: 20px;
 }

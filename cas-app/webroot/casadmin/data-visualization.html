@@ -140,6 +140,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                               <th>Bet</th>
                               <th>Win result</th>
                               <th>Win total</th>
+                              <th>Reason</th>
                               <th>Kulllanıcı</th>
                               <th>Tarih</th>
                           </tr>
@@ -357,6 +358,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                               '<td>' + data[i].creditIndex + '</td>' +
                               '<td>' + data[i].winResult + '</td>' +
                               '<td>' + data[i].totalWin + '</td>' +
+                              '<td>' + data[i].loseCause + '</td>' +
                               '<td>' + data[i].username + '</td>' +
                               '<td>' + date.toString().substring(4,24) + '</td></tr>';
                       $('#poker_table tbody').append(html);

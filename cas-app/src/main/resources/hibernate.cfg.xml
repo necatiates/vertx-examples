@@ -18,8 +18,8 @@
         <property name="org.apache.ignite.hibernate.grid_name">hibernate-grid</property>
 
         <!-- Set default L2 cache access type. -->
-        <property name="org.gridgain.hibernate.default_access_type">READ_ONLY</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="org.gridgain.hibernate.default_access_type">READ_WRITE</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Specify the entity classes for mapping. -->
         <mapping class="com.cas.spring.entity.User"/>
         <mapping class="com.cas.spring.entity.BlackJackBet"/>

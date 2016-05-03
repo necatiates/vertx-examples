@@ -645,11 +645,25 @@ function CGame(oData){
     
     this.endBonus = function(iBonus){
 
-        _iMoney += iBonus;
-        _oInterface.refreshMoney(_iMoney);
-        
-        SLOT_CASH -= iBonus;
-        
+        var bet = {
+            totalWin: iBonus,
+            id : _iCurRes.id,
+            numLineWin : 0
+        };
+        $.ajax({
+            url: '/bonusSlot/accept',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(bet),
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                if(data._accepted_) {
+                    _iMoney += iBonus;
+                }
+                _oInterface.refreshMoney(_iMoney);
+            },
+        });
         _oInterface.disableBetBut(false);
         _oInterface.enableGuiButtons();
     };

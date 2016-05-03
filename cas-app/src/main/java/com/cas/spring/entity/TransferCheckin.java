@@ -18,8 +18,6 @@ public class TransferCheckin {
     @Column
     private String name_surname;
 
-    @Column
-    private String tcno;
 
     @Column
     private double amount;
@@ -40,15 +38,6 @@ public class TransferCheckin {
 
     public String getName_surname() {
         return name_surname;
-    }
-
-
-    public String getTcno() {
-        return tcno;
-    }
-
-    public void setTcno(String tcno) {
-        this.tcno = tcno;
     }
 
     public double getAmount() {

@@ -21,8 +21,6 @@ public class TransferCheckout {
     @Column
     private String IBAN;
 
-    @Column
-    private String tcno;
 
     @Column
     private double amount;
@@ -57,13 +55,6 @@ public class TransferCheckout {
         this.IBAN = IBAN;
     }
 
-    public String getTcno() {
-        return tcno;
-    }
-
-    public void setTcno(String tcno) {
-        this.tcno = tcno;
-    }
 
     public double getAmount() {
         return amount;

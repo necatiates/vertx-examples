@@ -52,9 +52,14 @@ public class BetDesicionHelper {
 
             if(isWin){
                 Bet.setLoseCause("RandomWin");
+            }else if(isBonus){
+                Bet.setLoseCause("Bonus");
+            }else if(isFreeSpin){
+                Bet.setLoseCause("FreeSpin");
             }else{
                 Bet.setLoseCause("RandomLose");
             }
+
             response.put("freeSpin",isFreeSpin);
             response.put("bonus",isBonus);
             response.put("_win_",isWin);

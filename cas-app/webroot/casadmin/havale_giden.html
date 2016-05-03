@@ -69,7 +69,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       <th>Kullanıcı Adı</th>
                       <th>Banka</th>
                       <th>İsim Soyisim</th>
-                      <th>TC No</th>
+                      <th>IBAN</th>
                       <th>Tutar</th>
                       <th></th>
                     </tr>
@@ -103,7 +103,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                     <th>Kullanıcı Adı</th>
                     <th>Banka</th>
                     <th>İsim Soyisim</th>
-                    <th>TC No</th>
+                    <th>IBAN</th>
                     <th>Tutar</th>
                   </tr>
                   </thead>
@@ -182,13 +182,9 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       + data[i].username
                       + '</td><td id="' + data[i].username + '">'
                       +  data[i].bank + '</td>'
-                      + '</td><td id="'
-                      + data[i].name_surname + '">'
-                      +  data[i].name_surname
-                      + '</td><td id="'
-                      + data[i].tcno + '">'
-                      + data[i].tcno + '</td>'
-                      + '<td>' + data[i].amount +'</td>'
+                      + '<td>' + data[i].name_surname +'</td>'
+                      + '<td>' + data[i].iban +'</td>'
+                      + '</td><td>' + data[i].amount +'</td>'
                       + '<td><button onclick="confirmTransfer(' + data[i].id + ')" type="button" class="btn btn-primary">Tamamla</button></td></tr>'
               $('#pending_transfers tbody').append(html);
             }
@@ -215,12 +211,8 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       + data[i].username
                       + '</td><td id="' + data[i].username + '">'
                       +  data[i].bank + '</td>'
-                      + '</td><td id="'
-                      + data[i].name_surname + '">'
-                      +  data[i].name_surname
-                      + '</td><td id="'
-                      + data[i].tcno + '">'
-                      + data[i].tcno + '</td>'
+                      + '<td>' + data[i].name_surname +'</td>'
+                      + '<td>' + data[i].iban +'</td>'
                       + '<td>' + data[i].amount +'</td></tr>';
               $('#processed_transfers tbody').append(html);
             }

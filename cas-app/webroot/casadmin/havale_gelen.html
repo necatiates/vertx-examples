@@ -64,7 +64,6 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       <th>Kullanıcı Adı</th>
                       <th>Banka</th>
                       <th>İsim Soyisim</th>
-                      <th>TC No</th>
                       <th>Tutar</th>
                       <th></th>
                     </tr>
@@ -98,7 +97,6 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                     <th>Kullanıcı Adı</th>
                     <th>Banka</th>
                     <th>İsim Soyisim</th>
-                    <th>TC No</th>
                     <th>Tutar</th>
                   </tr>
                   </thead>
@@ -180,10 +178,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       + '</td><td id="'
                       + data[i].name_surname + '">'
                       +  data[i].name_surname
-                      + '</td><td id="'
-                      + data[i].tcno + '">'
-                      + data[i].tcno + '</td>'
-                      + '<td>' + data[i].amount +'</td>'
+                      + '</td><td>' + data[i].amount +'</td>'
                       + '<td><button onclick="confirmTransfer(' + data[i].id + ')" type="button" class="btn btn-primary">Tamamla</button></td></tr>'
               $('#pending_transfers tbody').append(html);
             }
@@ -213,10 +208,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       + '</td><td id="'
                       + data[i].name_surname + '">'
                       +  data[i].name_surname
-                      + '</td><td id="'
-                      + data[i].tcno + '">'
-                      + data[i].tcno + '</td>'
-                      + '<td>' + data[i].amount +'</td></tr>';
+                      + '</td><td>' + data[i].amount +'</td></tr>';
               $('#completed_transfers tbody').append(html);
             }
           },

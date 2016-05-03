@@ -2,10 +2,7 @@ package com.cas.web.app;
 
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.GlobalSettings;
-import com.cas.web.app.handlers.game.accept.BlackJackBetAcceptHandler;
-import com.cas.web.app.handlers.game.accept.PokerBetAcceptHandler;
-import com.cas.web.app.handlers.game.accept.SlotMachineBetAcceptHandler;
-import com.cas.web.app.handlers.game.accept.StrachBetAcceptHandler;
+import com.cas.web.app.handlers.game.accept.*;
 import com.cas.web.app.handlers.game.authorization.AuthorizedPathHandler;
 import com.cas.web.app.handlers.game.authorization.CasFormLoginHandler;
 import com.cas.web.app.handlers.game.authorization.FormRegisterHandler;
@@ -149,6 +146,8 @@ public class Server{
 
     router.post("/bet/slotmachine").handler(SlotMachineBetHandler::bet);
     router.post("/bet/accept").handler(SlotMachineBetAcceptHandler::accept);
+    router.post("/bonusSlot/accept").handler(BonusAcceptHandler::accept);
+
     router.get("/bet/info").handler(InfoServiceHandler::getInfo);
     router.post("/poker/bet").handler(PokerBetHandler::bet);
     router.post("/poker/accept").handler(PokerBetAcceptHandler::accept);
