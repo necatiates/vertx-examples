@@ -19,7 +19,7 @@ function CPayTablePanel(){
         var iYPos = 125;
         _aNumSymbolComboText[0] = new Array();
         for(i=0;i<3;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 22px "+FONT_GAME, "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 15px "+FONT_GAME, "#ffffff");
             oText.textAlign = "center";
             oText.shadow = new createjs.Shadow("#000", 1, 1, 2);
             oText.x = iXPos;
@@ -36,7 +36,7 @@ function CPayTablePanel(){
         iYPos = 125;
         _aNumSymbolComboText[1] = new Array();
         for(i=0;i<3;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 22px "+FONT_GAME, "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 15px "+FONT_GAME, "#ffffff");
             oText.textAlign = "center";
             oText.shadow = new createjs.Shadow("#000", 1, 1, 2);
             oText.x = iXPos;

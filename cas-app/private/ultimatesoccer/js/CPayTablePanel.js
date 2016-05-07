@@ -18,7 +18,7 @@ function CPayTablePanel(){
         var iYPos = 184;
         _aNumSymbolComboText[0] = new Array();
         for(i=0;i<3;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 26px Arial", "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 20px Tahoma", "#ffffff");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -34,7 +34,7 @@ function CPayTablePanel(){
         iYPos = 365;
         _aNumSymbolComboText[1] = new Array();
         for(i=0;i<3;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 26px Arial", "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 26px Tahoma", "#ffffff");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -50,7 +50,7 @@ function CPayTablePanel(){
         iYPos = 542;
         _aNumSymbolComboText[2] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 21px Arial", "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 21px Tahoma", "#ffffff");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -66,7 +66,7 @@ function CPayTablePanel(){
         iYPos = 178;
         _aNumSymbolComboText[3] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 21px Arial", "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 21px Tahoma", "#ffffff");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -82,7 +82,7 @@ function CPayTablePanel(){
         iYPos = 360;
         _aNumSymbolComboText[4] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 21px Arial", "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 21px Tahoma", "#ffffff");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -98,7 +98,7 @@ function CPayTablePanel(){
         iYPos = 178;
         _aNumSymbolComboText[5] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 21px Arial", "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 21px Tahoma", "#ffffff");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -114,7 +114,7 @@ function CPayTablePanel(){
         iYPos = 360;
         _aNumSymbolComboText[6] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 21px Arial", "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 21px Tahoma", "#ffffff");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -134,7 +134,7 @@ function CPayTablePanel(){
         iYPos = 184;
         _aWinComboText[0] = new Array();
         for(i=0;i<3;i++){
-            var oText = new createjs.Text(s_aSymbolWin[0][4-i],"bold 26px Arial", "#ffff00");
+            var oText = new createjs.Text(s_aSymbolWin[0][4-i],"bold 26px Tahoma", "#ffff00");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -150,7 +150,7 @@ function CPayTablePanel(){
         iYPos = 365;
         _aWinComboText[1] = new Array();
         for(i=0;i<3;i++){
-            var oText = new createjs.Text(s_aSymbolWin[1][4-i],"bold 26px Arial", "#ffff00");
+            var oText = new createjs.Text(s_aSymbolWin[1][4-i],"bold 26px Tahoma", "#ffff00");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -166,7 +166,7 @@ function CPayTablePanel(){
         iYPos = 542;
         _aWinComboText[2] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text(s_aSymbolWin[2][4-i],"bold 21px Arial", "#ffff00");
+            var oText = new createjs.Text(s_aSymbolWin[2][4-i],"bold 21px Tahoma", "#ffff00");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -182,7 +182,7 @@ function CPayTablePanel(){
         iYPos = 178;
         _aWinComboText[3] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text(s_aSymbolWin[3][4-i],"bold 21px Arial", "#ffff00");
+            var oText = new createjs.Text(s_aSymbolWin[3][4-i],"bold 21px Tahoma", "#ffff00");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -198,7 +198,7 @@ function CPayTablePanel(){
         iYPos = 360;
         _aWinComboText[4] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text(s_aSymbolWin[4][4-i],"bold 21px Arial", "#ffff00");
+            var oText = new createjs.Text(s_aSymbolWin[4][4-i],"bold 21px Tahoma", "#ffff00");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -214,7 +214,7 @@ function CPayTablePanel(){
         iYPos = 178;
         _aWinComboText[5] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text(s_aSymbolWin[5][4-i],"bold 21px Arial", "#ffff00");
+            var oText = new createjs.Text(s_aSymbolWin[5][4-i],"bold 21px Tahoma", "#ffff00");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -230,7 +230,7 @@ function CPayTablePanel(){
         iYPos = 360;
         _aWinComboText[6] = new Array();
         for(i=0;i<4;i++){
-            var oText = new createjs.Text(s_aSymbolWin[6][4-i],"bold 21px Arial", "#ffff00");
+            var oText = new createjs.Text(s_aSymbolWin[6][4-i],"bold 21px Tahoma", "#ffff00");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;
@@ -242,7 +242,7 @@ function CPayTablePanel(){
             iYPos += 36;
         }
         
-        _oWildText = new createjs.Text(TEXT_HELP_WILD,"bold 26px Arial", "#ffff00");
+        _oWildText = new createjs.Text(TEXT_HELP_WILD,"bold 26px Tahoma", "#ffff00");
         _oWildText.textAlign = "center";
         _oWildText.x = 750;
         _oWildText.y = 550;

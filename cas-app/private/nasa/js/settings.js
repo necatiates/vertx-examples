@@ -4,7 +4,7 @@ var CANVAS_HEIGHT = 640;
 var EDGEBOARD_X = 300;
 var EDGEBOARD_Y = 0;
 
-var FONT_GAME = "walibi0615bold";
+var FONT_GAME = "Tahoma";
 
 var FPS_TIME      = 1000/24;
 var DISABLE_SOUND_MOBILE = true;

@@ -29,65 +29,65 @@ function CInterface(iCurBet,iTotBet,iMoney){
         }
         
         oSprite = s_oSpriteLibrary.getSprite('spin_but');
-        _oSpinBut = new CTextButton(810 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_SPIN,"Arial","#ffffff",30);  
+        _oSpinBut = new CTextButton(810 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_SPIN,"Tahoma","#ffffff",30);  
         _oSpinBut.addEventListener(ON_MOUSE_UP, this._onSpin, this);
         
         oSprite = s_oSpriteLibrary.getSprite('info_but');
-        _oInfoBut = new CTextButton(16 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_INFO,"Arial","#ffffff",30);        
+        _oInfoBut = new CTextButton(16 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_INFO,"Tahoma","#ffffff",30);        
         _oInfoBut.addEventListener(ON_MOUSE_UP, this._onInfo, this);
         
         oSprite = s_oSpriteLibrary.getSprite('but_lines_bg');
-        _oAddLineBut = new CTextButton(189 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_LINES,"Arial","#ffffff",30);
+        _oAddLineBut = new CTextButton(189 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_LINES,"Tahoma","#ffffff",30);
         _oAddLineBut.addEventListener(ON_MOUSE_UP, this._onAddLine, this);
         
         oSprite = s_oSpriteLibrary.getSprite('coin_but');
-        _oBetCoinBut = new CTextButton(383 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_COIN,"Arial","#ffffff",30);
+        _oBetCoinBut = new CTextButton(383 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_COIN,"Tahoma","#ffffff",30);
         _oBetCoinBut.addEventListener(ON_MOUSE_UP, this._onBet, this);
         
         oSprite = s_oSpriteLibrary.getSprite('but_maxbet_bg');
-        _oMaxBetBut = new CTextButton(578 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_MAX_BET,"Arial","#ffffff",30);
+        _oMaxBetBut = new CTextButton(578 + (oSprite.width/2),642 + (oSprite.height/2),oSprite,TEXT_MAX_BET,"Tahoma","#ffffff",30);
         _oMaxBetBut.addEventListener(ON_MOUSE_UP, this._onMaxBet, this);
 
-        _oTimeTextBack = new createjs.Text("","bold 20px Arial", "#000000");
+        _oTimeTextBack = new createjs.Text("","bold 20px Tahoma", "#000000");
         _oTimeTextBack.x = (CANVAS_WIDTH - 90);
         _oTimeTextBack.y = CANVAS_HEIGHT - 24;
         _oTimeTextBack.textAlign = "center";
         s_oStage.addChild(_oTimeTextBack);
         
-        _oTimeText = new createjs.Text("","bold 20px Arial", "#ffffff");
+        _oTimeText = new createjs.Text("","bold 20px Tahoma", "#ffffff");
         _oTimeText.x = (CANVAS_WIDTH - 89);
         _oTimeText.y = CANVAS_HEIGHT - 25;
         _oTimeText.textAlign = "center";
         s_oStage.addChild(_oTimeText);
 		
-	_oMoneyText = new createjs.Text(TEXT_MONEY +"\n"+iMoney.toFixed(2),"bold 30px Arial", "#ffde00");
+	_oMoneyText = new createjs.Text(TEXT_MONEY +"\n"+iMoney.toFixed(2),"bold 30px Tahoma", "#ffde00");
         _oMoneyText.x = 140;
         _oMoneyText.y = 50;
         _oMoneyText.textAlign = "center";
         s_oStage.addChild(_oMoneyText);
         
-        _oNumLinesText = new createjs.Text(NUM_PAYLINES ,"bold 30px Arial", "#ffffff");
+        _oNumLinesText = new createjs.Text(NUM_PAYLINES ,"bold 30px Tahoma", "#ffffff");
         _oNumLinesText.x =  284;
         _oNumLinesText.y = CANVAS_HEIGHT - 130;
         _oNumLinesText.textAlign = "center";
         _oNumLinesText.textBaseline = "alphabetic";
         s_oStage.addChild(_oNumLinesText);
         
-        _oCoinText = new createjs.Text(iCurBet.toFixed(2) ,"bold 30px Arial", "#ffffff");
+        _oCoinText = new createjs.Text(iCurBet.toFixed(2) ,"bold 30px Tahoma", "#ffffff");
         _oCoinText.x =  480;
         _oCoinText.y = CANVAS_HEIGHT - 130;
         _oCoinText.textAlign = "center";
         _oCoinText.textBaseline = "alphabetic";
         s_oStage.addChild(_oCoinText);
 
-        _oTotalBetText = new createjs.Text(TEXT_BET +": "+iTotBet.toFixed(2),"bold 30px Arial", "#ffffff");
+        _oTotalBetText = new createjs.Text(TEXT_BET +": "+iTotBet.toFixed(2),"bold 30px Tahoma", "#ffffff");
         _oTotalBetText.x = 690;
         _oTotalBetText.y = CANVAS_HEIGHT - 130;
         _oTotalBetText.textAlign = "center";
         _oTotalBetText.textBaseline = "alphabetic";
         s_oStage.addChild(_oTotalBetText);
         
-        _oWinText = new createjs.Text("","bold 24px Arial", "#ffde00");
+        _oWinText = new createjs.Text("","bold 24px Tahoma", "#ffde00");
         _oWinText.x = 900;
         _oWinText.y = CANVAS_HEIGHT - 133;
         _oWinText.textAlign = "center";
@@ -392,7 +392,7 @@ function CInterface(iCurBet,iTotBet,iMoney){
     };
     
     this._onExit = function(){
-        s_oGame.onExit();  
+        window.location = '/private/games.html';
     };
     
     this._onSpin = function(){

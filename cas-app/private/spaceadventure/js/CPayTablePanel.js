@@ -292,7 +292,7 @@ function CPayTablePanel(){
         
         
         
-        _oWildText = new createjs.Text(TEXT_HELP_WILD,"21px "+FONT_GAME, "#f951aa");
+        _oWildText = new createjs.Text(TEXT_HELP_WILD,"15px "+FONT_GAME, "#f951aa");
         _oWildText.shadow = new createjs.Shadow("#000", 2, 2, 2);
         _oWildText.textAlign = "center";
         _oWildText.lineHeight = 22;
@@ -300,7 +300,7 @@ function CPayTablePanel(){
         _oWildText.y = 321;
         _oContainer.addChild(_oWildText);
         
-        _oBonusText = new createjs.Text(TEXT_HELP_BONUS,"21px "+FONT_GAME, "#f951aa");
+        _oBonusText = new createjs.Text(TEXT_HELP_BONUS,"15px "+FONT_GAME, "#f951aa");
         _oBonusText.shadow = new createjs.Shadow("#000", 2, 2, 2);
         _oBonusText.textAlign = "center";
         _oBonusText.lineHeight = 22;

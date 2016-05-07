@@ -242,7 +242,7 @@ function CPayTablePanel(){
             iYPos += 36;
         }
         
-        _oWildText = new createjs.Text(TEXT_HELP_WILD,"bold 26px "+FONT_GAME, "#ffff00");
+        _oWildText = new createjs.Text(TEXT_HELP_WILD,"bold 20px "+FONT_GAME, "#ffff00");
         _oWildText.textAlign = "center";
         _oWildText.lineWidth = 450;
         _oWildText.x = 986;

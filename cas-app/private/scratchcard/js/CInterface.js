@@ -316,7 +316,7 @@ function CInterface(){
     this._onExit = function(){
         $(s_oMain).trigger("end_session");
         $(s_oMain).trigger("share_event", s_iCurCredit);
-        s_oGame.onExit();  
+        window.location = '/private/games.html';
     };
 
     _oParent = this;

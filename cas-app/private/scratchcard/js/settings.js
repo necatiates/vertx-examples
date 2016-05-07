@@ -6,7 +6,7 @@ var EDGEBOARD_Y = 0;
 
 var DISABLE_SOUND_MOBILE = false;
 
-var PRIMARY_FONT = "Arial";
+var PRIMARY_FONT = "Tahoma";
 
 var FPS_TIME      = 1000/24;
 

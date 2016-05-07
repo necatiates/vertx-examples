@@ -4,8 +4,8 @@ var CANVAS_HEIGHT = 768;
 var EDGEBOARD_X = 400;
 var EDGEBOARD_Y = 0;
 
-var FONT1 = "OpenSans-BoldItalic";
-var FONT2 = "Digital-7";
+var FONT1 = "Tahoma";
+var FONT2 = "Tahoma";
 
 var FPS_TIME      = 1000/24;
 var DISABLE_SOUND_MOBILE = false;

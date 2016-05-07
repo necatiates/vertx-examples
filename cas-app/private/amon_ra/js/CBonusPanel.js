@@ -111,7 +111,7 @@ function CBonusPanel(){
         _oContainer.addChild(oText);
         _aAlienPrizes.push(oText);
         
-        _oWinText = new createjs.Text("+ 300$","bold 80px Arial", "#ffff00");
+        _oWinText = new createjs.Text("+ 300₺","bold 80px Arial", "#ffff00");
         _oWinText.alpha = 0;
         _oWinText.textAlign = "center";
         _oWinText.shadow = new createjs.Shadow("#000", 2, 2, 2);
@@ -149,9 +149,9 @@ function CBonusPanel(){
             }
         }
         
-        _aAlienPrizes[0].text = _aBonusValue[0] + "$";
-        _aAlienPrizes[1].text = _aBonusValue[1] + "$";
-        _aAlienPrizes[2].text = _aBonusValue[2] + "$";
+        _aAlienPrizes[0].text = _aBonusValue[0] + "₺";
+        _aAlienPrizes[1].text = _aBonusValue[1] + "₺";
+        _aAlienPrizes[2].text = _aBonusValue[2] + "₺";
         
         _oAlien.x = 118;
         _oAlien.y = 308;
@@ -225,7 +225,7 @@ function CBonusPanel(){
     
     this.endBonus = function(){
         //SHOW PRIZE WON
-        _oWinText.text = "+ "+_iBonusMoney+"$";
+        _oWinText.text = "+ "+_iBonusMoney+"₺";
         createjs.Tween.get(_oWinText).to({alpha:1}, 500);
 
         setTimeout(function(){_oContainer.alpha = 0;

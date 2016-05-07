@@ -249,7 +249,7 @@ function CInterface(iCurBet,iTotBet,iMoney){
     };
     
     this._onExit = function(){
-        s_oGame.onExit();  
+        window.location = '/private/games.html';
     };
     
     this._onSpin = function(){

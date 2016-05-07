@@ -4,6 +4,7 @@ function CSlotSettings(){
         this._initSymbolSpriteSheets();
         this._initPaylines();
         this._initSymbolWin();
+        this._initBets();
         this._initSymbolAnims();
         this._initSymbolsOccurence();
     };
@@ -20,6 +21,17 @@ function CSlotSettings(){
 
             s_aSymbolData[i] = new createjs.SpriteSheet(oData);
         }  
+    };
+
+    this._initBets = function(){
+      s_aBetCombination = new Array();
+      s_aBetCombination[0] = 0.25;
+      s_aBetCombination[1] = 0.50;
+      s_aBetCombination[2] = 1;
+      s_aBetCombination[3] = 2;
+      s_aBetCombination[4] = 3;
+      s_aBetCombination[5] = 5;
+      s_aBetCombination[6] = 10;
     };
     
     this._initPaylines = function(){
@@ -54,7 +66,7 @@ function CSlotSettings(){
         
         s_aSymbolWin[0] = [0,0,150,250,500];
         s_aSymbolWin[1] = [0,0,50,100,200];
-        s_aSymbolWin[2] = [0,50,10,20,50];
+        s_aSymbolWin[2] = [0,5,10,20,50];
         s_aSymbolWin[3] = [0,1,5,10,15];
         s_aSymbolWin[4] = [0,1,5,10,15];
         s_aSymbolWin[5] = [0,1,5,10,15];
@@ -198,3 +210,4 @@ var s_aPaylineCombo;
 var s_aSymbolWin;
 var s_aSymbolAnims;
 var s_aRandSymbols;
+var s_aBetCombination;

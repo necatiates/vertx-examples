@@ -30,7 +30,7 @@ function CInterface(iCurBet,iTotBet,iMoney){
         }
         
         oSprite = s_oSpriteLibrary.getSprite('spin_but');
-        _oSpinBut = new CTextButton(1090 + (oSprite.width/2),CANVAS_HEIGHT - (oSprite.height/2),oSprite,"",FONT_GAME,"#f951aa",22);
+        _oSpinBut = new CTextButton(1090 + (oSprite.width/2),CANVAS_HEIGHT - (oSprite.height/2),oSprite,"",FONT_GAME,"#f951aa",22);  
         _oSpinBut.addEventListener(ON_MOUSE_UP, this._onSpin, this);
         
         
@@ -193,7 +193,7 @@ function CInterface(iCurBet,iTotBet,iMoney){
     };
     
     this.refreshWinText = function(iWin){
-        _oSpinBut.changeText(iWin.toFixed(2) + "\n");
+        _oSpinBut.changeText(TEXT_WIN + "\n"+iWin.toFixed(2));
     };
     
     this.showLine = function(iLine){
@@ -249,7 +249,7 @@ function CInterface(iCurBet,iTotBet,iMoney){
     };
     
     this._onExit = function(){
-        s_oGame.onExit();  
+        window.location = '/private/games.html';
     };
     
     this._onSpin = function(){

@@ -18,7 +18,7 @@ function CPayTablePanel(){
         var iYPos = 122;
         _aNumSymbolComboText[0] = new Array();
         for(i=0;i<3;i++){
-            var oText = new createjs.Text("X"+(5-i),"bold 26px "+FONT_GAME, "#ffffff");
+            var oText = new createjs.Text("X"+(5-i),"bold 20px "+FONT_GAME, "#ffffff");
             oText.textAlign = "center";
             oText.x = iXPos;
             oText.y = iYPos;

@@ -6,7 +6,7 @@ var EDGEBOARD_Y = 0;
 
 var FPS_TIME      = 1000/24;
 var DISABLE_SOUND_MOBILE = false;
-var FONT_GAME = "Arial";
+var FONT_GAME = "Tahoma";
 
 var STATE_LOADING = 0;
 var STATE_MENU    = 1;
@@ -46,8 +46,8 @@ var REEL_START_Y = REEL_OFFSET_Y - (SYMBOL_SIZE * 3);
 var REEL_ARRIVAL_Y = REEL_OFFSET_Y + (SYMBOL_SIZE * 3);
 var TIME_SHOW_WIN;
 var TIME_SHOW_ALL_WINS;
-var MIN_BET = 0.05;
-var MAX_BET = 0.5;
+var MIN_BET = 0.25;
+var MAX_BET = 10;
 var TOTAL_MONEY;
 var WIN_OCCURRENCE;
 var SLOT_CASH;

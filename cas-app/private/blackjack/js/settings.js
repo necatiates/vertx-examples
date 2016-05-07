@@ -7,8 +7,8 @@ var EDGEBOARD_Y = 0;
 var FPS_TIME      = 1000/24;
 var DISABLE_SOUND_MOBILE = false;
 
-var FONT_GAME_1 = "Arial";
-var FONT_GAME_2 = "Digital-7";
+var FONT_GAME_1 = "Tahoma";
+var FONT_GAME_2 = "Tahoma";
 
 var STATE_LOADING = 0;
 var STATE_MENU    = 1;

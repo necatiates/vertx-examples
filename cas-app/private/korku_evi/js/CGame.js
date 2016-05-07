@@ -410,10 +410,16 @@ function CGame(oData){
     };
     
     this.changeCoinBet = function(){
-        var iNewBet = Math.floor((_iCurBet+0.05) * 100)/100;
+        var iNewBet = null;
+        for(var i = 0 ;  i < s_aBetCombination.length ; i++){
+            if(s_aBetCombination[i] == _iCurBet){
+                iNewBet = s_aBetCombination[i+1];
+                break;
+            }
+        }
 		var iNewTotalBet;
 		
-        if(iNewBet>MAX_BET){
+        if(iNewBet == null || iNewBet>MAX_BET){
             _iCurBet = MIN_BET;
             _iTotBet = _iCurBet * _iLastLineActive;
             _oInterface.refreshBet(_iCurBet);
@@ -422,8 +428,7 @@ function CGame(oData){
         }else{
             iNewTotalBet = iNewBet * _iLastLineActive;
 
-			_iCurBet += 0.05;
-			_iCurBet = Math.floor(_iCurBet * 100)/100;
+			_iCurBet = iNewBet;
 			_iTotBet = iNewTotalBet;
 			_oInterface.refreshBet(_iCurBet);
 			_oInterface.refreshTotalBet(_iTotBet);       
