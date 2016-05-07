@@ -15,6 +15,7 @@ import io.vertx.ext.web.RoutingContext;
 import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 
 /**
  * Created by tolga on 13.03.2016.
@@ -76,12 +77,18 @@ public class CasFormLoginHandlerImpl implements CasFormLoginHandler {
                     String enteredPassword = HashUtil.hashWithSalt(password,salt);
                     if(enteredPassword.equals(hashedStoredPwd)) {
                         context.setUser(user);
-                        CacheManager.getHapinessCache().put(context.session().id(),
-                                new HapinnessStatus(user.getCash()));
+                        em.getTransaction().begin();
+                        user.setLastLogin(new Date());
+                        em.merge(user);
+                        em.persist(user);
+                        em.getTransaction().commit();
+                        em.close();
                     }else{
+                        em.close();
                         context.fail(400);
                     }
                 }else {
+                  em.close();
                   this.doRedirect(req.response(),"/index.html?context=LoginFail");
                   return;
                 }

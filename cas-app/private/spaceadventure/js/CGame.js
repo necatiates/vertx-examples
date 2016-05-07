@@ -705,7 +705,8 @@ function CGame(oData){
             bet:_iCurBet,
             minWin:MIN_WIN,
             bonus:true,
-            freeSpin:false
+            freeSpin:false,
+            gameName : "SpaceAdventure"
         };
         _iCurRes = null;
         $.ajax({

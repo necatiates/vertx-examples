@@ -8,9 +8,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public class SlotMachineBetHandler {
         Cash cash = (Cash) entityManager.get(Cash.class,"Slots");
         User user = (User) entityManager.get(User.class,((User)routingContext.session().get("user")).getUsername());
         slotBet.setUsername(user.getUsername());
+        slotBet.setUpdate_time(new Date().getTime());
 
 
         JsonObject response = BetDesicionHelper.invoke(slotBet,entityManager);
@@ -47,6 +50,7 @@ public class SlotMachineBetHandler {
         Criteria criteria = entityManager.createCriteria(SlotBet.class);
         criteria.setFirstResult(0 + (slotGamesHistoryRequest.getPage() - 1) * 25);
         criteria.setMaxResults(25 + (slotGamesHistoryRequest.getPage() - 1) * 25);
+        criteria.addOrder(Order.desc("update_time"));
         if(slotGamesHistoryRequest.getUsername() != null && !slotGamesHistoryRequest.getUsername().equals("")) {
             criteria.add(Restrictions.eq("username",slotGamesHistoryRequest.getUsername()));
         }

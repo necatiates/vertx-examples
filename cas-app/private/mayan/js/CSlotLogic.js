@@ -77,7 +77,8 @@ function _onSpin(iNumBettingLines,iCoin,iCurBet){
         bet:iCoin,
         minWin:0,
         bonus:true,
-        freeSpin:true
+        freeSpin:true,
+        gameName : "Maya"
     };
     var _iCurRes;
     $.ajax({

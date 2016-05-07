@@ -492,7 +492,8 @@ function CGame(oData){
             bet:_iCurBet,
             minWin:MIN_WIN,
             bonus:false,
-            freeSpin:false
+            freeSpin:false,
+            gameName : "UltimateSoccer"
         };
         $.ajax({
             url: '/bet/slotmachine',

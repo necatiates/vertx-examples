@@ -514,7 +514,8 @@ function CGame(oData){
             bet:_iCurBet,
             minWin:MIN_WIN,
             bonus:false,
-            freeSpin:false
+            freeSpin:false,
+            gameName : "Fruit"
         };
         $.ajax({
             url: '/bet/slotmachine',

@@ -62,6 +62,9 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                     <tr>
                       <th>Kullanıcı Adı</th>
                       <th>Bakiye</th>
+                      <th>Email</th>
+                      <th>Telefon</th>
+                      <th>Son Login</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -117,7 +120,11 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
           async: true,
           success: function (data) {
             for(var i = 0 ; i < data.length ; i++){
-              html = '<tr><td>' + data[i].username + '</td><td id="' + data[i].username + '">' +  data[i].cash + '</td>';
+              html = '<tr><td>' + data[i].username
+                      + '</td><td>' +  data[i].cash + '</td>'
+                      + '<td>' + data[i].email + '</td>'
+                      + '<td>' + data[i].phone_number + '</td>'
+                      + '<td>' + data[i].lastLogin + '</td></tr>';
               $('#users_table tbody').append(html);
             }
           },

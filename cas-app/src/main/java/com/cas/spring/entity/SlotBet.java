@@ -1,9 +1,11 @@
 package com.cas.spring.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by tolga on 12.03.2016.
@@ -48,6 +50,9 @@ public class SlotBet implements Bet{
 
     @Column
     String username;
+
+    @Column
+    String gameName;
 
     public String getUsername() {
         return username;
@@ -165,5 +170,19 @@ public class SlotBet implements Bet{
     @Override
     public Boolean hasBonus() {
         return isBonus();
+    }
+
+    @JsonProperty("formattedDate")
+    public String getUppercaseUsername() {
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return dt.format(update_time);
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }

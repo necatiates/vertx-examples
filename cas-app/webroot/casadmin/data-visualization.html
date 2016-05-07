@@ -72,13 +72,14 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Bet</th>
-                        <th>Lines</th>
-                        <th>MinWin</th>
-                        <th>Win line</th>
-                        <th>Win result</th>
-                        <th>Win total</th>
-                        <th>Reason</th>
+                        <th>Yatırılan</th>
+                        <th>Satır</th>
+                        <th>Min Kazanc</th>
+                        <th>Kazanılan Satır</th>
+                        <th>Kazanma Durumu</th>
+                        <th>Toplm Kaz.</th>
+                        <th>Sebep</th>
+                        <th>Oyun Adı</th>
                         <th>Kulllanıcı</th>
                         <th>Tarih</th>
                       </tr>
@@ -246,7 +247,6 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
           success: function (data) {
             var date;
             for (var i = 0; i < data.length; i++) {
-              date = new Date(data[i].update_time);
               html = '<tr><td>' + data[i].id + '</td> ' +
                       '<td>' + data[i].bet + '</td>' +
                       '<td>' + data[i].lineCount + '</td>' +
@@ -255,8 +255,9 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       '<td>' + data[i].winResult + '</td>' +
                       '<td>' + data[i].totalWin + '</td>' +
                       '<td>' + data[i].loseCause + '</td>' +
+                      '<td>' + data[i].gameName + '</td>' +
                       '<td>' + data[i].username + '</td>' +
-                      '<td>' + date.toString().substring(4,24) + '</td></tr>';
+                      '<td>' + data[i].formattedDate  + '</td></tr>';
               $('#slots_table tbody').append(html);
             }
           },

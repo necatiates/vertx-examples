@@ -54,6 +54,8 @@ public class FormRegisterHandlerImpl implements FormRegisterHandler {
             MultiMap params = req.formAttributes();
             String username = params.get(this.usernameParam);
             String password = params.get(this.passwordParam);
+            String email    = params.get("email");
+            String mobile_phone = params.get("phone_number");
             if(username != null && password != null) {
                 SessionFactory entityManagerFactory = Server.factory;
                 Session em = entityManagerFactory.openSession();
@@ -61,6 +63,8 @@ public class FormRegisterHandlerImpl implements FormRegisterHandler {
                 User user = new User();
                 user.setUsername(username);
                 user.setPassword(password);
+                user.setPhone_number(mobile_phone);
+                user.setEmail(email);
                 em.persist(user);
                 em.getTransaction().commit();
                 em.close();

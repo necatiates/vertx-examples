@@ -15,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -36,6 +37,10 @@ public class UserAdminHandler {
             JsonObject obj = new JsonObject();
             obj.put("username",user.getUsername());
             obj.put("cash",user.getCash());
+            obj.put("email",user.getEmail());
+            obj.put("phone_number",user.getPhone_number());
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            obj.put("lastLogin",dt.format(user.getLastLogin()));
             usersArray.add(obj);
         }
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")

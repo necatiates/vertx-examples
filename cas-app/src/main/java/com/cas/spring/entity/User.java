@@ -2,15 +2,13 @@ package com.cas.spring.entity;
 
 import com.cas.util.HashUtil;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AbstractUser;
 import io.vertx.ext.auth.AuthProvider;
 
 import javax.persistence.*;
-import java.util.Iterator;
+import java.util.Date;
 
 /**
  * Created by tolga on 12.03.2016.
@@ -28,6 +26,15 @@ public class User extends AbstractUser {
 
     @Column
     private String password_salt;
+
+    @Column
+    private String email;
+
+    @Column
+    private String phone_number;
+
+    @Column
+    private Date lastLogin;
 
     @Column
     private double cash = 0;
@@ -80,5 +87,29 @@ public class User extends AbstractUser {
 
     public String getPassword_salt() {
         return password_salt;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }
