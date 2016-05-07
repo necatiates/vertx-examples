@@ -26,9 +26,6 @@ public class SlotMachineBetAcceptHandler {
         entityManager.getTransaction().begin();
 
         user.setCash(user.getCash() + slotBet.getTotalWin());
-        CacheManager.getHapinessCache()
-                .get(routingContext.session().id())
-                .addGameResult(slotBet.getTotalWin());
 
         entityManager.persist(user);
 

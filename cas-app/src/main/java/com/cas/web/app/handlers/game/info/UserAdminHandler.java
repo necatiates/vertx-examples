@@ -39,7 +39,7 @@ public class UserAdminHandler {
             obj.put("cash",user.getCash());
             obj.put("email",user.getEmail());
             obj.put("phone_number",user.getPhone_number());
-            SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             obj.put("lastLogin",dt.format(user.getLastLogin()));
             usersArray.add(obj);
         }
