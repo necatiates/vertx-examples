@@ -492,7 +492,7 @@ function CGame(oData){
         _iCurState = GAME_STATE_SHOW_WIN;
         
         if(_bBonus){
-            _oBonusPanel.show(_iNumItemInBonus);
+            _oBonusPanel.show(_iNumItemInBonus,_iCurRes.maxBonus);
         }
     };
     
@@ -738,7 +738,7 @@ function CGame(oData){
                     if(_bBonus){
                         iIndex = _iNumItemInBonus - 3;
                     }
-                }while(bRet === false || (_iTotWin*_iCurBet) > _iCurRes._maxWin_ || _bBonus === false || BONUS_PRIZE[iIndex][0] > _iCurRes._maxWin_);
+                }while(bRet === false || _bBonus === false);
             }
         }else{
                 //PLAYER WINS

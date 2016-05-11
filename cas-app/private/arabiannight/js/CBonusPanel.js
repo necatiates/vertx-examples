@@ -28,7 +28,7 @@ function CBonusPanel(){
         
         var oBg = createBitmap(s_oSpriteLibrary.getSprite('bg_bonus'));
         _oContainer.addChild(oBg);
-        
+
         _oLeds = new CLedsBonus(pCenterWheel.x, pCenterWheel.y,_oContainer);
         _iCurAnim = _oLeds.getState();
         
@@ -62,13 +62,49 @@ function CBonusPanel(){
         _oContainer.addChild(_oTextHighLight);
     };
     
-    this.show = function(iPrize){
+    this.show = function(iPrize,maxBonus){
+         var step = maxBonus / 20;
+         WHEEL_SETTINGS = new Array();
+         WHEEL_SETTINGS[0] = 0;
+         WHEEL_SETTINGS[1] = Math.ceil(step*0.25);
+         WHEEL_SETTINGS[2] = Math.ceil(step*0.30);
+         WHEEL_SETTINGS[3] = Math.ceil(step*0.40);
+         WHEEL_SETTINGS[4] = Math.ceil(step*0.50);
+         WHEEL_SETTINGS[5] = Math.ceil(step*0.90);
+         WHEEL_SETTINGS[6] = Math.ceil(step*1.1);
+         WHEEL_SETTINGS[7] = Math.ceil(step*1.3);
+         WHEEL_SETTINGS[8] = Math.ceil(step*1.7);
+         WHEEL_SETTINGS[9] = Math.ceil(step*2);
+         WHEEL_SETTINGS[10] = Math.ceil(step*2.5);
+         WHEEL_SETTINGS[11] = Math.ceil(step*2.5);
+         WHEEL_SETTINGS[12] = Math.ceil(step*3);
+         WHEEL_SETTINGS[13] = Math.ceil(step*4);
+         WHEEL_SETTINGS[14] = Math.ceil(step*4.5);
+         WHEEL_SETTINGS[15] = Math.ceil(step*5);
+         WHEEL_SETTINGS[16] = Math.ceil(step*9);
+         WHEEL_SETTINGS[17] = Math.ceil(step*15);
+         WHEEL_SETTINGS[18] = Math.ceil(step*19);
+         WHEEL_SETTINGS[19] = Math.floor(maxBonus) ;
+         this._shuffle(WHEEL_SETTINGS);
+        _oWheel.loopPrize();
+        _oWheel.clearText();
+        _oWheel.setText(1);
         _oSpinBut.enable();
         _oTextHighLight.text = "";
         _oTextHighLight.alpha = 1;
         _iPrizeToShow = iPrize;
         _oContainer.visible = true;
         _bInitGame = true;
+    };
+
+    this._shuffle = function(a) {
+        var j, x, i;
+        for (i = a.length; i; i -= 1) {
+            j = Math.floor(Math.random() * i);
+            x = a[i - 1];
+            a[i - 1] = a[j];
+            a[j] = x;
+        }
     };
     
     this._onSpin = function(){

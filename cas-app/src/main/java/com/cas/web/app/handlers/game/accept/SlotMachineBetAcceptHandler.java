@@ -1,6 +1,6 @@
 package com.cas.web.app.handlers.game.accept;
 
-import com.cas.cache.CacheManager;
+import com.cas.StaticDefinitions;
 import com.cas.spring.entity.Cash;
 import com.cas.service.model.SlotBetResult;
 import com.cas.spring.entity.SlotBet;
@@ -21,7 +21,7 @@ public class SlotMachineBetAcceptHandler {
         final SlotBetResult slotBet = Json.decodeValue(routingContext.getBodyAsString(),SlotBetResult.class);
         Session entityManager = Server.factory.openSession();
         User user = (User) entityManager.get(User.class,
-                ((User)routingContext.session().get("user")).getUsername());
+                ((User)routingContext.session().get(StaticDefinitions.USER_SESSION_KEY)).getUsername());
 
         entityManager.getTransaction().begin();
 
@@ -29,7 +29,7 @@ public class SlotMachineBetAcceptHandler {
 
         entityManager.persist(user);
 
-        Cash cash = (Cash) entityManager.get(Cash.class,"Slots");
+        Cash cash = (Cash) entityManager.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
         cash.setCash(cash.getCash() - slotBet.getTotalWin());
         entityManager.persist(cash);
 

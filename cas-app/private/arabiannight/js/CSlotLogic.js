@@ -159,7 +159,7 @@ function _onSpin(iNumBettingLines,iCoin,iCurBet){
             }
             
             return "res=true&win=true&pattern="+JSON.stringify(_aFinalSymbols)+"&win_lines="+JSON.stringify(aRet)+"&money="+s_aSession["iMoney"]+
-                    "&tot_win="+iTotWin+"&freespin="+s_aSession["iTotFreeSpin"]+"&bonus="+s_aSession["bBonus"]+"&bonus_prize="+iPrizeReceived+"&cash="+s_aSession["iSlotCash"] + "&id=" + _iCurRes.id;
+                    "&tot_win="+iTotWin+"&freespin="+s_aSession["iTotFreeSpin"]+"&bonus="+s_aSession["bBonus"]+"&bonus_prize="+iPrizeReceived+"&cash="+s_aSession["iSlotCash"] + "&id=" + _iCurRes.id + "&maxBonus=" + _iCurRes.maxBonus;
 
             
 

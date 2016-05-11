@@ -1,5 +1,6 @@
 package com.cas.web.app.handlers.game.desicion;
 
+import com.cas.StaticDefinitions;
 import com.cas.service.model.SlotGamesHistoryRequest;
 import com.cas.spring.entity.*;
 import com.cas.web.app.Server;
@@ -24,8 +25,8 @@ public class SlotMachineBetHandler {
 
         Session entityManager = Server.factory.openSession();
         entityManager.getTransaction().begin();
-        Cash cash = (Cash) entityManager.get(Cash.class,"Slots");
-        User user = (User) entityManager.get(User.class,((User)routingContext.session().get("user")).getUsername());
+        Cash cash = (Cash) entityManager.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
+        User user = (User) entityManager.get(User.class,((User)routingContext.session().get(StaticDefinitions.USER_SESSION_KEY)).getUsername());
         slotBet.setUsername(user.getUsername());
         slotBet.setUpdate_time(new Date().getTime());
 

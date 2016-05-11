@@ -54,7 +54,6 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                         <tr>
                           <th>Oyun</th>
                           <th>Kasa</th>
-                          <th>Sermaye</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -161,7 +160,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
       async: false,
       success: function (data) {
         for(var i = 0 ; i < data.length ; i++){
-          html = '<tr><td>' + data[i].game + '</td><td id="' + data[i].game + '_cash">' +  data[i].cash + '</td><td id="' + data[i].game + '_capital">' +  data[i].capital + '</td></tr>';
+          html = '<tr><td>' + data[i].game + '</td><td id="' + data[i].game + '_cash">' +  data[i].cash + '</td></tr>';
           $('#cash_table tbody').append(html);
         }
       },
@@ -176,7 +175,6 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
       var gamedata = new Object();
       gamedata.game = $(evt.target).attr('id').split("_")[0];
       gamedata.cash = $('#' + gamedata.game + '_cash').text();
-      gamedata.capital = $('#' + gamedata.game + '_capital').text();
       $.ajax({
         url: '/admin/gameCash',
         type: 'post',

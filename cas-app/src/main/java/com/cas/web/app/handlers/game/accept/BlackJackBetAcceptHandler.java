@@ -1,6 +1,5 @@
 package com.cas.web.app.handlers.game.accept;
 
-import com.cas.cache.CacheManager;
 import com.cas.service.model.BlackJackResult;
 import com.cas.spring.entity.BlackJackBet;
 import com.cas.spring.entity.Cash;
@@ -27,9 +26,7 @@ public class BlackJackBetAcceptHandler {
         entityManager.getTransaction().begin();
 
         user.setCash(user.getCash() + strachResult.getTotalWin());
-        CacheManager.getHapinessCache()
-                .get(routingContext.session().id())
-                .addGameResult(strachResult.getTotalWin());
+
 
         entityManager.persist(user);
 

@@ -32,7 +32,14 @@ function CGame(oData){
         _bFirstPlay = true;
         
         _iBank = BANK;
-        _iCurPlayerMoney = START_PLAYER_MONEY;
+        $.ajax({
+            url: '/bet/info',
+            type: 'get',
+            async: false,
+            success: function (data) {
+                _iCurPlayerMoney = data.cash;
+            },
+        });
         _iAdCounter = 0;
         _iTotWin = 0;
         

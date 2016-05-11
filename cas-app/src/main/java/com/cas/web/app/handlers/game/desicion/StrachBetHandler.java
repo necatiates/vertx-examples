@@ -1,7 +1,5 @@
 package com.cas.web.app.handlers.game.desicion;
 
-import com.cas.cache.CacheManager;
-import com.cas.service.model.SlotGamesHistoryRequest;
 import com.cas.service.model.StrachHistoryRequest;
 import com.cas.spring.entity.*;
 import com.cas.web.app.Server;

@@ -1,5 +1,6 @@
 package com.cas.web.app;
 
+import com.cas.StaticDefinitions;
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.GlobalSettings;
 import com.cas.web.app.handlers.game.accept.*;
@@ -69,26 +70,33 @@ public class Server{
   private static void initPreferences() {
     Session em = factory.openSession();
     em.getTransaction().begin();
-    GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,"WinPercentage");
+    GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.WIN_PERCENTAGE_SETTINGS_NAME);
     if(winPerc == null){
       winPerc = new GlobalSettings();
-      winPerc.setName("WinPercentage");
+      winPerc.setName(StaticDefinitions.WIN_PERCENTAGE_SETTINGS_NAME);
       winPerc.setValue("49");
       em.persist(winPerc);
     }
-    GlobalSettings freeSpinPerc = (GlobalSettings) em.get(GlobalSettings.class,"FreeSpinPercentage");
+    GlobalSettings freeSpinPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.FREE_SPIN_SETTINGS_NAME);
     if(freeSpinPerc == null){
       freeSpinPerc = new GlobalSettings();
-      freeSpinPerc.setName("FreeSpinPercentage");
+      freeSpinPerc.setName(StaticDefinitions.FREE_SPIN_SETTINGS_NAME);
       freeSpinPerc.setValue("30");
       em.persist(freeSpinPerc);
     }
-    GlobalSettings bonusPerc = (GlobalSettings) em.get(GlobalSettings.class,"BonusPercentage");
+    GlobalSettings bonusPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_SETTINGS_NAME);
     if(bonusPerc == null){
       bonusPerc = new GlobalSettings();
-      bonusPerc.setName("BonusPercentage");
+      bonusPerc.setName(StaticDefinitions.BONUS_SETTINGS_NAME);
       bonusPerc.setValue("20");
       em.persist(bonusPerc);
+    }
+    GlobalSettings bonusGiveAwayPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_GIVEAWAY_PERCENTAGE_SETTINGS);
+    if(bonusGiveAwayPerc == null){
+      bonusGiveAwayPerc = new GlobalSettings();
+      bonusGiveAwayPerc.setName(StaticDefinitions.BONUS_GIVEAWAY_PERCENTAGE_SETTINGS);
+      bonusGiveAwayPerc.setValue("20");
+      em.persist(bonusGiveAwayPerc);
     }
     em.getTransaction().commit();
     em.close();
@@ -96,30 +104,20 @@ public class Server{
 
   private static void initCashes() {
     Session em = factory.openSession();
-    Cash slotCash = (Cash) em.get(Cash.class,"Slots");
+    Cash slotCash = (Cash) em.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
     em.getTransaction().begin();
     if(slotCash == null){
       slotCash = new Cash();
       slotCash.setCash(0.0);
-      slotCash.setGame("Slots");
-      slotCash.setCapital(0.0);
+      slotCash.setGame(StaticDefinitions.GAME_CASH_NAME);
       em.persist(slotCash);
     }
-    Cash strachCash = (Cash) em.get(Cash.class,"Strach");
+    Cash strachCash = (Cash) em.get(Cash.class,StaticDefinitions.BONUS_CASH_NAME);
     if(strachCash == null){
       strachCash = new Cash();
       strachCash.setCash(0.0);
-      strachCash.setGame("Strach");
-      strachCash.setCapital(0.0);
+      strachCash.setGame(StaticDefinitions.BONUS_CASH_NAME);
       em.persist(strachCash);
-    }
-    Cash cardsCash = (Cash) em.get(Cash.class,"Cards");
-    if(cardsCash == null){
-      cardsCash = new Cash();
-      cardsCash.setCash(0.0);
-      cardsCash.setGame("Cards");
-      cardsCash.setCapital(0.0);
-      em.persist(cardsCash);
     }
     em.getTransaction().commit();
     em.close();

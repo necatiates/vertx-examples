@@ -14,11 +14,8 @@ function CWheelBonus(iX, iY,oParentContainer){
         _aText = new Array();
         _aColors = new Array();
         
-        _aPrize = new Array();
-        for(var i=0; i<WHEEL_SETTINGS.length; i++){
-            _aPrize[i] = WHEEL_SETTINGS[i];
-        }
 
+        this.loopPrize();
         this._initColors();
         
         var oSprite = s_oSpriteLibrary.getSprite('wheel');
@@ -35,6 +32,13 @@ function CWheelBonus(iX, iY,oParentContainer){
 
         this.setText(1);
 
+    };
+
+    this.loopPrize = function(){
+        _aPrize = new Array();
+        for(var i=0; i<WHEEL_SETTINGS.length; i++){
+            _aPrize[i] = WHEEL_SETTINGS[i];
+        }
     };
  
     this.unload = function(){

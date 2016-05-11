@@ -1,6 +1,5 @@
 package com.cas.web.app.handlers.game.accept;
 
-import com.cas.cache.CacheManager;
 import com.cas.service.model.PokerResult;
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.PokerBet;
@@ -24,9 +23,7 @@ public class PokerBetAcceptHandler {
                 ((User)routingContext.session().get("user")).getUsername());
         entityManager.getTransaction().begin();
         user.setCash(user.getCash() + pokerBetResult.getTotalWin());
-        CacheManager.getHapinessCache()
-                .get(routingContext.session().id())
-                .addGameResult(pokerBetResult.getTotalWin());
+
         entityManager.persist(user);
 
         Cash cash = (Cash) entityManager.get(Cash.class,"Cards");

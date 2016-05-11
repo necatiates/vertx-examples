@@ -17,9 +17,6 @@ public class Cash {
     @Column
     private Double cash;
 
-    @Column
-    private Double capital;
-
     public String getGame() {
         return game;
     }
@@ -36,11 +33,4 @@ public class Cash {
         this.cash = cash;
     }
 
-    public Double getCapital() {
-        return capital;
-    }
-
-    public void setCapital(Double capital) {
-        this.capital = capital;
-    }
 }

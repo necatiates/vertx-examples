@@ -33,6 +33,7 @@ function CGame(oData){
     var _oInterface;
     var _oPayTable = null;
     var _oBonusPanel;
+    var _oRetData;
     
     this._init = function(){
         $.ajax({
@@ -400,7 +401,7 @@ function CGame(oData){
                 this.onSpin();
                 return;
             }else if(_iBonus === BONUS_WHEEL){
-                _oBonusPanel.show(_iCurBonusPrizeIndex);
+                _oBonusPanel.show(_iCurBonusPrizeIndex,_oRetData.maxBonus);
                 _iCurState = GAME_STATE_BONUS;
             }else if(_bAutoSpin){
                 _oInterface.enableAutoSpin();
@@ -660,7 +661,7 @@ function CGame(oData){
         _oInterface.refreshMoney(_iMoney);
         
         _iCurState = GAME_STATE_SPINNING;
-        
+        _oRetData = oRetData;
         if ( oRetData.res === "true" ){
                 _iTotFreeSpin = parseInt(oRetData.freespin);
                 

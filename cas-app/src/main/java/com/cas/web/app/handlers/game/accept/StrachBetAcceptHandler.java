@@ -1,6 +1,5 @@
 package com.cas.web.app.handlers.game.accept;
 
-import com.cas.cache.CacheManager;
 import com.cas.service.model.SlotBetResult;
 import com.cas.service.model.StrachResult;
 import com.cas.spring.entity.Cash;
@@ -28,10 +27,6 @@ public class StrachBetAcceptHandler {
         entityManager.getTransaction().begin();
 
         user.setCash(user.getCash() + strachResult.getTotalWin());
-        CacheManager.getHapinessCache()
-                .get(routingContext.session().id())
-                .addGameResult(strachResult.getTotalWin());
-
         entityManager.persist(user);
 
         Cash cash = (Cash) entityManager.get(Cash.class,"Strach");

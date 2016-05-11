@@ -127,27 +127,14 @@ function CBonusPanel(){
         }   
     };
     
-    this.show = function(iNumUfo){
+    this.show = function(iNumUfo,maxBonus){
         _bUfoClicked = false;
         _oWinText.alpha = 0;
-        
-        switch(iNumUfo){
-            case 3:{
-                    _aBonusValue = BONUS_PRIZE[0];
-                    break;
-            }
-            case 4:{
-                    _aBonusValue = BONUS_PRIZE[1];
-                    break;
-            }
-            case 5:{
-                    _aBonusValue = BONUS_PRIZE[2];
-                    break;
-            }
-            default:{
-                    _aBonusValue = BONUS_PRIZE[0];
-            }
-        }
+
+        _aBonusValue = new Array();
+        _aBonusValue[0] = Math.ceil(maxBonus/20);
+        _aBonusValue[1] =  Math.ceil (maxBonus / 4);
+        _aBonusValue[2] =  Math.ceil (maxBonus * 0.90);
         
         _aAlienPrizes[0].text = _aBonusValue[0] + "₺";
         _aAlienPrizes[1].text = _aBonusValue[1] + "₺";

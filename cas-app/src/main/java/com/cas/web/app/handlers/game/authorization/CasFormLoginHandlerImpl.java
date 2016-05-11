@@ -1,7 +1,6 @@
 package com.cas.web.app.handlers.game.authorization;
 
-import com.cas.cache.CacheManager;
-import com.cas.game.model.HapinnessStatus;
+
 import com.cas.util.HashUtil;
 import com.cas.web.app.Server;
 import io.vertx.core.MultiMap;

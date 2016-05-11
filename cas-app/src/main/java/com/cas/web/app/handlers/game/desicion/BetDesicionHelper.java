@@ -1,5 +1,6 @@
 package com.cas.web.app.handlers.game.desicion;
 
+import com.cas.StaticDefinitions;
 import com.cas.spring.entity.Bet;
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.GlobalSettings;
@@ -13,25 +14,21 @@ import org.hibernate.Session;
 public class BetDesicionHelper {
     public static JsonObject invoke(Bet Bet,Session em) {
         JsonObject response = new JsonObject();
-        Cash slotCash = (Cash) em.get(Cash.class,"Slots");
-        Cash cardsCash = (Cash) em.get(Cash.class,"Cards");
-        Cash strachCash = (Cash) em.get(Cash.class,"Strach");
-
+        Cash gameCash = (Cash) em.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
+        Cash bonusCash = (Cash) em.get(Cash.class,StaticDefinitions.BONUS_CASH_NAME);
+        GlobalSettings bonusGiveAwaySettings = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_GIVEAWAY_PERCENTAGE_SETTINGS);
         /*
             Decide to win or not
         */
 
-        double totalCapital = slotCash.getCapital() + cardsCash.getCapital() + strachCash.getCapital();
-        double totalCash = slotCash.getCash() + cardsCash.getCash() + strachCash.getCash();
 
-        Double avaliableCash = ((totalCapital * 0.20 + totalCash)  / 2 ) / 5;
-        if(Bet.getMinWin() <= avaliableCash ){
+        if(Bet.getMinWin() <= gameCash.getCash()){
             double genRandom = randomBoolean();
 
             boolean isBonus;
-            if(Bet.hasBonus()){
+            if(Bet.hasBonus() && bonusCash.getCash() > 0){
                 double genRandomFreeSpin = randomBoolean();
-                GlobalSettings bonusPercentage = (GlobalSettings) em.get(GlobalSettings.class,"BonusPercentage");
+                GlobalSettings bonusPercentage = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_SETTINGS_NAME);
                 isBonus = genRandomFreeSpin <= Double.parseDouble(bonusPercentage.getValue());
             }else {
                 isBonus = false;
@@ -40,13 +37,13 @@ public class BetDesicionHelper {
             boolean isFreeSpin;
             if(Bet.hasFreeSpin() && !isBonus){
                 double genRandomFreeSpin = randomBoolean();
-                GlobalSettings freeSpinPercentage = (GlobalSettings) em.get(GlobalSettings.class,"FreeSpinPercentage");
+                GlobalSettings freeSpinPercentage = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.FREE_SPIN_SETTINGS_NAME);
                 isFreeSpin = genRandomFreeSpin <= Double.parseDouble(freeSpinPercentage.getValue());
             }else {
                 isFreeSpin = false;
             }
 
-            GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,"WinPercentage");
+            GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.WIN_PERCENTAGE_SETTINGS_NAME);
             boolean isWin = genRandom <= Double.parseDouble(winPerc.getValue()) && (!isBonus && !isFreeSpin);
             Bet.setWinResult(isWin);
 
@@ -62,8 +59,15 @@ public class BetDesicionHelper {
 
             response.put("freeSpin",isFreeSpin);
             response.put("bonus",isBonus);
+            if(isBonus){
+                response.put("maxBonus",bonusCash.getCash() * Double.parseDouble(bonusGiveAwaySettings.getValue()) / 100);
+            }
             response.put("_win_",isWin);
-            response.put("_maxWin_",avaliableCash);
+            if(isWin) {
+                response.put("_maxWin_", gameCash.getCash());
+            }else{
+                response.put("_maxWin_", 0);
+            }
         } else{
             Bet.setWinResult(false);
             response.put("_win_",false);
