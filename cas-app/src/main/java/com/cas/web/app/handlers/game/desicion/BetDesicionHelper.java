@@ -4,6 +4,7 @@ import com.cas.StaticDefinitions;
 import com.cas.spring.entity.Bet;
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.GlobalSettings;
+import com.cas.spring.entity.SlotBet;
 import com.cas.web.app.Server;
 import io.vertx.core.json.JsonObject;
 import org.hibernate.Session;
@@ -35,12 +36,16 @@ public class BetDesicionHelper {
             }
 
             boolean isFreeSpin;
-            if(Bet.hasFreeSpin() && !isBonus){
-                double genRandomFreeSpin = randomBoolean();
-                GlobalSettings freeSpinPercentage = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.FREE_SPIN_SETTINGS_NAME);
-                isFreeSpin = genRandomFreeSpin <= Double.parseDouble(freeSpinPercentage.getValue());
-            }else {
+            if(Bet instanceof SlotBet && ((SlotBet) Bet).getCurFreeSpinCnt() > 0){
                 isFreeSpin = false;
+            }else {
+                if (Bet.hasFreeSpin() && !isBonus) {
+                    double genRandomFreeSpin = randomBoolean();
+                    GlobalSettings freeSpinPercentage = (GlobalSettings) em.get(GlobalSettings.class, StaticDefinitions.FREE_SPIN_SETTINGS_NAME);
+                    isFreeSpin = genRandomFreeSpin <= Double.parseDouble(freeSpinPercentage.getValue());
+                } else {
+                    isFreeSpin = false;
+                }
             }
 
             GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.WIN_PERCENTAGE_SETTINGS_NAME);

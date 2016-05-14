@@ -78,7 +78,8 @@ function _onSpin(iNumBettingLines,iCoin,iCurBet){
         minWin:0,
         bonus:true,
         freeSpin:true,
-        gameName : "ArabianNight"
+        gameName : "ArabianNight",
+        curFreeSpinCnt : s_aSession["bFreeSpin"]
     };
     var _iCurRes;
     $.ajax({
@@ -98,7 +99,7 @@ function _onSpin(iNumBettingLines,iCoin,iCurBet){
     //IF SLOT CASH IS LOWER THAN MINIMUM WIN, PLAYER MUST LOSE
 
 
-    if(_iCurRes._win_ || _iCurRes.bonus || _iCurRes.freeSpin){
+    if(_iCurRes._win_  || _iCurRes.bonus || _iCurRes.freeSpin){
             //WIN
             if(s_aSession["bFreeSpin"] === 0 && s_aSession["bBonus"] === 0){
 

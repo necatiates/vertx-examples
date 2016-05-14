@@ -54,6 +54,9 @@ public class SlotBet implements Bet{
     @Column
     String gameName;
 
+    @Column
+    int curFreeSpinCnt;
+
     public String getUsername() {
         return username;
     }
@@ -184,5 +187,13 @@ public class SlotBet implements Bet{
 
     public void setGameName(String gameName) {
         this.gameName = gameName;
+    }
+
+    public int getCurFreeSpinCnt() {
+        return curFreeSpinCnt;
+    }
+
+    public void setCurFreeSpinCnt(int curFreeSpinCnt) {
+        this.curFreeSpinCnt = curFreeSpinCnt;
     }
 }

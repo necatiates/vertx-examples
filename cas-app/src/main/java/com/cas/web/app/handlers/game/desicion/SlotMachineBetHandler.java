@@ -34,8 +34,10 @@ public class SlotMachineBetHandler {
         JsonObject response = BetDesicionHelper.invoke(slotBet,entityManager);
         entityManager.persist(slotBet);
 
-        cash.setCash(cash.getCash() + slotBet.getBet() * slotBet.getLineCount());
-        user.setCash(user.getCash() - slotBet.getBet() * slotBet.getLineCount());
+        if(slotBet.getCurFreeSpinCnt() == 0) {
+            cash.setCash(cash.getCash() + slotBet.getBet() * slotBet.getLineCount());
+            user.setCash(user.getCash() - slotBet.getBet() * slotBet.getLineCount());
+        }
         entityManager.getTransaction().commit();
         response.put("id",slotBet.getId());
 
