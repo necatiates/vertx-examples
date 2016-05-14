@@ -738,7 +738,26 @@ function CGame(oData){
     this.exitFromBonus = function(){
         _iMoney = _iMoney + parseFloat(WHEEL_SETTINGS[_iCurBonusPrizeIndex]);
         _oInterface.refreshMoney(_iMoney);
-        
+
+        var bet = {
+            totalWin: parseFloat(WHEEL_SETTINGS[_iCurBonusPrizeIndex]),
+            id : _oRetData.id,
+            numLineWin : 0
+        };
+        $.ajax({
+            url: '/bonusSlot/accept',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(bet),
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                if(data._accepted_) {
+                    _iMoney += iBonus;
+                }
+                _oInterface.refreshMoney(_iMoney);
+            },
+        });
         if(_bAutoSpin){
             _oInterface.enableAutoSpin();
             this.onSpin();

@@ -1,5 +1,6 @@
 package com.cas.web.app.handlers.game.accept;
 
+import com.cas.StaticDefinitions;
 import com.cas.service.model.SlotBetResult;
 import com.cas.service.model.StrachResult;
 import com.cas.spring.entity.Cash;
@@ -22,14 +23,14 @@ public class StrachBetAcceptHandler {
         final StrachResult strachResult = Json.decodeValue(routingContext.getBodyAsString(),StrachResult.class);
         Session entityManager = Server.factory.openSession();
         User user = (User) entityManager.get(User.class,
-                ((User)routingContext.session().get("user")).getUsername());
+                ((User)routingContext.session().get(StaticDefinitions.USER_SESSION_KEY)).getUsername());
 
         entityManager.getTransaction().begin();
 
         user.setCash(user.getCash() + strachResult.getTotalWin());
         entityManager.persist(user);
 
-        Cash cash = (Cash) entityManager.get(Cash.class,"Strach");
+        Cash cash = (Cash) entityManager.get(Cash.class,StaticDefinitions.GAME_CASH_NAME);
         cash.setCash(cash.getCash() - strachResult.getTotalWin());
         entityManager.persist(cash);
 

@@ -7,10 +7,7 @@ import com.cas.web.app.handlers.game.accept.*;
 import com.cas.web.app.handlers.game.authorization.AuthorizedPathHandler;
 import com.cas.web.app.handlers.game.authorization.CasFormLoginHandler;
 import com.cas.web.app.handlers.game.authorization.FormRegisterHandler;
-import com.cas.web.app.handlers.game.desicion.BlackJackBetHandler;
-import com.cas.web.app.handlers.game.desicion.PokerBetHandler;
-import com.cas.web.app.handlers.game.desicion.SlotMachineBetHandler;
-import com.cas.web.app.handlers.game.desicion.StrachBetHandler;
+import com.cas.web.app.handlers.game.desicion.*;
 import com.cas.web.app.handlers.game.info.GameCashHandler;
 import com.cas.web.app.handlers.game.info.InfoServiceHandler;
 import com.cas.web.app.handlers.game.info.SettingsHandler;
@@ -153,6 +150,10 @@ public class Server{
     router.post("/scratch/accept").handler(StrachBetAcceptHandler::accept);
     router.post("/bet/blackjack").handler(BlackJackBetHandler::bet);
     router.post("/blackjack/accept").handler(BlackJackBetAcceptHandler::accept);
+
+    router.post("/bingo/bet").handler(BingoBetHandler::bet);
+    router.post("/bingo/accept").handler(BingoBetAcceptHandler::accept);
+
     router.get("/tokengen").handler(BrainTreeTokanizerHandler::getToken);
     router.post("/checkout").handler(BrainTreeCheckoutHandler::checkout);
     router.post("/creditCardHandler").handler(CreditCardHandler::handleCardOK);

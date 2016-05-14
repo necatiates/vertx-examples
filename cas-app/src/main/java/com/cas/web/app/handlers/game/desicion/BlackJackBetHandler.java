@@ -1,5 +1,6 @@
 package com.cas.web.app.handlers.game.desicion;
 
+import com.cas.StaticDefinitions;
 import com.cas.service.model.BlackJackHistoryRequest;
 import com.cas.service.model.StrachHistoryRequest;
 import com.cas.spring.entity.*;
@@ -19,14 +20,13 @@ import java.util.Random;
  * Created by tolga on 06.03.2016.
  */
 public class BlackJackBetHandler {
-    private static Random random = new Random();
     public static void bet(RoutingContext routingContext){
         final BlackJackBet blackJackBet = Json.decodeValue(routingContext.getBodyAsString(),BlackJackBet.class);
 
         Session entityManager = Server.factory.openSession();
         entityManager.getTransaction().begin();
-        Cash cash = (Cash) entityManager.get(Cash.class,"Cards");
-        User user = (User) entityManager.get(User.class,((User)routingContext.session().get("user")).getUsername());
+        Cash cash = (Cash) entityManager.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
+        User user = (User) entityManager.get(User.class,((User)routingContext.session().get(StaticDefinitions.USER_SESSION_KEY)).getUsername());
         blackJackBet.setUsername(user.getUsername());
 
 

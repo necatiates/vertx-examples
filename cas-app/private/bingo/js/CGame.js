@@ -26,6 +26,7 @@ function CGame(oData){
     var _oNumberBoard;
     var _oPayTable;
     var _oBoardContainer;
+    var _iCurRes;
     
     this._init = function(){
         _bGameStarted = false;
@@ -116,6 +117,22 @@ function CGame(oData){
     };
     
     this.startGame = function(){
+        var bet = {
+            bet:_iCurTotBet,
+            coin : _iCurCoinBet
+        };
+        $.ajax({
+            url: '/bingo/bet',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(bet),
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                _iCurRes = data;
+            },
+        });
+
         if(_iCurPlayerMoney - _iCurTotBet < 0){
             //NOT ENOUGH MONEY
             this.gameOver();
@@ -133,14 +150,7 @@ function CGame(oData){
 
         _iCurBallExtracted = 0;
 
-        //CHECK WIN OCCURRENCE
-        var iRand = Math.floor(Math.random()*100);;
-        if(_iBank < _iCurCoinBet*_aPrizes[_aPrizes.length-1]){
-            //USER MUST LOSE CAUSE NOT ENOUGH MONEY IN GAME CASH
-            iRand = _iWinOccurrence + 1;
-        }
-        
-        if(iRand <= _iWinOccurrence){
+        if(_iCurRes._win_){
             //USER MUST WIN
             var iRandCard = Math.floor(Math.random()*_aCards.length);
             var iRandIndex = Math.floor(Math.random() * 3);
@@ -266,10 +276,24 @@ function CGame(oData){
         _oInterface.refreshWin(_iTotWin);
         
         if(_iTotWin > 0){
-            _iCurPlayerMoney += _iTotWin;
-            _oInterface.refreshMoney(_iCurPlayerMoney);
-            _iBank -= _iTotWin;
-            playSound("win",1,0);
+            var bet = {
+                id: _iCurRes.id,
+                totalWin : _iTotWin
+            };
+            $.ajax({
+                url: '/bingo/accept',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(bet),
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    _iCurPlayerMoney += _iTotWin;
+                    _oInterface.refreshMoney(_iCurPlayerMoney);
+                    playSound("win",1,0);
+                },
+            });
+
         }
         
     };

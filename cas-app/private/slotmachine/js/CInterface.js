@@ -31,46 +31,46 @@ function CInterface(iCurBet,iTotBet,iMoney){
         }
         
         oSprite = s_oSpriteLibrary.getSprite('spin_but');
-        _oSpinBut = new CTextButton(1026 + (oSprite.width/2),595 ,oSprite,TEXT_SPIN,FONT_GAME,"#ffffff",30);  
+        _oSpinBut = new CTextButton(1026 + (oSprite.width/2),595 ,oSprite,TEXT_SPIN,FONT_GAME,"#ffffff",25);
         _oSpinBut.addEventListener(ON_MOUSE_UP, this._onSpin, this);
         
         oSprite = s_oSpriteLibrary.getSprite('info_but');
-        _oInfoBut = new CTextButton(296 + (oSprite.width/2),595,oSprite,TEXT_INFO,FONT_GAME,"#ffffff",30);        
+        _oInfoBut = new CTextButton(296 + (oSprite.width/2),595,oSprite,TEXT_INFO,FONT_GAME,"#ffffff",25);
         _oInfoBut.addEventListener(ON_MOUSE_UP, this._onInfo, this);
         
         oSprite = s_oSpriteLibrary.getSprite('but_lines_bg');
-        _oAddLineBut = new CTextButton(436 + (oSprite.width/2),595,oSprite,TEXT_LINES,FONT_GAME,"#ffffff",30);
+        _oAddLineBut = new CTextButton(436 + (oSprite.width/2),595,oSprite,TEXT_LINES,FONT_GAME,"#ffffff",25);
         _oAddLineBut.addEventListener(ON_MOUSE_UP, this._onAddLine, this);
         
         oSprite = s_oSpriteLibrary.getSprite('coin_but');
-        _oBetCoinBut = new CTextButton(620 + (oSprite.width/2),595,oSprite,TEXT_COIN,FONT_GAME,"#ffffff",30);
+        _oBetCoinBut = new CTextButton(620 + (oSprite.width/2),595,oSprite,TEXT_COIN,FONT_GAME,"#ffffff",25);
         _oBetCoinBut.addEventListener(ON_MOUSE_UP, this._onBet, this);
         
         oSprite = s_oSpriteLibrary.getSprite('but_maxbet_bg');
-        _oMaxBetBut = new CTextButton(805 + (oSprite.width/2),595,oSprite,TEXT_MAX_BET,FONT_GAME,"#ffffff",30);
+        _oMaxBetBut = new CTextButton(805 + (oSprite.width/2),595,oSprite,TEXT_MAX_BET,FONT_GAME,"#ffffff",25);
         _oMaxBetBut.addEventListener(ON_MOUSE_UP, this._onMaxBet, this);
 		
-	_oMoneyText = new createjs.Text(TEXT_MONEY +"\n"+iMoney.toFixed(2),"bold 24px "+FONT_GAME, "#ffde00");
+	    _oMoneyText = new createjs.Text(TEXT_MONEY +"\n"+iMoney.toFixed(2),"bold 22px "+FONT_GAME, "#ffde00");
         _oMoneyText.x = 408;
         _oMoneyText.y = 14;
         _oMoneyText.textAlign = "center";
         s_oStage.addChild(_oMoneyText);
         
-        _oNumLinesText = new createjs.Text(NUM_PAYLINES ,"bold 30px "+FONT_GAME, "#ffffff");
+        _oNumLinesText = new createjs.Text(NUM_PAYLINES ,"bold 25px "+FONT_GAME, "#ffffff");
         _oNumLinesText.x =  530;
         _oNumLinesText.y = CANVAS_HEIGHT - 96;
         _oNumLinesText.textAlign = "center";
         _oNumLinesText.textBaseline = "alphabetic";
         s_oStage.addChild(_oNumLinesText);
         
-        _oCoinText = new createjs.Text(iCurBet.toFixed(2) ,"bold 30px "+FONT_GAME, "#ffffff");
+        _oCoinText = new createjs.Text(iCurBet.toFixed(2) ,"bold 25px "+FONT_GAME, "#ffffff");
         _oCoinText.x =  712;
         _oCoinText.y = CANVAS_HEIGHT - 96;
         _oCoinText.textAlign = "center";
         _oCoinText.textBaseline = "alphabetic";
         s_oStage.addChild(_oCoinText);
 
-        _oTotalBetText = new createjs.Text(TEXT_BET +": "+iTotBet.toFixed(2),"bold 30px "+FONT_GAME, "#ffffff");
+        _oTotalBetText = new createjs.Text(iTotBet.toFixed(2),"bold 25px "+FONT_GAME, "#ffffff");
         _oTotalBetText.x = 918;
         _oTotalBetText.y = CANVAS_HEIGHT - 96;
         _oTotalBetText.textAlign = "center";
@@ -285,7 +285,7 @@ function CInterface(iCurBet,iTotBet,iMoney){
     };
     
     this.refreshTotalBet = function(iTotBet){
-        _oTotalBetText.text = TEXT_BET +": "+iTotBet.toFixed(2);
+        _oTotalBetText.text = iTotBet.toFixed(2);
     };
     
     this.refreshNumLines = function(iLines){

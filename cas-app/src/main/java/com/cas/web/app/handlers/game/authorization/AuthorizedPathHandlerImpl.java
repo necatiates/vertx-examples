@@ -120,7 +120,7 @@ public class AuthorizedPathHandlerImpl implements AuthorizedPathHandler {
 
     @Override
     public void handle(RoutingContext context) {
-      if(this.role.equals("user")&& context.session().get("user") == null){
+      if(this.role.equals("user") && context.session().get("user") == null){
             this.doRedirect(context.response(),"/");
             return;
         }
