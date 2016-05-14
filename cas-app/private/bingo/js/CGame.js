@@ -314,7 +314,8 @@ function CGame(oData){
     this.onExit = function(){
         $(s_oMain).trigger("end_session");
         $(s_oMain).trigger("share_event",_iCurPlayerMoney);
-        
+
+        window.location = '/private/games.html';
         this.unload();
         s_oMain.gotoMenu();
     };
