@@ -753,7 +753,7 @@ function CGame(oData){
             async: false,
             success: function (data) {
                 if(data._accepted_) {
-                    _iMoney += iBonus;
+                    _iMoney += _iBonus;
                 }
                 _oInterface.refreshMoney(_iMoney);
             },

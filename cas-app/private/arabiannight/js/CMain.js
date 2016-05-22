@@ -76,6 +76,7 @@ function CMain(oData){
                 createjs.Sound.registerSound("./sounds/reel_bonus.ogg", "reel_bonus");
                 createjs.Sound.registerSound("./sounds/start_reel_bonus.ogg", "start_reel_bonus");
                 createjs.Sound.registerSound("./sounds/win_bonus.ogg", "win_bonus");
+                createjs.Sound.registerSound("./sounds/soundtrack.ogg", "soundtrack");
         }else{
                 createjs.Sound.alternateExtensions = ["ogg"];
                 createjs.Sound.addEventListener("fileload", createjs.proxy(this.soundLoaded, this));
@@ -90,8 +91,9 @@ function CMain(oData){
                 createjs.Sound.registerSound("./sounds/reel_bonus.mp3", "reel_bonus");
                 createjs.Sound.registerSound("./sounds/start_reel_bonus.mp3", "start_reel_bonus");
                 createjs.Sound.registerSound("./sounds/win_bonus.mp3", "win_bonus");
+                createjs.Sound.registerSound("./sounds/soundtrack.mp3", "soundtrack");
         }
-        RESOURCE_TO_LOAD += 9;
+        RESOURCE_TO_LOAD += 10;
         
     };
     
@@ -260,3 +262,4 @@ var s_oSpriteLibrary;
 var s_bLogged = false;
 var s_oMsgBox;
 var s_oGameSettings;
+var s_oSoundTrack = null;

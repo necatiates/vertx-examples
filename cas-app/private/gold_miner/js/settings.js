@@ -1,0 +1,33 @@
+var CANVAS_WIDTH = 1600;
+var CANVAS_HEIGHT = 768;
+
+var EDGEBOARD_X = 288;
+var EDGEBOARD_Y = 0;
+
+var FPS_TIME = 1000/24;
+var DISABLE_SOUND_MOBILE = false;
+
+var FONT_GAME = "Arial";
+
+var STATE_LOADING = 0;
+var STATE_MENU    = 1;
+var STATE_HELP    = 1;
+var STATE_GAME    = 3;
+
+var ON_MOUSE_DOWN = 0;
+var ON_MOUSE_UP   = 1;
+var ON_MOUSE_OVER = 2;
+var ON_MOUSE_OUT  = 3;
+var ON_DRAG_START = 4;
+var ON_DRAG_END   = 5;
+
+var HOOK_START_X = CANVAS_WIDTH/2;
+var HOOK_START_Y = 64;
+
+var STATE_HOOK_ROTATE    = 0;
+var STATE_HOOK_MOVE      = 1;
+var STATE_HOOK_MOVE_BACK = 2;
+var BET = [1,10,25];
+var MALUS_SCORE;
+var HOOK_SPEED;
+var LEVEL_TIME;

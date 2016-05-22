@@ -78,7 +78,7 @@ function _onSpin(iNumBettingLines,iCoin,iCurBet){
         minWin:0,
         bonus:true,
         freeSpin:true,
-        gameName : "ArabianNight",
+        gameName :window.location.pathname.split("/")[2],
         curFreeSpinCnt : s_aSession["bFreeSpin"]
     };
     var _iCurRes;

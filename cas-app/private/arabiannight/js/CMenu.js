@@ -20,6 +20,9 @@ function CMenu(){
             _oAudioToggle = new CToggle(_pStartPosAudio.x,_pStartPosAudio.y,oSprite,s_bAudioActive);
             _oAudioToggle.addEventListener(ON_MOUSE_UP, this._onAudioToggle, this);
         }
+        if(s_oSoundTrack === null){
+            s_oSoundTrack = createjs.Sound.play("soundtrack", { volume:SOUNDTRACK_VOLUME,loop:-1});
+        }
 
         _oFade = new createjs.Shape();
         _oFade.graphics.beginFill("black").drawRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);

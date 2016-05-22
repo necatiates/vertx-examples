@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Shambala Entartainment</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">        
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/typicons/typicons.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+		<link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+        <link rel="stylesheet" href="assets/css/flipclock.css">
+        <link rel="stylesheet" href="assets/css/responsive-tabs.css" />
+        <link rel="stylesheet" href="assets/css/lobibox.min.css">
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+
+    <body>
+
+        <!-- Loader -->
+    	<div class="loader">
+    		<div class="loader-img"></div>
+    	</div>
+
+        <!-- Top content -->
+        <div class="top-content">
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            <img src="assets/img/backgrounds/logo.png">
+                        </div>
+                        <div class="col-md-5 col-xs-12" style="padding: 0px">
+                            <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-sm-12"><a class="btn-link-2  menu-button" href="/private/games.html">Geri Dön</a></div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-md-3 col-xs-12 money-div">
+                                <div class="col-sm-6" id="user_container"><i class="fa fa-user" aria-hidden="true"></i></div>
+                                <div class="col-sm-6" id="money_container">-/-</div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="assets/img/backgrounds/line.png">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="tab-content">
+                                <div id="home" class="tab-pane fade in active">
+                                    <div class="top-big-link wow fadeInUp">
+                                        <div class="col-sm-12 col-md-12">
+                                                    <div class="">
+                                                        <div class="row">
+                                                            <div class="col-sm-12 col-md-12">
+                                                                <ul style="padding-left: 20px">
+                                                                    <li >Oyunları boyle oynanır</li>
+                                                                    <li >Soyle oynanır</li>
+                                                                    <li>Çok güzeldir</li>
+                                                                </ul>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                <!--<div class="tab-pane" id="astro_pay">
+                                                    <div class="col-sm-12 col-md-6 form-box">
+                                                        <div class="row">
+                                                            <ul>
+                                                                <li style="list-style-type: none;">Kredi Kartınızdaki Bilgileri Doldurup Gönder Tuşuna Basınız</li>
+
+                                                            </ul>
+                                                        </div>
+                                                        <div class="row" id="card_container">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 form-box" style="margin-top: 1%">
+                                                        <div class="form-bottom" style="padding-bottom: 20px;" >
+                                                            <form role="form" id="credit_card_form" action="/creditCardHandler" method="post">
+                                                                <input name="token" id="token" type="hidden" value="" />
+                                                                <div class="form-group">
+                                                                    <label class="sr-only" for="ccNo">Kart No</label>
+                                                                    <input id="ccNo" class="form-last-name form-control" type="text" value="" placeholder="Kart No" autocomplete="off" required />
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="sr-only" for="expMonth">Son Kullanma Tarihi Ay</label>
+                                                                    <input id="expMonth" type="text" size="7" placeholder="Son kullanma Tar. MM/YYYY" class="form-last-name form-control" required />
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="sr-only" for="card_name">İsim Soyisim</label>
+                                                                    <input id="card_name" type="text" placeholder="İsim Soyisim" class="form-last-name form-control" required />
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="sr-only" for="expMonth">Num</label>
+                                                                    <input id="cvv" type="text" size="4" placeholder="CCV" class="form-last-name form-control" required />
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="sr-only" for="amount_card">Tutar</label>
+                                                                    <input id="amount_card" name="amount_card" type="text" value="" autocomplete="off" placeholder="Tutar" class="form-last-name form-control" required />
+                                                                </div>
+                                                                <input type="hidden" >
+                                                                <button type="submit" class="btn right-btn" value="Submit Payment">Gönder</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="messages">
+                                                    <div class="col-sm-12 col-md-6 form-box">
+                                                        <div class="row">
+                                                            <ul>
+                                                                <li style="text-align: left">Paypal butonunu kullanarak PayPal'a login olunuz</li>
+                                                                <li style="text-align: left">Yatırmak istediğiniz tutarı girip Gönder'e basınız</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 form-box">
+                                                        <div class="row">
+                                                            <form id="checkout" method="post" action="/checkout">
+                                                                <div class="col-sm-12">
+                                                                    <div class="row">
+                                                                        <div id="paypal-container" class="col-sm-12"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="form-group">
+                                                                                <label class="sr-only" for="amount_paypal">Tutar</label>
+                                                                                <input id="amount_paypal" name="amount_paypal" type="text" value="" autocomplete="off" placeholder="Tutar" class="form-last-name form-control" required />
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <button type="submit" class="btn right-btn" value="Submit PayPal">Gönder</button>
+                                                                            </div>
+                                                                            <input type="hidden" name="payment_method_nonce" id="payment_method_nonce">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                </div>-->
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <footer style="
+    font-size: 11.67px;
+">
+            <div class="col-sm-12">
+                © 2012 Shambala Entertainment Corp.B.V. .. Risk oyunları içermektedir.Riskli oyunlar bağımlılık yapabilir..+18
+            </div>
+        </footer>
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+        <script src="assets/js/flipclock.min.js"></script>
+        <script src="assets/js/responsive-tabs.js"></script>
+        <script src="assets/js/card.js"></script>
+        <script src="assets/js/lobibox.min.js"></script>
+
+
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+        <!-- <script src="https://js.braintreegateway.com/js/braintree-2.22.1.min.js"></script>
+         <script type="text/javascript" src="https://www.2checkout.com/checkout/api/2co.min.js"></script>
+         <script type="text/javascript">
+
+             // Called when token created successfully.
+             var successCallback = function(data) {
+                 var myForm = document.getElementById('credit_card_form');
+
+                 // Set the token as the value for the token input
+                 $('#token').val(data.response.token.token)
+
+                 // IMPORTANT: Here we call `submit()` on the form element directly instead of using jQuery to prevent and infinite token request loop.
+                 myForm.submit();
+             };
+
+             // Called when token creation fails.
+             var errorCallback = function(data) {
+                 if (data.errorCode === 200) {
+                     // This error code indicates that the ajax call failed. We recommend that you retry the token request.
+                 } else {
+                     alert(data.errorMsg);
+                 }
+             };
+
+             var tokenRequest = function() {
+                 // Setup token request arguments
+                 var args = {
+                     sellerId: "901313892",
+                     publishableKey: "A388757B-A70C-4BB4-97B5-EA358339126E",
+                     ccNo: $("#ccNo").val().replace(/\s/g,"").trim(),
+                     cvv: $("#cvv").val().replace(/\s/g,"").trim(),
+                     expMonth: $("#expMonth").val().split("/")[0].replace(/\s/g,"").trim(),
+                     expYear: $("#expMonth").val().split("/")[1].replace(/\s/g,"").trim()
+                 };
+
+                 // Make the token request
+                 TCO.requestToken(successCallback, errorCallback, args);
+             };
+
+             $(function() {
+                 // Pull in the public encryption key for our environment
+                 TCO.loadPubKey('sandbox');
+
+                 $("#credit_card_form").submit(function(e) {
+                     // Call our token request function
+                     tokenRequest();
+
+                     // Prevent form from submitting
+                     return false;
+                 });
+             });
+
+         </script>-->
+        <script>
+            /*$.ajax({
+                url: '/tokengen',
+                type: 'get',
+                contentType: 'application/json',
+                dataType: 'json',
+                async: true,
+                success: function (data) {
+                    var clientToken = data.token;
+
+                    braintree.setup(clientToken, "custom", {
+                        paypal: {
+                            container: "paypal-container",
+                        },
+                        onPaymentMethodReceived: function (obj) {
+                            $('#payment_method_nonce').val(obj.nonce);
+                            console.log(obj);
+                        }
+                    });
+                }
+            });*/
+            // We generated a client token for you so you can test out this code
+            // immediately. In a production-ready integration, you will need to
+            // generate a client token on your server (see section below).
+
+        </script>
+        <script>
+            $(document).ready(function(){
+                $(".nav-tabs a").click(function(){
+                    $(this).tab('show');
+                });
+                $.ajax({
+                    url: '/bet/info',
+                    type: 'get',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    async: true,
+                    success: function (data) {
+                        $('#money_container').html("₺ " + data.cash.toFixed(2) );
+                        $('#user_container').append("  " +  data.username);
+                    }
+                });
+               /* var card = new Card({
+                    // a selector or DOM element for the form where users will
+                    // be entering their information
+                    form: document.getElementById('credit_card_form'), // *required*
+                    // a selector or DOM element for the container
+                    // where you want the card to appear
+                    container: '#card_container', // *required*
+
+                    formSelectors: {
+                        numberInput: 'input#ccNo', // optional — default input[name="number"]
+                        expiryInput: 'input#expMonth', // optional — default input[name="expiry"]
+                        cvcInput: 'input#cvv', // optional — default input[name="cvc"]
+                        nameInput: 'input#card_name' // optional - defaults input[name="name"]
+                    },
+
+                    width: 200, // optional — default 350px
+                    formatting: true, // optional - default true
+
+                    // Strings for translation - optional
+                    messages: {
+                        validDate: 'Son\nKull', // optional - default 'valid\nthru'
+                        monthYear: 'mm/yyyy', // optional - default 'month/year'
+                    },
+
+                    // Default placeholders for rendered fields - optional
+                    placeholders: {
+                        number: '•••• •••• •••• ••••',
+                        name: 'İsim Soyisim',
+                        expiry: '••/••••',
+                        cvc: '•••'
+                    },
+
+                    // if true, will log helpful messages for setting up Card
+                    debug: false // optional - default false
+                });*/
+            })
+            $(function() {
+                // Pull in the public encryption key for our environment
+
+                $("#transfer_demand_form").submit(function(e) {
+                    // Call our token request function
+                    transferRequest();
+
+                    // Prevent form from submitting
+                    return false;
+                });
+            });
+            function transferRequest(){
+                var transferEntry = {
+                    bank : $('#bank_name').val(),
+                    name_surname : $('#name_surname').val(),
+                    amount : $('#amount').val()
+                };
+                $.ajax({
+                    url: '/transfer/checkin',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(transferEntry),
+                    dataType: 'json',
+                    async: true,
+                    success: function (data) {
+                        Lobibox.alert('success', {
+                            title           : 'Başarılı',
+                            msg: "Para yatırma talebiniz alınmıştır. En kısa zamanda aktif edilecektir."
+                        });
+                        $('#bank_name').val("Akbank")
+                        $('#name_surname').val("");
+                        $('#tc_id').val("");
+                        $('#amount').val("");
+                    },
+                });
+            }
+        </script>
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/570824141417d79610fb40ab/default';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+            })();
+        </script>
+        <!--End of Tawk.to Script-->
+
+    </body>
+
+</html>

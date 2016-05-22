@@ -52,18 +52,18 @@ function CInterface(iMoney){
         _oRebetBut = new CTextButton(632,CANVAS_HEIGHT -30,oSprite,TEXT_REBET,FONT_GAME_1,"#ffffff",14,s_oStage);
         _oRebetBut.addEventListener(ON_MOUSE_UP, this._onButRebetRelease, this);
         
-        _oDisplayText1 = new createjs.Text("","bold 24px "+FONT_GAME_2, "#ffde00");
+        _oDisplayText1 = new createjs.Text("","bold 12px "+FONT_GAME_2, "#ffde00");
         _oDisplayText1.x = 412;
         _oDisplayText1.y = 20;
-	_oDisplayText1.lineWidth = 150;
+	    _oDisplayText1.lineWidth = 150;
         _oDisplayText1.textAlign = "left";
         _oDisplayText1.lineHeight = 20;
         s_oStage.addChild(_oDisplayText1);
         
-        _oDisplayText2 = new createjs.Text("","bold 18px "+FONT_GAME_2, "#ffde00");
+        _oDisplayText2 = new createjs.Text("","bold 15px "+FONT_GAME_2, "#ffde00");
         _oDisplayText2.x = 412;
         _oDisplayText2.y = 70;
-	_oDisplayText1.lineWidth = 140;
+	    _oDisplayText1.lineWidth = 140;
         _oDisplayText2.textAlign = "left";
         _oDisplayText2.lineHeight = 20;
         s_oStage.addChild(_oDisplayText2);
