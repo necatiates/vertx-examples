@@ -38,6 +38,8 @@ public class BlackJackBetAcceptHandler {
         BlackJackBet blackJackBet = (BlackJackBet) entityManager.get(BlackJackBet.class,strachResult.getId());
         blackJackBet.setTotalWin(strachResult.getTotalWin());
         blackJackBet.setUpdate_time(System.currentTimeMillis());
+        blackJackBet.setCashBalanceAfterPlay(cash.getCash());
+        blackJackBet.setUserBalanceAfterPlay(user.getCash());
 
         entityManager.merge(blackJackBet);
         entityManager.getTransaction().commit();

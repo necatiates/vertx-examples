@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
-  <title>BonBon Admin</title>
+  <title>Shambala Admin</title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width">        
@@ -16,7 +16,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
   <div id="main-wrapper">
     <div class="navbar navbar-inverse" role="navigation">
       <div class="navbar-header">
-        <div class="logo"><h1>BonBon Casino Yönetim Paneli</h1></div>
+        <div class="logo"><h1>Shambala Yönetim Paneli</h1></div>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -48,7 +48,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                 <ul class="nav nav-tabs" role="tablist" id="templatemo-tabs">
                   <li class="active"><a href="#slots" role="tab" data-toggle="tab">Slots</a></li>
                   <li><a href="#strachs" role="tab" data-toggle="tab">Strach</a></li>
-                  <li><a href="#blackjack" role="tab" data-toggle="tab">21</a></li>
+                  <li><a href="#blackjack" role="tab" data-toggle="tab">BlackJack</a></li>
                     <li><a href="#poker" role="tab" data-toggle="tab">Poker</a></li>
                 </ul>
 
@@ -76,11 +76,13 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                         <th>Satır</th>
                         <th>Min Kazanc</th>
                         <th>Kazanılan Satır</th>
-                        <th>Kazanma Durumu</th>
+                        <th>Kazandı</th>
                         <th>Toplm Kaz.</th>
                         <th>Sebep</th>
                         <th>Oyun Adı</th>
                         <th>Kulllanıcı</th>
+                        <th>Kullanıcı Bak.</th>
+                        <th>Kasa Bak.</th>
                         <th>Tarih</th>
                       </tr>
                       </thead>
@@ -107,11 +109,14 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Bet</th>
-                        <th>Win result</th>
-                        <th>Win total</th>
-                          <th>Reason</th>
+                        <th>Yatırılan</th>
+                        <th>Kazandı</th>
+                        <th>Toplam Kazanç</th>
+                        <th>Sebep</th>
                         <th>Kulllanıcı</th>
+                        <th>Oyun</th>
+                        <th>Kulllanıcı Bakiye</th>
+                        <th>Kasa Bakiye</th>
                         <th>Tarih</th>
                       </tr>
                       </thead>
@@ -138,11 +143,13 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                           <thead>
                           <tr>
                               <th>ID</th>
-                              <th>Bet</th>
-                              <th>Win result</th>
-                              <th>Win total</th>
+                              <th>Yatırılan</th>
+                              <th>Kazandı</th>
+                              <th>Toplam Kazanç</th>
                               <th>Reason</th>
                               <th>Kulllanıcı</th>
+                              <th>Kullanıcı Bakiye</th>
+                              <th>Kasa Bakiye</th>
                               <th>Tarih</th>
                           </tr>
                           </thead>
@@ -169,12 +176,14 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                           <thead>
                           <tr>
                               <th>ID</th>
-                              <th>Bet</th>
+                              <th>Yatırılan</th>
                               <th>Seviye</th>
-                              <th>Win result</th>
-                              <th>Win total</th>
-                              <th>Reason</th>
+                              <th>Kazandı</th>
+                              <th>Toplam Kazanç</th>
+                              <th>Sebep</th>
                               <th>Kulllanıcı</th>
+                              <th>Kulllanıcı Bakiye</th>
+                              <th>Kasa Bakiye</th>
                               <th>Tarih</th>
                           </tr>
                           </thead>
@@ -257,6 +266,8 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       '<td>' + data[i].loseCause + '</td>' +
                       '<td>' + data[i].gameName + '</td>' +
                       '<td>' + data[i].username + '</td>' +
+                      '<td>' + data[i].userBalanceAfterPlay + '</td>' +
+                      '<td>' + data[i].cashBalanceAfterPlay + '</td>' +
                       '<td>' + data[i].formattedDate  + '</td></tr>';
               $('#slots_table tbody').append(html);
             }
@@ -287,14 +298,16 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
           success: function (data) {
             var date;
             for (var i = 0; i < data.length; i++) {
-              date = new Date(data[i].update_time);
               html = '<tr><td>' + data[i].id + '</td> ' +
                       '<td>' + data[i].bet + '</td>' +
                       '<td>' + data[i].winResult + '</td>' +
                       '<td>' + data[i].totalWin + '</td>' +
                       '<td>' + data[i].loseCause + '</td>' +
                       '<td>' + data[i].username + '</td>' +
-                      '<td>' + date.toString().substring(4,24) + '</td></tr>';
+                      '<td>' + data[i].gameName + '</td>' +
+                      '<td>' + data[i].userBalanceAfterPlay + '</td>' +
+                      '<td>' + data[i].cashBalanceAfterPlay + '</td>' +
+                      '<td>' + data[i].formattedDate + '</td></tr>';
               $('#strachs_table tbody').append(html);
             }
           },
@@ -331,7 +344,9 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                               '<td>' + data[i].totalWin + '</td>' +
                               '<td>' + data[i].loseCause + '</td>' +
                               '<td>' + data[i].username + '</td>' +
-                              '<td>' + date.toString().substring(4,24) + '</td></tr>';
+                              '<td>' + data[i].userBalanceAfterPlay + '</td>' +
+                              '<td>' + data[i].cashBalanceAfterPlay + '</td>' +
+                              '<td>' + data[i].formattedDate + '</td></tr>';
                       $('#blackjack_table tbody').append(html);
                   }
               },
@@ -361,7 +376,9 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                               '<td>' + data[i].totalWin + '</td>' +
                               '<td>' + data[i].loseCause + '</td>' +
                               '<td>' + data[i].username + '</td>' +
-                              '<td>' + date.toString().substring(4,24) + '</td></tr>';
+                              '<td>' + data[i].userBalanceAfterPlay + '</td>' +
+                              '<td>' + data[i].cashBalanceAfterPlay + '</td>' +
+                              '<td>' + data[i].formattedDate + '</td></tr>';
                       $('#poker_table tbody').append(html);
                   }
               },

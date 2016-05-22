@@ -515,7 +515,7 @@ function CGame(oData){
             minWin:MIN_WIN,
             bonus:false,
             freeSpin:false,
-            gameName : "Fruit"
+            gameName : window.location.pathname.split("/")[2]
         };
         $.ajax({
             url: '/bet/slotmachine',

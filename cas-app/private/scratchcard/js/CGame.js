@@ -211,7 +211,8 @@ function CGame(oData){
         var MIN_WIN = 1 * _iCurBet;
         var bet = {
             bet:_iCurBet,
-            minWin:MIN_WIN
+            minWin:MIN_WIN,
+            gameName :"test "
         };
         $.ajax({
             url: '/bet/strach',

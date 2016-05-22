@@ -32,6 +32,9 @@
         <mapping class="com.cas.spring.entity.TransferCheckout"/>
         <mapping class="com.cas.spring.entity.GlobalSettings"/>
         <mapping class="com.cas.spring.entity.BingoBet"/>
+        <mapping class="com.cas.spring.entity.Admin"/>
+        <mapping class="com.cas.spring.entity.RunningBet"/>
+        <mapping class="com.cas.spring.entity.MinerBet"/>
 
 
         <!-- Per-class L2 cache settings. -->

@@ -16,6 +16,7 @@
 
 package com.cas.web.app.handlers.game.authorization;
 
+import com.cas.StaticDefinitions;
 import io.vertx.core.*;
 import io.vertx.core.file.FileProps;
 import io.vertx.core.file.FileSystem;
@@ -120,8 +121,13 @@ public class AuthorizedPathHandlerImpl implements AuthorizedPathHandler {
 
     @Override
     public void handle(RoutingContext context) {
-      if(this.role.equals("user") && context.session().get("user") == null){
-            this.doRedirect(context.response(),"/");
+        if (this.role.equals(StaticDefinitions.USER_SESSION_KEY) && context.session().get(StaticDefinitions.USER_SESSION_KEY) == null) {
+            this.doRedirect(context.response(), "/");
+            return;
+        }else if(this.role.equals(StaticDefinitions.ADMIN_SESSION_KEY)
+                && context.session().get(StaticDefinitions.ADMIN_SESSION_KEY) == null
+                && !context.normalisedPath().equals("/casadmin/login.html")){
+            this.doRedirect(context.response(), "/casadmin/login.html");
             return;
         }
         HttpServerRequest request = context.request();
@@ -657,6 +663,7 @@ public class AuthorizedPathHandlerImpl implements AuthorizedPathHandler {
         }
 
     }
+
     private void doRedirect(HttpServerResponse response, String url) {
         response.putHeader("location", url).setStatusCode(302).end();
     }

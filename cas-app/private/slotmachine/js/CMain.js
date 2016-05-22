@@ -70,6 +70,7 @@ function CMain(oData){
                 createjs.Sound.registerSound("./sounds/reels.ogg", "reels");
                 createjs.Sound.registerSound("./sounds/reel_stop.ogg", "reel_stop",6);
                 createjs.Sound.registerSound("./sounds/start_reel.ogg", "start_reel",6);
+                createjs.Sound.registerSound("./sounds/soundtrack.ogg", "soundtrack");
         }else{
                 createjs.Sound.alternateExtensions = ["ogg"];
                 createjs.Sound.addEventListener("fileload", createjs.proxy(this.soundLoaded, this));
@@ -79,8 +80,9 @@ function CMain(oData){
                 createjs.Sound.registerSound("./sounds/reels.mp3", "reels");
                 createjs.Sound.registerSound("./sounds/reel_stop.mp3", "reel_stop",6);
                 createjs.Sound.registerSound("./sounds/start_reel.mp3", "start_reel",6);
+                createjs.Sound.registerSound("./sounds/soundtrack.mp3", "soundtrack");
         }
-        RESOURCE_TO_LOAD += 5;
+        RESOURCE_TO_LOAD += 6;
         
     };
     
@@ -207,3 +209,4 @@ var s_oDrawLayer;
 var s_oStage;
 var s_oMain;
 var s_oSpriteLibrary;
+var s_oSoundTrack = null;

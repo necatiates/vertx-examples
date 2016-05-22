@@ -7,6 +7,7 @@ var EDGEBOARD_Y = 0;
 var FPS_TIME      = 1000/24;
 var DISABLE_SOUND_MOBILE = false;
 var FONT_GAME = "Tahoma";
+var SOUNDTRACK_VOLUME = 0.5;
 
 var STATE_LOADING = 0;
 var STATE_MENU    = 1;

@@ -1,14 +1,11 @@
 package com.cas.web.app.handlers.game.authorization;
 
-import io.vertx.codegen.annotations.Fluent;
-import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
 /**
  * Created by tolga on 13.03.2016.
  */
-@VertxGen
 
 public interface CasFormLoginHandler extends Handler<RoutingContext> {
     String DEFAULT_USERNAME_PARAM = "username";
@@ -23,15 +20,14 @@ public interface CasFormLoginHandler extends Handler<RoutingContext> {
         return new CasFormLoginHandlerImpl(usernameParam, passwordParam, returnURLParam, directLoggedInOKURL);
     }
 
-    @Fluent
+
     CasFormLoginHandler setUsernameParam(String var1);
 
-    @Fluent
     CasFormLoginHandler setPasswordParam(String var1);
 
-    @Fluent
+
     CasFormLoginHandler setReturnURLParam(String var1);
 
-    @Fluent
+
     CasFormLoginHandler setDirectLoggedInOKURL(String var1);
 }

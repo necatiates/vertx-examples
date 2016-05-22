@@ -1,15 +1,11 @@
 package com.cas.web.app.handlers.game.authorization;
 
-import io.vertx.codegen.annotations.Fluent;
-import io.vertx.codegen.annotations.GenIgnore;
-import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
 /**
  * Created by tolga on 18.03.2016.
  */
-@VertxGen
 public interface AuthorizedPathHandler extends Handler<RoutingContext>{
 
         String DEFAULT_WEB_ROOT = "webroot";
@@ -37,56 +33,56 @@ public interface AuthorizedPathHandler extends Handler<RoutingContext>{
             return new AuthorizedPathHandlerImpl(root, (ClassLoader)null);
         }
 
-        @GenIgnore
+
         static  AuthorizedPathHandler create(String root, ClassLoader classLoader) {
             return new AuthorizedPathHandlerImpl(root, classLoader);
         }
 
-        @Fluent
+
         AuthorizedPathHandler setAllowRootFileSystemAccess(boolean var1);
 
-        @Fluent
+
         AuthorizedPathHandler setWebRoot(String var1);
 
-        @Fluent
+
         AuthorizedPathHandler setFilesReadOnly(boolean var1);
 
-        @Fluent
+
         AuthorizedPathHandler setMaxAgeSeconds(long var1);
 
-        @Fluent
+
         AuthorizedPathHandler setCachingEnabled(boolean var1);
 
-        @Fluent
+
         AuthorizedPathHandler setDirectoryListing(boolean var1);
 
-        @Fluent
+
         AuthorizedPathHandler setIncludeHidden(boolean var1);
 
-        @Fluent
+
         AuthorizedPathHandler setCacheEntryTimeout(long var1);
 
-        @Fluent
+
         AuthorizedPathHandler setIndexPage(String var1);
 
-        @Fluent
+
         AuthorizedPathHandler setMaxCacheSize(int var1);
 
-        @Fluent
+
         AuthorizedPathHandler setAlwaysAsyncFS(boolean var1);
 
-        @Fluent
+
         AuthorizedPathHandler setEnableFSTuning(boolean var1);
 
-        @Fluent
+
         AuthorizedPathHandler setMaxAvgServeTimeNs(long var1);
 
-        @Fluent
+
         AuthorizedPathHandler setDirectoryTemplate(String var1);
 
-        @Fluent
+
         AuthorizedPathHandler setEnableRangeSupport(boolean var1);
 
-        @Fluent
+
         AuthorizedPathHandler setRole(String role);
     }

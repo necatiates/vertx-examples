@@ -26,7 +26,11 @@ function CMenu(){
         
         s_oStage.addChild(_oFade);
         
-        createjs.Tween.get(_oFade).to({alpha:0}, 400).call(function(){_oFade.visible = false;});  
+        createjs.Tween.get(_oFade).to({alpha:0}, 400).call(function(){_oFade.visible = false;});
+
+        if(s_oSoundTrack === null){
+            s_oSoundTrack = createjs.Sound.play("soundtrack", { volume:SOUNDTRACK_VOLUME,loop:-1});
+        }
         
         this.refreshButtonPos (s_iOffsetX,s_iOffsetY);
     };

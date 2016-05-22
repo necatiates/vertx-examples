@@ -1,6 +1,9 @@
 package com.cas.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by tolga on 12.03.2016.
@@ -32,6 +35,16 @@ public class BlackJackBet implements Bet{
 
     @Column
     String username;
+
+
+    @Column
+    String gameName;
+
+    @Column
+    Double userBalanceAfterPlay;
+
+    @Column
+    Double cashBalanceAfterPlay;
 
     public String getUsername() {
         return username;
@@ -105,5 +118,36 @@ public class BlackJackBet implements Bet{
     @Override
     public Boolean hasBonus() {
         return false;
+    }
+
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    public Double getUserBalanceAfterPlay() {
+        return userBalanceAfterPlay;
+    }
+
+    public void setUserBalanceAfterPlay(Double userBalanceAfterPlay) {
+        this.userBalanceAfterPlay = userBalanceAfterPlay;
+    }
+
+    public Double getCashBalanceAfterPlay() {
+        return cashBalanceAfterPlay;
+    }
+
+    public void setCashBalanceAfterPlay(Double cashBalanceAfterPlay) {
+        this.cashBalanceAfterPlay = cashBalanceAfterPlay;
+    }
+
+    @JsonProperty("formattedDate")
+    public String getUppercaseUsername() {
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dt.format(update_time);
     }
 }

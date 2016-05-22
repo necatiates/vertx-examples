@@ -706,7 +706,7 @@ function CGame(oData){
             minWin:MIN_WIN,
             bonus:true,
             freeSpin:false,
-            gameName : "SpaceAdventure"
+            gameName :window.location.pathname.split("/")[2]
         };
         _iCurRes = null;
         $.ajax({

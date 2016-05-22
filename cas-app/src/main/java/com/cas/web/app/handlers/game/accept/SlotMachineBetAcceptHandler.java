@@ -37,6 +37,8 @@ public class SlotMachineBetAcceptHandler {
         storedSlotBet.setTotalWin(slotBet.getTotalWin());
         storedSlotBet.setNumLineWin(slotBet.getNumLineWin());
         storedSlotBet.setUpdate_time(System.currentTimeMillis());
+        storedSlotBet.setUserBalanceAfterPlay(user.getCash());
+        storedSlotBet.setCashBalanceAfterPlay(cash.getCash());
 
         entityManager.merge(storedSlotBet);
         entityManager.getTransaction().commit();

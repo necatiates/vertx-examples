@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
@@ -28,12 +29,17 @@ public class StrachBetHandler {
         Cash cash = (Cash) entityManager.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
         User user = (User) entityManager.get(User.class,((User)routingContext.session().get(StaticDefinitions.USER_SESSION_KEY)).getUsername());
         strachBet.setUsername(user.getUsername());
+        strachBet.setUpdate_time(System.currentTimeMillis());
 
         JsonObject response = BetDesicionHelper.invoke(strachBet,entityManager);
         entityManager.persist(strachBet);
 
         cash.setCash(cash.getCash() + strachBet.getBet());
         user.setCash(user.getCash() - strachBet.getBet());
+
+        strachBet.setCashBalanceAfterPlay(cash.getCash());
+        strachBet.setUserBalanceAfterPlay(user.getCash());
+
         entityManager.getTransaction().commit();
         response.put("id",strachBet.getId());
 
@@ -48,6 +54,8 @@ public class StrachBetHandler {
         Criteria criteria = entityManager.createCriteria(StrachBet.class);
         criteria.setFirstResult(0 + (strachHistoryRequest.getPage() - 1) * 25);
         criteria.setMaxResults(25 + (strachHistoryRequest.getPage() - 1) * 25);
+        criteria.addOrder(Order.desc("update_time"));
+
         if(strachHistoryRequest.getUsername() != null && !strachHistoryRequest.getUsername().equals("")) {
             criteria.add(Restrictions.eq("username",strachHistoryRequest.getUsername()));
         }

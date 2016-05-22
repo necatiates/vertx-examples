@@ -37,6 +37,8 @@ public class SlotMachineBetHandler {
         if(slotBet.getCurFreeSpinCnt() == 0) {
             cash.setCash(cash.getCash() + slotBet.getBet() * slotBet.getLineCount());
             user.setCash(user.getCash() - slotBet.getBet() * slotBet.getLineCount());
+            slotBet.setCashBalanceAfterPlay(cash.getCash());
+            slotBet.setUserBalanceAfterPlay(user.getCash());
         }
         entityManager.getTransaction().commit();
         response.put("id",slotBet.getId());

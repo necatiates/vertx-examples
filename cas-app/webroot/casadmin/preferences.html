@@ -1,143 +1,192 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
-  <title>Dashboard Preferences, Free Admin Template</title>
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="viewport" content="width=device-width">        
-  <link rel="stylesheet" href="css/templatemo_main.css">
-<!-- 
-Dashboard Template 
-http://www.templatemo.com/preview/templatemo_415_dashboard
--->
+    <meta charset="utf-8">
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+    <title>Shambala Ayarlar</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/templatemo_main.css">
+    <!--
+    Dashboard Template
+    http://www.templatemo.com/preview/templatemo_415_dashboard
+    -->
 </head>
 <body>
-  <div id="main-wrapper">
+<div id="main-wrapper">
     <div class="navbar navbar-inverse" role="navigation">
-      <div class="navbar-header">
-        <div class="logo"><h1>Dashboard - Admin Template</h1></div>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button> 
-      </div>   
+        <div class="navbar-header">
+            <div class="logo"><h1>Shambala</h1></div>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
     </div>
     <div class="template-page-wrapper">
-      <div class="navbar-collapse collapse templatemo-sidebar">
-        <ul class="templatemo-sidebar-menu">
-          <li><a href="index.html"><i class="fa fa-home"></i>Kasa</a></li>
-          <li><a href="data-visualization.html"><i class="fa fa-cubes"></i>Oyunlar</a></li>
-          <!--<li><a href="maps.html"><i class="fa fa-map-marker"></i><span class="badge pull-right">42</span>Maps</a></li>-->
-          <li><a href="tables.html"><i class="fa fa-users"></i>Kullanıcılar</a></li>
-          <li><a href="havale_giden.html"><i class="fa fa-bank"></i>Para Çekme İstekleri</a></li>
-          <li><a href="havale_gelen.html"><i class="fa fa-bank"></i>Para Yatırma İstekleri</a></li>
-          <li class="active"><a href="preferences.html"><i class="fa fa-cog"></i>Ayarlar</a></li>
-          <li><a href="javascript:;" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-sign-out"></i>Sign Out</a></li>
-        </ul>
-      </div><!--/.navbar-collapse -->
+        <div class="navbar-collapse collapse templatemo-sidebar">
+            <ul class="templatemo-sidebar-menu">
+                <li><a href="index.html"><i class="fa fa-home"></i>Kasa</a></li>
+                <li><a href="data-visualization.html"><i class="fa fa-cubes"></i>Oyunlar</a></li>
+                <!--<li><a href="maps.html"><i class="fa fa-map-marker"></i><span class="badge pull-right">42</span>Maps</a></li>-->
+                <li><a href="tables.html"><i class="fa fa-users"></i>Kullanıcılar</a></li>
+                <li><a href="havale_giden.html"><i class="fa fa-bank"></i>Para Çekme İstekleri</a></li>
+                <li><a href="havale_gelen.html"><i class="fa fa-bank"></i>Para Yatırma İstekleri</a></li>
+                <li class="active"><a href="preferences.html"><i class="fa fa-cog"></i>Ayarlar</a></li>
+                <li><a href="javascript:;" data-toggle="modal" data-target="#confirmModal"><i
+                        class="fa fa-sign-out"></i>Sign Out</a></li>
+            </ul>
+        </div><!--/.navbar-collapse -->
 
-      <div class="templatemo-content-wrapper">
-        <div class="templatemo-content">
-          <h1>Ayarlar</h1>
-          <div class="row">
-            <div class="col-md-12">
-              <form role="form" id="templatemo-preferences-form">
+        <div class="templatemo-content-wrapper">
+            <div class="templatemo-content">
+                <h1>Ayarlar</h1>
                 <div class="row">
-                  <div class="col-md-4 margin-bottom-15">
-                    <label for="game_win_perc" class="control-label">Oyun kazanma yüzdesi</label>
-                    <input type="text" class="form-control" id="game_win_perc">
-                  </div>
-                  <div class="col-md-4 margin-bottom-15">
-                    <label for="free_spin_perc" class="control-label">Free Spin Kazanma Yüzdesi</label>
-                    <input type="text" class="form-control" id="free_spin_perc">
-                  </div>
-                  <div class="col-md-4 margin-bottom-15">
-                    <label for="bonus_perc" class="control-label">Bonus Kazanma Yüzdesi</label>
-                    <input type="text" class="form-control" id="bonus_perc" >
-                  </div>
+                    <div class="col-md-12">
+                        <div role="form">
+                            <div class="row">
+                                <div class="col-md-4 margin-bottom-15">
+                                    <label for="game_win_perc" class="control-label">Oyun kazanma yüzdesi</label>
+                                    <input type="text" class="form-control" id="game_win_perc">
+                                </div>
+                                <div class="col-md-4 margin-bottom-15">
+                                    <label for="free_spin_perc" class="control-label">Free Spin Kazanma Yüzdesi</label>
+                                    <input type="text" class="form-control" id="free_spin_perc">
+                                </div>
+                                <div class="col-md-4 margin-bottom-15">
+                                    <label for="bonus_perc" class="control-label">Bonus Kazanma Yüzdesi</label>
+                                    <input type="text" class="form-control" id="bonus_perc">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary"
+                                            onclick="updateSettings('WinPercentage',$('#game_win_perc').val());">
+                                        Güncelle
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary"
+                                            onclick="updateSettings('FreeSpinPercentage',$('#free_spin_perc').val());">
+                                        Güncelle
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary"
+                                            onclick="updateSettings('BonusPercentage',$('#bonus_perc').val());">Güncelle
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row"  style="margin-top: 20px">
+                                <div class="col-md-4 margin-bottom-15">
+                                    <label for="bonus_perc" class="control-label">Bonus Dağıtım Yüzdesi</label>
+                                    <input type="text" class="form-control" id="bonus_giveaway_perc">
+                                </div>
+                                <div class="col-md-4 margin-bottom-15">
+                                    <label for="absolute_limit" class="control-label">Mutlak Değer</label>
+                                    <input type="text" class="form-control" id="absolute_limit">
+                                </div>
+                                <div class="col-md-4 margin-bottom-15">
+                                    <label for="cash_giveaway" class="control-label">Kasa Risk Oranı</label>
+                                    <input type="text" class="form-control" id="cash_giveaway">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary"
+                                            onclick="updateSettings('BonusGiveAwayPercentage',$('#bonus_giveaway_perc').val());">Güncelle
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary"
+                                            onclick="updateSettings('AbsoluteStopValue',$('#absolute_limit').val());">Güncelle
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary"
+                                            onclick="updateSettings('CashGiveAwayPercentage',$('#cash_giveaway').val());">Güncelle
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary" onclick="updateSettings('WinPercentage',$('#game_win_perc').val());">Güncelle</button>
-                  </div>
-                  <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary" onclick="updateSettings('FreeSpinPercentage',$('#free_spin_perc').val());">Güncelle</button>
-                  </div>
-                  <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary" onclick="updateSettings('BonusPercentage',$('#bonus_perc').val());">Güncelle</button>
-                  </div>
-                </div>
-                </form>
-              </div>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Are you sure you want to sign out?</h4>
-          </div>
-          <div class="modal-footer">
-            <a href="sign-in.html" class="btn btn-primary">Yes</a>
-            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-          </div>
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Are you sure you want to sign out?</h4>
+                </div>
+                <div class="modal-footer">
+                    <a href="sign-in.html" class="btn btn-primary">Yes</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <footer class="templatemo-footer">
-      <div class="templatemo-copyright">
-        <p>Copyright &copy; 2016 Vartog Games <!-- Credit: www.templatemo.com --></p>
-      </div>
+        <div class="templatemo-copyright">
+            <p>Copyright &copy; 2016 Vartog Games <!-- Credit: www.templatemo.com --></p>
+        </div>
     </footer>
-  </div>
 </div>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/templatemo_script.js"></script>
-  <script>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/templatemo_script.js"></script>
+<script>
     $.ajax({
-      url: '/admin/settings',
-      type: 'get',
-      async: false,
-      success: function (data) {
-        for(var i = 0 ; i < data.length ; i++){
-          if(data[i].name == "WinPercentage"){
-            $('#game_win_perc').val(data[i].value);
-          }else if(data[i].name == "FreeSpinPercentage"){
-            $('#free_spin_perc').val(data[i].value);
-          }else if(data[i].name == "BonusPercentage"){
-            $('#bonus_perc').val(data[i].value);
-          }
-        }
-        console.log(data);
-      },
-    });
-    function updateSettings(name,value){
-      var settings = new Object();
-      settings.name = name;
-      settings.value = value;
-      $.ajax({
         url: '/admin/settings',
-        type: 'post',
-        contentType: 'application/json',
-        data: JSON.stringify(settings),
-        dataType: 'json',
+        type: 'get',
         async: false,
         success: function (data) {
-          alert('ok')
-          console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].name == "WinPercentage") {
+                    $('#game_win_perc').val(data[i].value);
+                } else if (data[i].name == "FreeSpinPercentage") {
+                    $('#free_spin_perc').val(data[i].value);
+                } else if (data[i].name == "BonusPercentage") {
+                    $('#bonus_perc').val(data[i].value);
+                } else if (data[i].name == "BonusGiveAwayPercentage") {
+                    $('#bonus_giveaway_perc').val(data[i].value);
+                }else if (data[i].name == "AbsoluteStopValue") {
+                    $('#absolute_limit').val(data[i].value);
+                }else if (data[i].name == "CashGiveAwayPercentage") {
+                    $('#cash_giveaway').val(data[i].value);
+                }
+            }
+            console.log(data);
         },
-      });
+    });
+    function updateSettings(name, value) {
+        var settings = new Object();
+        settings.name = name;
+        settings.value = value;
+        $.ajax({
+            url: '/admin/settings',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(settings),
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                alert('ok')
+                console.log(data);
+            },
+        });
     }
-  </script>
+</script>
 </body>
 </html>

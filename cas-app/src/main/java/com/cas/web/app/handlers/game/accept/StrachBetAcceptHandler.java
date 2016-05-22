@@ -38,6 +38,9 @@ public class StrachBetAcceptHandler {
         storedStrach.setTotalWin(strachResult.getTotalWin());
         storedStrach.setUpdate_time(System.currentTimeMillis());
 
+        storedStrach.setCashBalanceAfterPlay(cash.getCash());
+        storedStrach.setUserBalanceAfterPlay(user.getCash());
+
         entityManager.merge(storedStrach);
         entityManager.getTransaction().commit();
         entityManager.close();

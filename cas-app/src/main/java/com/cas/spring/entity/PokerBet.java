@@ -1,6 +1,9 @@
 package com.cas.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by tolga on 26.03.2016.
@@ -32,6 +35,12 @@ public class PokerBet implements Bet{
 
     @Column
     String loseCause;
+
+    @Column
+    Double userBalanceAfterPlay;
+
+    @Column
+    Double cashBalanceAfterPlay;
 
     public double getBet() {
         return bet;
@@ -111,5 +120,26 @@ public class PokerBet implements Bet{
     @Override
     public Boolean hasBonus() {
         return false;
+    }
+
+    public Double getUserBalanceAfterPlay() {
+        return userBalanceAfterPlay;
+    }
+
+    public void setUserBalanceAfterPlay(Double userBalanceAfterPlay) {
+        this.userBalanceAfterPlay = userBalanceAfterPlay;
+    }
+
+    public Double getCashBalanceAfterPlay() {
+        return cashBalanceAfterPlay;
+    }
+
+    public void setCashBalanceAfterPlay(Double cashBalanceAfterPlay) {
+        this.cashBalanceAfterPlay = cashBalanceAfterPlay;
+    }
+    @JsonProperty("formattedDate")
+    public String getUppercaseUsername() {
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dt.format(update_time);
     }
 }

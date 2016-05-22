@@ -55,7 +55,13 @@ public class SlotBet implements Bet{
     String gameName;
 
     @Column
-    int curFreeSpinCnt;
+    Integer curFreeSpinCnt;
+
+    @Column
+    Double userBalanceAfterPlay;
+
+    @Column
+    Double cashBalanceAfterPlay;
 
     public String getUsername() {
         return username;
@@ -177,7 +183,7 @@ public class SlotBet implements Bet{
 
     @JsonProperty("formattedDate")
     public String getUppercaseUsername() {
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dt.format(update_time);
     }
 
@@ -190,10 +196,37 @@ public class SlotBet implements Bet{
     }
 
     public int getCurFreeSpinCnt() {
+        if(curFreeSpinCnt == null){
+            return  0;
+        }
         return curFreeSpinCnt;
     }
 
     public void setCurFreeSpinCnt(int curFreeSpinCnt) {
         this.curFreeSpinCnt = curFreeSpinCnt;
     }
+
+    public Double getUserBalanceAfterPlay() {
+        if(userBalanceAfterPlay == null){
+            return 0.0;
+        }
+        return userBalanceAfterPlay;
+    }
+
+    public void setUserBalanceAfterPlay(Double userBalanceAfterPlay) {
+        this.userBalanceAfterPlay = userBalanceAfterPlay;
+    }
+
+    public Double getCashBalanceAfterPlay() {
+        if(cashBalanceAfterPlay == null){
+            return  0.0;
+        }
+        return cashBalanceAfterPlay;
+    }
+
+    public void setCashBalanceAfterPlay(Double cashBalanceAfterPlay) {
+        this.cashBalanceAfterPlay = cashBalanceAfterPlay;
+    }
 }
+
+

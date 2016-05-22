@@ -17,29 +17,41 @@ public class BetDesicionHelper {
         JsonObject response = new JsonObject();
         Cash gameCash = (Cash) em.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
         Cash bonusCash = (Cash) em.get(Cash.class,StaticDefinitions.BONUS_CASH_NAME);
-        GlobalSettings bonusGiveAwaySettings = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_GIVEAWAY_PERCENTAGE_SETTINGS);
+        GlobalSettings absoluteValue = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.ABSOLUTE_STOP_VALUE);
+
+        /*
+            If cash is lower than absolute value
+            reject the game player loses
+
+         */
+
+         if(gameCash.getCash() <= Double.parseDouble(absoluteValue.getValue())){
+             Bet.setWinResult(false);
+             Bet.setLoseCause("AbsoluteLose");
+             response.put("freeSpin",false);
+             response.put("bonus",false);
+             response.put("_win_",false);
+             response.put("_maxWin_", 0);
+             return response;
+         }
+
+
         /*
             Decide to win or not
         */
 
-
         if(Bet.getMinWin() <= gameCash.getCash()){
             double genRandom = randomBoolean();
 
-            boolean isBonus;
-            if(Bet.hasBonus() && bonusCash.getCash() > 0){
-                double genRandomFreeSpin = randomBoolean();
-                GlobalSettings bonusPercentage = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_SETTINGS_NAME);
-                isBonus = genRandomFreeSpin <= Double.parseDouble(bonusPercentage.getValue());
-            }else {
-                isBonus = false;
-            }
+            GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.WIN_PERCENTAGE_SETTINGS_NAME);
+            boolean isWin = genRandom <= Double.parseDouble(winPerc.getValue());
+            Bet.setWinResult(isWin);
 
             boolean isFreeSpin;
             if(Bet instanceof SlotBet && ((SlotBet) Bet).getCurFreeSpinCnt() > 0){
                 isFreeSpin = false;
             }else {
-                if (Bet.hasFreeSpin() && !isBonus) {
+                if (Bet.hasFreeSpin() && !isWin) {
                     double genRandomFreeSpin = randomBoolean();
                     GlobalSettings freeSpinPercentage = (GlobalSettings) em.get(GlobalSettings.class, StaticDefinitions.FREE_SPIN_SETTINGS_NAME);
                     isFreeSpin = genRandomFreeSpin <= Double.parseDouble(freeSpinPercentage.getValue());
@@ -48,9 +60,14 @@ public class BetDesicionHelper {
                 }
             }
 
-            GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.WIN_PERCENTAGE_SETTINGS_NAME);
-            boolean isWin = genRandom <= Double.parseDouble(winPerc.getValue()) && (!isBonus && !isFreeSpin);
-            Bet.setWinResult(isWin);
+            boolean isBonus;
+            if(Bet.hasBonus() && bonusCash.getCash() > 0 && !isWin && !isFreeSpin){
+                double genRandomBonus = randomBoolean();
+                GlobalSettings bonusPercentage = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_SETTINGS_NAME);
+                isBonus = genRandomBonus <= Double.parseDouble(bonusPercentage.getValue());
+            }else {
+                isBonus = false;
+            }
 
             if(isWin){
                 Bet.setLoseCause("RandomWin");
@@ -65,11 +82,13 @@ public class BetDesicionHelper {
             response.put("freeSpin",isFreeSpin);
             response.put("bonus",isBonus);
             if(isBonus){
-                response.put("maxBonus",bonusCash.getCash() * Double.parseDouble(bonusGiveAwaySettings.getValue()) / 100);
+                GlobalSettings bonusGiveAwaySettings = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_GIVEAWAY_PERCENTAGE_SETTINGS);
+                response.put("maxBonus",bonusCash.getCash() * (Double.parseDouble(bonusGiveAwaySettings.getValue()) / 100));
             }
             response.put("_win_",isWin);
             if(isWin) {
-                response.put("_maxWin_", gameCash.getCash());
+                GlobalSettings cashGiveAwayPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.CASH_GIVEAWAY_PERCENTAGE);
+                response.put("_maxWin_", gameCash.getCash() * (Double.parseDouble(cashGiveAwayPerc.getValue()) / 100 ));
             }else{
                 response.put("_maxWin_", 0);
             }

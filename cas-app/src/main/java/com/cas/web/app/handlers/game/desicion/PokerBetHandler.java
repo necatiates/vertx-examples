@@ -31,6 +31,7 @@ public class PokerBetHandler {
         pokerBet.setUsername(user.getUsername());
 
 
+
         JsonObject response = BetDesicionHelper.invoke(pokerBet,entityManager);
         response.put("freeSpin",false);
         response.put("bonus",false);
@@ -38,6 +39,10 @@ public class PokerBetHandler {
 
         cash.setCash(cash.getCash() + pokerBet.getBet());
         user.setCash(user.getCash() - pokerBet.getBet());
+
+        pokerBet.setUserBalanceAfterPlay(user.getCash());
+        pokerBet.setCashBalanceAfterPlay(cash.getCash());
+        pokerBet.setUpdate_time(System.currentTimeMillis());
         entityManager.getTransaction().commit();
         response.put("id",pokerBet.getId());
 

@@ -35,6 +35,12 @@ public class BlackJackBetHandler {
 
         cash.setCash(cash.getCash() + blackJackBet.getBet());
         user.setCash(user.getCash() - blackJackBet.getBet());
+
+        blackJackBet.setUserBalanceAfterPlay(user.getCash());
+        blackJackBet.setCashBalanceAfterPlay(cash.getCash());
+        blackJackBet.setUpdate_time(System.currentTimeMillis());
+
+
         entityManager.getTransaction().commit();
         response.put("id",blackJackBet.getId());
 

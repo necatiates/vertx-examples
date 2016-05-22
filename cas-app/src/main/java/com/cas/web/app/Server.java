@@ -1,10 +1,12 @@
 package com.cas.web.app;
 
 import com.cas.StaticDefinitions;
+import com.cas.spring.entity.Admin;
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.GlobalSettings;
 import com.cas.web.app.handlers.game.accept.*;
 import com.cas.web.app.handlers.game.authorization.AuthorizedPathHandler;
+import com.cas.web.app.handlers.game.authorization.CasAdminLoginHandler;
 import com.cas.web.app.handlers.game.authorization.CasFormLoginHandler;
 import com.cas.web.app.handlers.game.authorization.FormRegisterHandler;
 import com.cas.web.app.handlers.game.desicion.*;
@@ -21,6 +23,7 @@ import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.jasypt.util.text.StrongTextEncryptor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.cas.spring.context.ExampleSpringConfiguration;
@@ -34,6 +37,7 @@ import java.io.File;
 public class Server{
   private static String WEBROOT_FOLDER =  "cas-app/webroot";
   private static String PRIVATE_FOLDER =  "cas-app/private";
+  private static String ADMIN_FOLDER =    "cas-app/webroot/casadmin";
 
 
   /*private static String WEBROOT_FOLDER =  "webroot";
@@ -61,7 +65,24 @@ public class Server{
     Router router = initRoutes();
     initCashes();
     initPreferences();
+    initAdmins();
     vertx.createHttpServer().requestHandler(router::accept).listen(8080);
+  }
+
+  private static void initAdmins() {
+
+    Session em = factory.openSession();
+    em.getTransaction().begin();
+
+    Admin admin = (Admin) em.get(Admin.class,"casadmin");
+    if(admin == null){
+      admin = new Admin();
+      admin.setUsername("casadmin");
+      admin.setPassword("uzunincebiryoldayim24212421");
+      em.persist(admin);
+    }
+    em.getTransaction().commit();
+    em.close();
   }
 
   private static void initPreferences() {
@@ -94,6 +115,20 @@ public class Server{
       bonusGiveAwayPerc.setName(StaticDefinitions.BONUS_GIVEAWAY_PERCENTAGE_SETTINGS);
       bonusGiveAwayPerc.setValue("20");
       em.persist(bonusGiveAwayPerc);
+    }
+    GlobalSettings absoulteStopValue = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.ABSOLUTE_STOP_VALUE);
+    if (absoulteStopValue == null) {
+      absoulteStopValue = new GlobalSettings();
+      absoulteStopValue.setName(StaticDefinitions.ABSOLUTE_STOP_VALUE);
+      absoulteStopValue.setValue("0");
+      em.persist(absoulteStopValue);
+    }
+    GlobalSettings cashGiveAway = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.CASH_GIVEAWAY_PERCENTAGE);
+    if(cashGiveAway == null){
+      cashGiveAway = new GlobalSettings();
+      cashGiveAway.setName(StaticDefinitions.CASH_GIVEAWAY_PERCENTAGE);
+      cashGiveAway.setValue("50");
+      em.persist(cashGiveAway);
     }
     em.getTransaction().commit();
     em.close();
@@ -131,10 +166,12 @@ public class Server{
     // Simple auth service which uses a JDBC data source
 
     // Serve the static private pages from directory 'private'
-    router.route("/private/*").handler(AuthorizedPathHandler.create().setCachingEnabled(false).setWebRoot(PRIVATE_FOLDER).setRole("user"));
+    router.route("/private/*").handler(AuthorizedPathHandler.create().setCachingEnabled(false).setWebRoot(PRIVATE_FOLDER).setRole(StaticDefinitions.USER_SESSION_KEY));
+    router.route("/casadmin/*").handler(AuthorizedPathHandler.create().setCachingEnabled(false).setWebRoot(ADMIN_FOLDER).setRole(StaticDefinitions.ADMIN_SESSION_KEY));
 
     // Handles the actual login
     router.route("/loginhandler").handler(CasFormLoginHandler.create().setDirectLoggedInOKURL("/private/games.html"));
+    router.route("/adminLogin").handler(CasAdminLoginHandler.create().setDirectLoggedInOKURL("/casadmin/index.html"));
 
     //Handler registration
     router.route("/registerhandler").handler(FormRegisterHandler.create().setReturnURLParam("/index.html"));
@@ -153,6 +190,12 @@ public class Server{
 
     router.post("/bingo/bet").handler(BingoBetHandler::bet);
     router.post("/bingo/accept").handler(BingoBetAcceptHandler::accept);
+
+    router.post("/running/bet").handler(RunningBetHandler::bet);
+    router.post("/running/accept").handler(RunningAcceptHandler::accept);
+
+    router.post("/miner/bet").handler(MinerBetHandler::bet);
+    router.post("/miner/accept").handler(MinerAcceptHandler::accept);
 
     router.get("/tokengen").handler(BrainTreeTokanizerHandler::getToken);
     router.post("/checkout").handler(BrainTreeCheckoutHandler::checkout);
