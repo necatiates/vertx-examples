@@ -36,6 +36,8 @@ function CGame(oData){
     var _iCurBet = BET[0];
     var s_iCurCredit;
     var _iCurRes;
+    var _oBalanceBck;
+    var _oBalance;
     
     this._init = function(){
         $.ajax({
@@ -76,11 +78,25 @@ function CGame(oData){
         _oTimeText.textAlign = "center";
         s_oStage.addChild(_oTimeText);
 
+        _oBalanceBck = new createjs.Text("PARA " + s_iCurCredit.toFixed(2) + "₺","bold 25px "+FONT_GAME, "#000");
+        _oBalanceBck.x = 520;
+        _oBalanceBck.y = 22;
+        _oBalanceBck.textAlign = "center";
+        s_oStage.addChild(_oBalanceBck);
+
+
+        _oBalance = new createjs.Text("PARA " + s_iCurCredit.toFixed(2) + "₺","bold 25px "+FONT_GAME, "#fff");
+        _oBalance.x = 520;
+        _oBalance.y = 24;
+        _oBalance.textAlign = "center";
+        s_oStage.addChild(_oBalance);
+
+
         _iSlowDown = 0;
         _iRopeSpeed = 0.05;
         _iHookSpeed = HOOK_SPEED;
 
-	_iTimeElaps = LEVEL_TIME;
+	    _iTimeElaps = LEVEL_TIME;
         _iCurTargetLevel = _oLevelSettings.getLevelTarget(_iCurLevel);
         _iCurTarget = 0;
 
@@ -166,6 +182,15 @@ function CGame(oData){
         s_oGame = null;
     };
     this.updateNuggets = function(){
+        if(s_iCurCredit < _iCurBet){
+            Lobibox.alert('error', {
+                title           : 'Yetersiz Bakiye',
+                msg: "Bu bahis için yeterli bakiyeniz bulunmamaktadır"
+            });
+            this._onExit();
+            return;
+        }
+
         var bet = {
             bet : _iCurBet,
             minWin : 0,
@@ -190,7 +215,10 @@ function CGame(oData){
         for(var t=0;t<_aMalus.length;t++){
             _aMalus[t].unload();
         }
-        _oLevelSettings.updateNuggets(_iCurRes);
+        _oLevelSettings.updateNuggets(_iCurRes,_iCurBet);
+
+        _oBalance.text = "PARA " +(s_iCurCredit - _iCurBet).toFixed(2) + "₺";
+        _oBalanceBck.text =  "PARA " +(s_iCurCredit - _iCurBet).toFixed(2) + "₺";
     }
     this._initNuggets = function(){
         _aNuggets = new Array();
@@ -201,13 +229,7 @@ function CGame(oData){
         for(var k=0;k<aPos.length;k++){
             var oSprite = s_oSpriteLibrary.getSprite('nugget_'+aInfo[k].type);       
             var oNugget = new CNugget(aPos[k].x,aPos[k].y,aInfo[k].scale,oSprite);
-            if(_iCurBet == 1){
-                 oNugget.setİScaleMultiplier(5);
-            }else if(_iCurBet == 10){
-                oNugget.setİScaleMultiplier(10);
-            }else if(_iCurBet == 25){
-                oNugget.setİScaleMultiplier(15);
-            }
+            oNugget.setIScaleMultiplier(_iCurBet * 1);
             _aNuggets.push(oNugget);
         }
 
@@ -232,7 +254,7 @@ function CGame(oData){
         
         _iSlowDown = 0;
         _iHookSpeed = HOOK_SPEED;
-	_oHook.reset();
+	     _oHook.reset();
         
         _iRopeSpeed+=0.025;
         _iTimeElaps = LEVEL_TIME;
@@ -273,9 +295,9 @@ function CGame(oData){
                         playSound("bonus",1,0);
                     }
                     
-                    _iScore += _oDraggingNugget.getValue();
-                    _oTargetTextBack.text = _iScore + "₺";
-                    _oTargetText.text = _iScore + "₺";
+                    _iScore += new Number(_oDraggingNugget.getValue());
+                    _oTargetTextBack.text = _iScore.toFixed(2) + "₺";
+                    _oTargetText.text = _iScore.toFixed(2) + "₺";
                     
                     _oDraggingNugget.hide();
                     _oDraggingNugget = null;
@@ -320,7 +342,7 @@ function CGame(oData){
         $(s_oMain).trigger("end_level",_iCurLevel);
 
         var bet = {
-            totalWin: _iScore,
+            totalWin: _iScore.toFixed(2),
             id : _iCurRes.id
         };
         $.ajax({
@@ -394,7 +416,7 @@ function CGame(oData){
         }
         _oEndPanel = new CEndPanel(s_oSpriteLibrary.getSprite('msg_box'));
                                    
-        _oEndPanel.show(_iScore,false);
+        _oEndPanel.show(_iScore.toFixed(2),false);
     };
     
     this._win = function(){

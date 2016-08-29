@@ -350,15 +350,9 @@ function tryCheckLogin(){
 }
 
 function tryCallSpin(iCoin,iTotBet,iLastLineActive){
-    var oData = callSpin(iLastLineActive,iCoin,iTotBet);
+    callSpin(iLastLineActive,iCoin,iTotBet);
     
-    console.log(oData);
-    var oRetData = getUrlVars(oData);
-    if ( oRetData.res === "true" ){
-        s_oGame.onSpinReceived(oRetData);
-    }else{
-        s_oMsgBox.show(oRetData.desc);
-    }
+
 }
 function ctlArcadeResume(){
     if(s_oMain !== null){

@@ -30,6 +30,8 @@
         <script type="text/javascript" src="js/CChangeLevel.js"></script>
         <script type="text/javascript" src="js/CLevelSettings.js"></script>
         <script type="text/javascript" src="js/CTextToggle.js"></script>
+        <script type="text/javascript" src="/private/assets/js/lobibox.min.js"></script>
+        <link rel="stylesheet" href="/private/assets/css/lobibox.min.css">
     </head>
         <body ondragstart="return false;" ondrop="return false;" >
 		<div style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%"></div>
@@ -38,7 +40,7 @@
 				var oMain = new CMain({
                                     malus_score: 100, //DOLLARS TO SUBTRACT WHEN PLAYER HIT A DYNAMITE
                                     hook_speed: 15,   //STARTING HOOK SPEED
-                                    level_time:30000  //LEVEL COUNTDOWN IN MILLISECONDS
+                                    level_time:50000  //LEVEL COUNTDOWN IN MILLISECONDS
                                 });
 				
 				$(oMain).on("start_session", function(evt) {

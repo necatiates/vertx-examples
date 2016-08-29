@@ -683,25 +683,33 @@ function CGame(oData){
                     //GET TOTAL WIN FOR THIS SPIN
                     _iTotWin = parseFloat(oRetData.tot_win);
 
-                    _bReadyToStop = true;
-                    var bet = {
-                        totalWin: _iTotWin,
-                        id : oRetData.id,
-                        numLineWin : JSON.parse(oRetData.win_lines)[0].num_win
-                    };
-                    $.ajax({
-                        url: '/bet/accept',
-                        type: 'post',
-                        contentType: 'application/json',
-                        data: JSON.stringify(bet),
-                        dataType: 'json',
-                        async: false,
-                        success: function (data) {
-                            if(data._accepted_) {
-                                _iMoney += _iTotWin;
-                            }
-                        },
-                    });
+                    if(_iTotWin > 0){
+                        var bet = {
+                            totalWin: _iTotWin,
+                            id : oRetData.id,
+                            numLineWin : JSON.parse(oRetData.win_lines)[0].num_win
+                        };
+                        $.ajax({
+                            url: '/bet/accept',
+                            type: 'post',
+                            contentType: 'application/json',
+                            data: JSON.stringify(bet),
+                            dataType: 'json',
+                            async: false,
+                            success: function (data) {
+                                if(data._accepted_) {
+                                    _iMoney += _iTotWin;
+                                }else{
+                                    _iCurRes._win_ = false;
+                                    _iCurRes._maxWin_ = 0;
+                                    betSuccess(_iLastLineActive,_iCurBet,_iTotBet);
+                                }
+                            },
+                        });
+                        _bReadyToStop = true;
+                    }else{
+                        _bReadyToStop = true;
+                    }
                 }else{
                     _iBonus = 0;
                     
@@ -736,8 +744,7 @@ function CGame(oData){
     };
     
     this.exitFromBonus = function(){
-        _iMoney = _iMoney + parseFloat(WHEEL_SETTINGS[_iCurBonusPrizeIndex]);
-        _oInterface.refreshMoney(_iMoney);
+
 
         var bet = {
             totalWin: parseFloat(WHEEL_SETTINGS[_iCurBonusPrizeIndex]),
@@ -753,9 +760,9 @@ function CGame(oData){
             async: false,
             success: function (data) {
                 if(data._accepted_) {
-                    _iMoney += _iBonus;
+                    _iMoney = _iMoney + parseFloat(WHEEL_SETTINGS[_iCurBonusPrizeIndex]);
+                    _oInterface.refreshMoney(_iMoney);
                 }
-                _oInterface.refreshMoney(_iMoney);
             },
         });
         if(_bAutoSpin){

@@ -108,6 +108,14 @@ function CLevelMenu(){
     };  
 	
 	this._onButNextRelease = function(){
+        if(s_oMain.getMoney()< s_oMain.getCurBet()){
+            Lobibox.alert('error', {
+                title           : 'Yetersiz Bakiye',
+                msg: "Bu bahis için yeterli bakiyeniz bulunmamaktadır"
+            });
+            this._onExit();
+            return;
+        }
 		  s_oLevelMenu.unload();
           s_oMain.gotoGame(0);
 	}

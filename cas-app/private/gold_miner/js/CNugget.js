@@ -52,9 +52,9 @@ function CNugget(iXPos,iYPos,iScale,oSprite){
       return _oNuggetSprite;  
     };
 
-    this.setİScaleMultiplier = function(multiplier){
+    this.setIScaleMultiplier = function(multiplier){
         _iScaleMultiplier = multiplier;
-        _iValue = Math.floor(_iScaleMultiplier * iScale);
+        _iValue =(_iScaleMultiplier * iScale).toFixed(1);
     }
     
     this.getRadius = function(){

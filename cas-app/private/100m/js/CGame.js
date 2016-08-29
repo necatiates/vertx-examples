@@ -37,6 +37,7 @@ function CGame(oData,  iLevel){
     
     this._init = function(){
 
+
         var bet = {
             bet : s_oMain.getCurBet(),
             minWin:s_oMain.getCurBet() * 3,

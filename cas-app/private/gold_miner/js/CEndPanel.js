@@ -58,8 +58,8 @@ function CEndPanel(oSpriteBg){
             _oMsgText.text = TEXT_GAME_OVER;
         }
         
-        _oScoreTextBack.text = TEXT_SCORE+": "+iScore;
-        _oScoreText.text = TEXT_SCORE+": "+iScore;
+        _oScoreTextBack.text = TEXT_SCORE+": "+iScore + "₺";
+        _oScoreText.text = TEXT_SCORE+": "+iScore+ "₺";
         _oGroup.visible = true;
         
         createjs.Tween.get(_oGroup).to({alpha:1 }, 500).call(function(){$(s_oMain).trigger("show_interlevel_ad");});

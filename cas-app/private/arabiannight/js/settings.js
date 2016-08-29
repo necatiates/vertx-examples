@@ -5,7 +5,7 @@ var EDGEBOARD_X = 300;
 var EDGEBOARD_Y = 0;
 
 var FPS_TIME      = 1000/24;
-var DISABLE_SOUND_MOBILE = true;
+var DISABLE_SOUND_MOBILE = false;
 var FONT_GAME = "Tahoma";
 var FONT_PAYTABLE = "Tahoma";
 

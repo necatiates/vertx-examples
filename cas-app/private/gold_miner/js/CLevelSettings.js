@@ -31,11 +31,11 @@ function CLevelSettings() {
         _aLevelTarget.push(2000);
     };
 
-    this.updateNuggets = function (curRes) {
-       this.getRandomNuggets(curRes._win_);
+    this.updateNuggets = function (curRes,iCurBet) {
+       this.getRandomNuggets(curRes._win_,iCurBet);
     };
 
-    this.getRandomNuggets = function(win){
+    this.getRandomNuggets = function(win,iCurBet){
         _aNuggetInfo = new Array();
         _aMalusPos = new Array();
         _aNuggetPos = new Array();
@@ -46,40 +46,48 @@ function CLevelSettings() {
         var nuggetsInfo = new Array();
         var malusInfo = new Array();
 
+        if(iCurBet == 1){
+            var nuggetNum = 5;
+        }else if(iCurBet == 10){
+            var nuggetNum = 10;
+        }else if(iCurBet == 25){
+            var nuggetNum = 15;
+        }
+
 
         if(win){
-            for(var i = 0 ; i< 6 ;i ++){
+            for(var i = 0 ; i< nuggetNum ;i ++){
                 var nugget = new Object();
                 nugget.type = 2;
-                nugget.scale = (Math.random() * (0.5 - 0.1) + 0.1).toFixed(1);
+                nugget.scale = (Math.random() * (1 - 0.1) + 0.1).toFixed(1);
                 nuggetsInfo.push(nugget);
             }
-            for(var i = 0 ; i< 6 ;i ++){
+            for(var i = 0 ; i< nuggetNum ;i ++){
                 var nugget = new Object();
                 nugget.x = (Math.random() * (900 - 250) + 250).toFixed(0);
                 nugget.y = (Math.random() * (700 - 250) + 250).toFixed(0);
                 nuggetsPos.push(nugget);
             }
-            for(var i = 0 ; i< 3 ;i ++){
+            for(var i = 0 ; i< nuggetNum ;i ++){
                 var malus = new Object();
                 malus.x = (Math.random() * (900 - 250) + 250).toFixed(0);
                 malus.y = (Math.random() * (700 - 250) + 250).toFixed(0);
                 malusInfo.push(malus);
             }
         }else{
-            for(var i = 0 ; i< 3 ;i ++){
+            for(var i = 0 ; i< nuggetNum ;i ++){
                 var nugget = new Object();
                 nugget.type = 2;
-                nugget.scale = (Math.random() * (0.5 - 0.1) + 0.1).toFixed(1);
+                nugget.scale = (Math.random() * (1 - 0.1) + 0.1).toFixed(1);
                 nuggetsInfo.push(nugget);
             }
-            for(var i = 0 ; i< 3 ;i ++){
+            for(var i = 0 ; i< nuggetNum ;i ++){
                 var nugget = new Object();
                 nugget.x = (Math.random() * (900 - 250) + 250).toFixed(0);
                 nugget.y = (Math.random() * (700 - 250) + 250).toFixed(0);
                 nuggetsPos.push(nugget);
             }
-            for(var i = 0 ; i< 6 ;i ++){
+            for(var i = 0 ; i< nuggetNum * 3 ;i ++){
                 var malus = new Object();
                 malus.x = (Math.random() * (900 - 250) + 250).toFixed(0);
                 malus.y = (Math.random() * (700 - 250) + 250).toFixed(0);
