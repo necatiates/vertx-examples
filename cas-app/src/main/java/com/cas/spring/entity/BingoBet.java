@@ -34,6 +34,8 @@ public class BingoBet implements Bet {
     @Column
     long update_time;
 
+    @Column
+    Double maxWin;
 
     @Override
     public Double getMinWin() {
@@ -58,6 +60,11 @@ public class BingoBet implements Bet {
     @Override
     public Boolean hasBonus() {
         return false;
+    }
+
+    @Override
+    public void setMaxWin(Double maxWin) {
+
     }
 
     public Double getBet() {

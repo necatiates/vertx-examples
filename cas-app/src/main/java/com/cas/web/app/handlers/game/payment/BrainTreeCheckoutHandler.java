@@ -39,7 +39,7 @@ public class BrainTreeCheckoutHandler {
             em.getTransaction().commit();
             em.close();
         }
-        routingContext.request().response().putHeader("location", "/private/games.html").setStatusCode(302).end();
+        routingContext.request().response().putHeader("location", "/private/index.html").setStatusCode(302).end();
         return;
     }
 }

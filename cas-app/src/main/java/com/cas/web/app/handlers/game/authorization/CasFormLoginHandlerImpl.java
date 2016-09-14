@@ -84,7 +84,8 @@ public class CasFormLoginHandlerImpl implements CasFormLoginHandler {
                         em.close();
                     }else{
                         em.close();
-                        context.fail(400);
+                        this.doRedirect(req.response(), "/index.html?context=LoginFail");
+                        return;
                     }
                 }else {
                   em.close();
@@ -93,7 +94,8 @@ public class CasFormLoginHandlerImpl implements CasFormLoginHandler {
                 }
                 context.session().put("user",user);
                 if(this.directLoggedInOKURL != null) {
-                    this.doRedirect(req.response(), this.directLoggedInOKURL);
+                    this.doRedirect(req.response(), "/private/games.html");
+                    return;
                 } else {
                     req.response().end("<html><body><h1>Login successful</h1></body></html>");
                 }

@@ -16,6 +16,8 @@ import com.cas.web.app.handlers.game.info.SettingsHandler;
 import com.cas.web.app.handlers.game.info.UserAdminHandler;
 import com.cas.web.app.handlers.game.payment.*;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServerOptions;
+import io.vertx.core.net.PemKeyCertOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.*;
 import io.vertx.ext.web.sstore.LocalSessionStore;
@@ -66,7 +68,13 @@ public class Server{
     initCashes();
     initPreferences();
     initAdmins();
-    vertx.createHttpServer().requestHandler(router::accept).listen(8080);
+
+    HttpServerOptions httpOpts = new HttpServerOptions();
+    httpOpts.setPemKeyCertOptions(new PemKeyCertOptions()
+            .setCertPath("cas-app/shambala.bet.pem")
+            .setKeyPath("cas-app/shambala.bet.key"));
+    httpOpts.setSsl(true);
+    vertx.createHttpServer(httpOpts).requestHandler(router::accept).listen(443);
   }
 
   private static void initAdmins() {
@@ -166,7 +174,7 @@ public class Server{
     // Simple auth service which uses a JDBC data source
 
     // Serve the static private pages from directory 'private'
-    router.route("/private/*").handler(AuthorizedPathHandler.create().setCachingEnabled(false).setWebRoot(PRIVATE_FOLDER).setRole(StaticDefinitions.USER_SESSION_KEY));
+    router.route("/private/*").handler(StaticHandler.create().setCachingEnabled(false).setWebRoot(PRIVATE_FOLDER));
     router.route("/casadmin/*").handler(AuthorizedPathHandler.create().setCachingEnabled(false).setWebRoot(ADMIN_FOLDER).setRole(StaticDefinitions.ADMIN_SESSION_KEY));
 
     // Handles the actual login
@@ -176,7 +184,8 @@ public class Server{
     //Handler registration
     router.route("/registerhandler").handler(FormRegisterHandler.create().setReturnURLParam("/index.html"));
 
-    router.post("/bet/slotmachine").handler(SlotMachineBetHandler::bet);
+    SlotMachineBetHandler slotMachineBetHandler = new SlotMachineBetHandler();
+    router.post("/bet/slotmachine").handler(slotMachineBetHandler);
     router.post("/bet/accept").handler(SlotMachineBetAcceptHandler::accept);
     router.post("/bonusSlot/accept").handler(BonusAcceptHandler::accept);
 
@@ -193,9 +202,11 @@ public class Server{
 
     router.post("/running/bet").handler(RunningBetHandler::bet);
     router.post("/running/accept").handler(RunningAcceptHandler::accept);
+    router.post("/admin/runningGames").handler(RunningBetHandler::getGames);
 
     router.post("/miner/bet").handler(MinerBetHandler::bet);
     router.post("/miner/accept").handler(MinerAcceptHandler::accept);
+    router.post("/admin/goldMinerGames").handler(MinerBetHandler::getGames);
 
     router.get("/tokengen").handler(BrainTreeTokanizerHandler::getToken);
     router.post("/checkout").handler(BrainTreeCheckoutHandler::checkout);
@@ -205,6 +216,7 @@ public class Server{
     router.post("/admin/gameCash").handler(GameCashHandler::updateCash);
     router.post("/admin/users").handler(UserAdminHandler::getUsers);
     router.post("/admin/users").handler(UserAdminHandler::updateuser);
+    router.post("/admin/setPassToUser").handler(UserAdminHandler::setPasswordForUser);
 
     router.post("/transfer/checkout").handler(TransferCheckoutHandler::handle);
     router.post("/transfer/checkin").handler(TransferCheckinHandler::handle);
@@ -224,8 +236,16 @@ public class Server{
     // Implement logout
     router.route("/logout").handler(context -> {
       context.clearUser();
+      context.session().destroy();
       // Redirect back to the index page
       context.response().putHeader("location", "/").setStatusCode(302).end();
+    });
+
+    router.route("/admin/logout").handler(context -> {
+      context.clearUser();
+      context.session().destroy();
+      // Redirect back to the index page
+      context.response().putHeader("location", "/casadmin/login.html").setStatusCode(302).end();
     });
 
     // Serve the non private static pages

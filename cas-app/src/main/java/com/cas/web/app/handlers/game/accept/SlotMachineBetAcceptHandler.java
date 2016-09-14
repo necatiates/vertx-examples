@@ -23,29 +23,36 @@ public class SlotMachineBetAcceptHandler {
         User user = (User) entityManager.get(User.class,
                 ((User)routingContext.session().get(StaticDefinitions.USER_SESSION_KEY)).getUsername());
 
-        entityManager.getTransaction().begin();
-
-        user.setCash(user.getCash() + slotBet.getTotalWin());
-
-        entityManager.persist(user);
-
-        Cash cash = (Cash) entityManager.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
-        cash.setCash(cash.getCash() - slotBet.getTotalWin());
-        entityManager.persist(cash);
-
-        SlotBet storedSlotBet = (SlotBet) entityManager.get(SlotBet.class,slotBet.getId());
-        storedSlotBet.setTotalWin(slotBet.getTotalWin());
-        storedSlotBet.setNumLineWin(slotBet.getNumLineWin());
-        storedSlotBet.setUpdate_time(System.currentTimeMillis());
-        storedSlotBet.setUserBalanceAfterPlay(user.getCash());
-        storedSlotBet.setCashBalanceAfterPlay(cash.getCash());
-
-        entityManager.merge(storedSlotBet);
-        entityManager.getTransaction().commit();
-        entityManager.close();
 
         JsonObject response = new JsonObject();
-        response.put("_accepted_",true);
+        SlotBet storedSlotBet = (SlotBet) entityManager.get(SlotBet.class,slotBet.getId());
+
+        if(slotBet.getTotalWin() <= storedSlotBet.getMaxWin()) {
+            entityManager.getTransaction().begin();
+
+            user.setCash(user.getCash() + slotBet.getTotalWin());
+
+            entityManager.persist(user);
+
+            Cash cash = (Cash) entityManager.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
+            cash.setCash(cash.getCash() - slotBet.getTotalWin());
+            entityManager.persist(cash);
+
+
+            storedSlotBet.setTotalWin(slotBet.getTotalWin());
+            storedSlotBet.setNumLineWin(slotBet.getNumLineWin());
+            storedSlotBet.setUpdate_time(System.currentTimeMillis());
+            storedSlotBet.setUserBalanceAfterPlay(user.getCash());
+            storedSlotBet.setCashBalanceAfterPlay(cash.getCash());
+
+            entityManager.merge(storedSlotBet);
+            entityManager.getTransaction().commit();
+
+            response.put("_accepted_", true);
+        }else{
+            response.put("_accepted_", false);
+        }
+        entityManager.close();
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(response));
         return;

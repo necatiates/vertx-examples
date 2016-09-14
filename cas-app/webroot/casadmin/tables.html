@@ -7,10 +7,15 @@
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width">        
   <link rel="stylesheet" href="css/templatemo_main.css">
-<!-- 
-Dashboard Template 
-http://www.templatemo.com/preview/templatemo_415_dashboard
--->
+
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="/assets/js/lobibox.min.js"></script>
+  <link rel="stylesheet" href="/assets/css/lobibox.min.css">
+
+  <!--
+  Dashboard Template
+  http://www.templatemo.com/preview/templatemo_415_dashboard
+  -->
 </head>
 <body>
   <div id="main-wrapper">
@@ -65,6 +70,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       <th>Email</th>
                       <th>Telefon</th>
                       <th>Son Login</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -124,7 +130,8 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       + '</td><td>' +  data[i].cash + '</td>'
                       + '<td>' + data[i].email + '</td>'
                       + '<td>' + data[i].phone_number + '</td>'
-                      + '<td>' + data[i].lastLogin + '</td></tr>';
+                      + '<td>' + data[i].lastLogin + '</td>'
+                      + '<td>' + '<button type="button" class="btn btn-primary" onclick="setPassword(' + "'" + data[i].username + "'" + ')">Şifre Ver</button></td></tr>';
               $('#users_table tbody').append(html);
             }
           },
@@ -162,6 +169,24 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
       function nextUsers(){
         page++;
         getUsers();
+      }
+      function setPassword(username){
+        var userData = new Object();
+        userData.username = username;
+        $.ajax({
+          url: '/admin/setPassToUser',
+          type: 'post',
+          contentType: 'application/json',
+          data: JSON.stringify(userData),
+          dataType: 'json',
+          async: false,
+          success: function (data) {
+            Lobibox.alert('success', {
+              title           : 'Şifre değiştirildi lütfen not alın',
+              msg: data.password
+            });
+          },
+        });
       }
       getUsers();
     </script>

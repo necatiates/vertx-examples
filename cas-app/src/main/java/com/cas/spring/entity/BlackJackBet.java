@@ -120,6 +120,11 @@ public class BlackJackBet implements Bet{
         return false;
     }
 
+    @Override
+    public void setMaxWin(Double maxWin) {
+
+    }
+
 
     public String getGameName() {
         return gameName;

@@ -6,7 +6,6 @@ import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.PokerBet;
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
-import com.cas.web.app.handlers.game.desicion.BetDesicionHelper;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -14,7 +13,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -32,7 +30,7 @@ public class PokerBetHandler {
 
 
 
-        JsonObject response = BetDesicionHelper.invoke(pokerBet,entityManager);
+        JsonObject response = BetDesicionHelper.invoke(pokerBet,entityManager, 1);
         response.put("freeSpin",false);
         response.put("bonus",false);
         entityManager.persist(pokerBet);

@@ -34,6 +34,7 @@ public class BonusAcceptHandler {
         storedSlotBet.setNumLineWin(slotBet.getNumLineWin());
         storedSlotBet.setUpdate_time(System.currentTimeMillis());
 
+        storedSlotBet.setUserBalanceAfterPlay(user.getCash());
         entityManager.merge(storedSlotBet);
         entityManager.getTransaction().commit();
         entityManager.close();

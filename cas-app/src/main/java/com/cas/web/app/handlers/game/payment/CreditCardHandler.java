@@ -50,6 +50,6 @@ public class CreditCardHandler {
         } catch (Exception e) {
             String message = e.toString();
         }
-        context.request().response().putHeader("location", "/private/games.html").setStatusCode(302).end();
+        context.request().response().putHeader("location", "/private/index.html").setStatusCode(302).end();
     }
 }

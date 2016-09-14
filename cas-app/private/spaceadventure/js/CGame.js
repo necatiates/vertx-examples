@@ -1,4 +1,4 @@
-function CGame(oData){
+function CGame(oData) {
     var _bUpdate = false;
     var _bCanHoldColumns;
     var _bBonus;
@@ -34,8 +34,10 @@ function CGame(oData){
     var _oPayTable = null;
     var _oBonusPanel;
     var _iCurRes = null;
-    
-    this._init = function(){
+    var _iAcceptedRequested;
+    var _iAcceptedResponded;
+
+    this._init = function () {
         $.ajax({
             url: '/bet/info',
             type: 'get',
@@ -50,24 +52,24 @@ function CGame(oData){
         _iNumReelsStopped = 0;
         _iNumIndexHold = 0;
         _iNumSpinCont = 0;
-        
-        _aReelSequence = new Array(0,1,2,3,4);
+
+        _aReelSequence = new Array(0, 1, 2, 3, 4);
         _iNextColToStop = _aReelSequence[0];
         _iLastLineActive = NUM_PAYLINES;
         _iMoney = TOTAL_MONEY;
         _iCurBet = MIN_BET;
         _iTotBet = _iCurBet * _iLastLineActive;
-        
+
         _aFinalSymbolCombo = new Array();
-        for(var i=0;i<NUM_ROWS;i++){
+        for (var i = 0; i < NUM_ROWS; i++) {
             _aFinalSymbolCombo[i] = new Array();
-            for(var j=0;j<NUM_REELS;j++){
+            for (var j = 0; j < NUM_REELS; j++) {
                 _aFinalSymbolCombo[i][j] = 0;
             }
         }
-        
+
         s_oTweenController = new CTweenController();
-        
+
         _oBg = createBitmap(s_oSpriteLibrary.getSprite('bg_game'));
         s_oStage.addChild(_oBg);
 
@@ -76,496 +78,532 @@ function CGame(oData){
         _oFrontSkin = createBitmap(s_oSpriteLibrary.getSprite('mask_slot'));
         s_oStage.addChild(_oFrontSkin);
 
-        
+
         this._initStaticSymbols();
-        
+
         this._initHitAreaColumn();
-        _oInterface = new CInterface(_iCurBet,_iTotBet,_iMoney);
-        
+        _oInterface = new CInterface(_iCurBet, _iTotBet, _iMoney);
+
         _oBonusPanel = new CBonusPanel();
         _oPayTable = new CPayTablePanel();
-		
-        if(_iMoney < _iTotBet){
-                _oInterface.disableSpin();
+
+        if (_iMoney < _iTotBet) {
+            _oInterface.disableSpin();
         }
-        
+
         _bUpdate = true;
     };
-    
-    this.unload = function(){
-        if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+
+    this.unload = function () {
+        if (DISABLE_SOUND_MOBILE === false || s_bMobile === false) {
             createjs.Sound.stop();
             s_oSoundTrack = null;
         }
-        
+
         s_oStage.removeChild(_oBg);
         s_oStage.removeChild(_oFrontSkin);
         _oInterface.unload();
         _oPayTable.unload();
-        
-        for(var k=0;k<_aMovingColumns.length;k++){
+
+        for (var k = 0; k < _aMovingColumns.length; k++) {
             _aMovingColumns[k].unload();
         }
-        
-        for(var i=0;i<NUM_ROWS;i++){
-            for(var j=0;j<NUM_REELS;j++){
+
+        for (var i = 0; i < NUM_ROWS; i++) {
+            for (var j = 0; j < NUM_REELS; j++) {
                 _aStaticSymbols[i][j].unload();
             }
-        } 
-        
+        }
+
         _oBonusPanel.unload();
     };
-    
-    this._initReels = function(){  
+
+    this._initReels = function () {
         var iXPos = REEL_OFFSET_X;
         var iYPos = REEL_OFFSET_Y;
-        
+
         var iCurDelay = 0;
         _aMovingColumns = new Array();
-        for(var i=0;i<NUM_REELS;i++){ 
-            _aMovingColumns[i] = new CReelColumn(i,iXPos,iYPos,iCurDelay);
-            _aMovingColumns[i+NUM_REELS] = new CReelColumn(i+NUM_REELS,iXPos,iYPos + (SYMBOL_SIZE*NUM_ROWS),iCurDelay );
+        for (var i = 0; i < NUM_REELS; i++) {
+            _aMovingColumns[i] = new CReelColumn(i, iXPos, iYPos, iCurDelay);
+            _aMovingColumns[i + NUM_REELS] = new CReelColumn(i + NUM_REELS, iXPos, iYPos + (SYMBOL_SIZE * NUM_ROWS), iCurDelay);
             iXPos += SYMBOL_SIZE + SPACE_BETWEEN_SYMBOLS;
             iCurDelay += REEL_DELAY;
         }
-        
+
     };
-    
-    this._initStaticSymbols = function(){
+
+    this._initStaticSymbols = function () {
         var iXPos = REEL_OFFSET_X;
         var iYPos = REEL_OFFSET_Y;
         _aStaticSymbols = new Array();
-        for(var i=0;i<NUM_ROWS;i++){
+        for (var i = 0; i < NUM_ROWS; i++) {
             _aStaticSymbols[i] = new Array();
-            for(var j=0;j<NUM_REELS;j++){
-                var oSymbol = new CStaticSymbolCell(i,j,iXPos,iYPos);
+            for (var j = 0; j < NUM_REELS; j++) {
+                var oSymbol = new CStaticSymbolCell(i, j, iXPos, iYPos);
                 _aStaticSymbols[i][j] = oSymbol;
-                
+
                 iXPos += SYMBOL_SIZE + SPACE_BETWEEN_SYMBOLS;
             }
             iXPos = REEL_OFFSET_X;
             iYPos += SYMBOL_SIZE;
         }
     };
-    
-    this._initHitAreaColumn = function(){
+
+    this._initHitAreaColumn = function () {
         _aIndexColumnHold = new Array();
         _aSelectCol = new Array();
         iX = 376;
         iY = 120;
-        for(var j=0;j<NUM_REELS;j++){
-            var oSelect = createBitmap( s_oSpriteLibrary.getSprite('hold_col'));
+        for (var j = 0; j < NUM_REELS; j++) {
+            var oSelect = createBitmap(s_oSpriteLibrary.getSprite('hold_col'));
             oSelect.x = iX;
             oSelect.y = iY;
             oSelect.visible = false;
             s_oStage.addChild(oSelect);
-            
+
             iX += 150;
-            
+
             _aSelectCol.push(oSelect);
             _aIndexColumnHold[j] = false;
         }
-        
+
         _aHoldText = new Array();
         _aHitAreaColumn = new Array();
-        
+
         var iX = 381;
         var iY = 108;
         var oSprite = s_oSpriteLibrary.getSprite('hit_area_col');
-        for(var i=0;i<NUM_REELS;i++){
-            var oText = new createjs.Text(TEXT_HOLD,"22px "+FONT_GAME, "#ffffff");
+        for (var i = 0; i < NUM_REELS; i++) {
+            var oText = new createjs.Text(TEXT_HOLD, "22px " + FONT_GAME, "#ffffff");
             oText.visible = false;
-            oText.x = iX + oSprite.width/2;
+            oText.x = iX + oSprite.width / 2;
             oText.y = iY + oSprite.height - 20;
             oText.shadow = new createjs.Shadow("#000", 1, 1, 2);
             oText.textAlign = "center";
             s_oStage.addChild(oText);
             _aHoldText[i] = oText;
-            
-            var oHitArea = new CGfxButton(iX + (oSprite.width/2),iY +(oSprite.height/2),oSprite);
+
+            var oHitArea = new CGfxButton(iX + (oSprite.width / 2), iY + (oSprite.height / 2), oSprite);
             oHitArea.setVisible(false);
-            oHitArea.addEventListenerWithParams(ON_MOUSE_UP, this._onHitAreaCol, this,{index:i});
-            
+            oHitArea.addEventListenerWithParams(ON_MOUSE_UP, this._onHitAreaCol, this, {index: i});
+
             iX += 150;
-            
+
             _aHitAreaColumn.push(oHitArea);
         }
-        
-        
+
+
     };
-    
-    this.generateFinalSymbols = function(){
-        for(var i=0;i<NUM_ROWS;i++){
-            for(var j=0;j<NUM_REELS;j++){
-                if(_aMovingColumns[j].isHold() === false){
-                    var iRandIndex = Math.floor(Math.random()* s_aRandSymbols.length);
+
+    this.generateFinalSymbols = function () {
+        for (var i = 0; i < NUM_ROWS; i++) {
+            for (var j = 0; j < NUM_REELS; j++) {
+                if (_aMovingColumns[j].isHold() === false) {
+                    var iRandIndex = Math.floor(Math.random() * s_aRandSymbols.length);
                     var iRandSymbol = s_aRandSymbols[iRandIndex];
                     _aFinalSymbolCombo[i][j] = iRandSymbol;
-                }    
+                }
             }
         }
-        
+
         //CHECK IF THERE IS ANY COMBO
         _aWinningLine = new Array();
         _iTotWin = 0;
-        for(var k=0;k<_iLastLineActive;k++){
+        for (var k = 0; k < _iLastLineActive; k++) {
             var aCombos = s_aPaylineCombo[k];
-            
+
             var aCellList = new Array();
             var iValue = _aFinalSymbolCombo[aCombos[0].row][aCombos[0].col];
-            if(iValue !== BONUS_SYMBOL){
+            if (iValue !== BONUS_SYMBOL) {
                 var iNumEqualSymbol = 1;
                 var iStartIndex = 1;
-                aCellList.push({row:aCombos[0].row,col:aCombos[0].col,value:_aFinalSymbolCombo[aCombos[0].row][aCombos[0].col]});
+                aCellList.push({
+                    row: aCombos[0].row,
+                    col: aCombos[0].col,
+                    value: _aFinalSymbolCombo[aCombos[0].row][aCombos[0].col]
+                });
 
-                while(iValue === WILD_SYMBOL && iStartIndex<NUM_REELS){
+                while (iValue === WILD_SYMBOL && iStartIndex < NUM_REELS) {
                     iNumEqualSymbol++;
                     iValue = _aFinalSymbolCombo[aCombos[iStartIndex].row][aCombos[iStartIndex].col];
-                    aCellList.push({row:aCombos[iStartIndex].row,col:aCombos[iStartIndex].col,
-                                                value:_aFinalSymbolCombo[aCombos[iStartIndex].row][aCombos[iStartIndex].col]});
+                    aCellList.push({
+                        row: aCombos[iStartIndex].row, col: aCombos[iStartIndex].col,
+                        value: _aFinalSymbolCombo[aCombos[iStartIndex].row][aCombos[iStartIndex].col]
+                    });
                     iStartIndex++;
                 }
 
-                for(var t=iStartIndex;t<aCombos.length;t++){
-                    if(_aFinalSymbolCombo[aCombos[t].row][aCombos[t].col] === iValue || _aFinalSymbolCombo[aCombos[t].row][aCombos[t].col] === WILD_SYMBOL){
-                        if(_aFinalSymbolCombo[aCombos[t].row][aCombos[t].col] === BONUS_SYMBOL){
+                for (var t = iStartIndex; t < aCombos.length; t++) {
+                    if (_aFinalSymbolCombo[aCombos[t].row][aCombos[t].col] === iValue || _aFinalSymbolCombo[aCombos[t].row][aCombos[t].col] === WILD_SYMBOL) {
+                        if (_aFinalSymbolCombo[aCombos[t].row][aCombos[t].col] === BONUS_SYMBOL) {
                             break;
                         }
                         iNumEqualSymbol++;
 
-                        aCellList.push({row:aCombos[t].row,col:aCombos[t].col,value:_aFinalSymbolCombo[aCombos[t].row][aCombos[t].col]});
-                    }else{
+                        aCellList.push({
+                            row: aCombos[t].row,
+                            col: aCombos[t].col,
+                            value: _aFinalSymbolCombo[aCombos[t].row][aCombos[t].col]
+                        });
+                    } else {
                         break;
                     }
                 }
 
-                if(s_aSymbolWin[iValue-1][iNumEqualSymbol-1] > 0){
-                    _iTotWin += s_aSymbolWin[iValue-1][iNumEqualSymbol-1];
-                    _aWinningLine.push({line:k+1,amount:s_aSymbolWin[iValue-1][iNumEqualSymbol-1],
-                                                                num_win:iNumEqualSymbol,value:iValue,list:aCellList});
+                if (s_aSymbolWin[iValue - 1][iNumEqualSymbol - 1] > 0) {
+                    _iTotWin += s_aSymbolWin[iValue - 1][iNumEqualSymbol - 1];
+                    _aWinningLine.push({
+                        line: k + 1, amount: s_aSymbolWin[iValue - 1][iNumEqualSymbol - 1],
+                        num_win: iNumEqualSymbol, value: iValue, list: aCellList
+                    });
                 }
             }
         }
-        
+
         //CHECK IF THERE IS BONUS
         _bBonus = false;
         _iNumItemInBonus = 0;
         var aBonusSymbols = new Array();
-        for(var i=0;i<NUM_ROWS;i++){
-            for(var j=0;j<NUM_REELS;j++){
-                if( _aFinalSymbolCombo[i][j] === BONUS_SYMBOL){
-                    aBonusSymbols.push({row:i,col:j,value:_aFinalSymbolCombo[i][j]});
+        for (var i = 0; i < NUM_ROWS; i++) {
+            for (var j = 0; j < NUM_REELS; j++) {
+                if (_aFinalSymbolCombo[i][j] === BONUS_SYMBOL) {
+                    aBonusSymbols.push({row: i, col: j, value: _aFinalSymbolCombo[i][j]});
                     _iNumItemInBonus++;
                 }
             }
         }
-        
-        if(_iNumItemInBonus >= NUM_SYMBOLS_FOR_BONUS){
-            _aWinningLine.push({line:-1,amount:0,num_win:_iNumItemInBonus,value:BONUS_SYMBOL,list:aBonusSymbols});
-            
-            if(_iNumItemInBonus>5){
-                _iNumItemInBonus = 5; 
+
+        if (_iNumItemInBonus >= NUM_SYMBOLS_FOR_BONUS) {
+            _aWinningLine.push({
+                line: -1,
+                amount: 0,
+                num_win: _iNumItemInBonus,
+                value: BONUS_SYMBOL,
+                list: aBonusSymbols
+            });
+
+            if (_iNumItemInBonus > 5) {
+                _iNumItemInBonus = 5;
             }
-            
+
             _bBonus = true;
         }
-        
-        return _aWinningLine.length>0?true:false;
+
+        return _aWinningLine.length > 0 ? true : false;
     };
-    
-    this._generateRandSymbols = function() {
+
+    this._generateRandSymbols = function () {
         var aRandSymbols = new Array();
         for (var i = 0; i < NUM_ROWS; i++) {
-                var iRandIndex = Math.floor(Math.random()* s_aRandSymbols.length);
-                aRandSymbols[i] = s_aRandSymbols[iRandIndex];
+            var iRandIndex = Math.floor(Math.random() * s_aRandSymbols.length);
+            aRandSymbols[i] = s_aRandSymbols[iRandIndex];
         }
 
         return aRandSymbols;
     };
-    
-    this.reelArrived = function(iReelIndex,iCol) {
-        if(_iCurReelLoops>MIN_REEL_LOOPS ){
-            
+
+    this.reelArrived = function (iReelIndex, iCol) {
+        if (!_iAcceptedRequested && iCol == 0 && _iCurRes._win_) {
+            _iAcceptedRequested = true;
+            if (_iTotWin > 0) {
+                var bet = {
+                    totalWin: _iTotWin * _iCurBet,
+                    id: _iCurRes.id,
+                    numLineWin: _aWinningLine.length
+                };
+                $.ajax({
+                    url: '/bet/accept',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(bet),
+                    dataType: 'json',
+                    async: true,
+                    success: function (data) {
+
+                        if (!data._accepted_) {
+                            _iCurRes._win_ = false;
+                            do {
+                                var bRet = s_oGame.generateFinalSymbols();
+                            } while (bRet != _iCurRes._win_)
+                        }
+                        _iAcceptedResponded = true;
+                    },
+                });
+
+            }else{
+                _iAcceptedResponded = true;
+            }
+        }else{
+            _iAcceptedRequested = true;
+            _iAcceptedResponded = true;
+        }
+
+        if (_iAcceptedRequested && _iAcceptedResponded && _iCurReelLoops > MIN_REEL_LOOPS) {
+
             if (_iNextColToStop === iCol) {
-                
+
                 if (_aMovingColumns[iReelIndex].isReadyToStop() === false) {
                     var iNewReelInd = iReelIndex;
                     if (iReelIndex < NUM_REELS) {
-                            iNewReelInd += NUM_REELS;
-                            
-                            _aMovingColumns[iNewReelInd].setReadyToStop();
-                            
-                            _aMovingColumns[iReelIndex].restart(new Array(_aFinalSymbolCombo[0][iReelIndex],
-                                                                          _aFinalSymbolCombo[1][iReelIndex],
-                                                                          _aFinalSymbolCombo[2][iReelIndex]), true);
-                            
-                    }else {
-                            iNewReelInd -= NUM_REELS;
-                            _aMovingColumns[iNewReelInd].setReadyToStop();
-                            
-                            _aMovingColumns[iReelIndex].restart(new Array(_aFinalSymbolCombo[0][iNewReelInd],
-                                                                          _aFinalSymbolCombo[1][iNewReelInd],
-                                                                          _aFinalSymbolCombo[2][iNewReelInd]), true);    
+                        iNewReelInd += NUM_REELS;
+
+                        _aMovingColumns[iNewReelInd].setReadyToStop();
+
+                        _aMovingColumns[iReelIndex].restart(new Array(_aFinalSymbolCombo[0][iReelIndex],
+                            _aFinalSymbolCombo[1][iReelIndex],
+                            _aFinalSymbolCombo[2][iReelIndex]), true);
+
+                    } else {
+                        iNewReelInd -= NUM_REELS;
+                        _aMovingColumns[iNewReelInd].setReadyToStop();
+
+                        _aMovingColumns[iReelIndex].restart(new Array(_aFinalSymbolCombo[0][iNewReelInd],
+                            _aFinalSymbolCombo[1][iNewReelInd],
+                            _aFinalSymbolCombo[2][iNewReelInd]), true);
                     }
-                    
+
                 }
-            }else {
-                    _aMovingColumns[iReelIndex].restart(this._generateRandSymbols(),false);
-            }   
-        }else {    
+            } else {
+                _aMovingColumns[iReelIndex].restart(this._generateRandSymbols(), false);
+            }
+        } else {
             _aMovingColumns[iReelIndex].restart(this._generateRandSymbols(), false);
-            if(iReelIndex === 0){
+            if (iReelIndex === 0) {
                 _iCurReelLoops++;
             }
-            
+
         }
     };
-    
-    this.increaseReelLoops = function(){
+
+    this.increaseReelLoops = function () {
         _iCurReelLoops += 2;
     };
-    
-    
-    this.stopNextReel = function() {
+
+
+    this.stopNextReel = function () {
         _iNumReelsStopped++;
-        if(_iNumReelsStopped%2 === 0){
-            
-            if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
-                createjs.Sound.play("reel_stop",{volume:0.3});
+        if (_iNumReelsStopped % 2 === 0) {
+
+            if (DISABLE_SOUND_MOBILE === false || s_bMobile === false) {
+                createjs.Sound.play("reel_stop", {volume: 0.3});
             }
-            
-            _iNextColToStop = _aReelSequence[_iNumReelsStopped/2];
-            
-            if (_iNumReelsStopped === (NUM_REELS*2) ) {
+
+            _iNextColToStop = _aReelSequence[_iNumReelsStopped / 2];
+
+            if (_iNumReelsStopped === (NUM_REELS * 2)) {
                 this._endReelAnimation();
             }
-        }    
+        }
     };
-    
-    this._endReelAnimation = function(){
-        if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+
+    this._endReelAnimation = function () {
+        if (DISABLE_SOUND_MOBILE === false || s_bMobile === false) {
             _oReelSound.stop();
         }
 
         _iCurReelLoops = 0;
         _iNumReelsStopped = 0;
         _iNextColToStop = _aReelSequence[0];
-        
-        for(var k=0;k<NUM_REELS;k++){
-            _aIndexColumnHold[k] =  false;
+
+        for (var k = 0; k < NUM_REELS; k++) {
+            _aIndexColumnHold[k] = false;
             _aSelectCol[k].visible = false;
             _aMovingColumns[k].setHold(false);
-            _aMovingColumns[k+NUM_REELS].setHold(false);
+            _aMovingColumns[k + NUM_REELS].setHold(false);
         }
-        
+
         _iNumIndexHold = 0;
-        
-        var iTotWin = 0;
+
         //INCREASE MONEY IF THERE ARE COMBOS
-        if(_aWinningLine.length > 0){
+        if (_aWinningLine.length > 0) {
             //HIGHLIGHT WIN COMBOS IN PAYTABLE
-            for(var i=0;i<_aWinningLine.length;i++){
-                _oPayTable.highlightCombo(_aWinningLine[i].value,_aWinningLine[i].num_win);
-                
-                if(_aWinningLine[i].line !== -1){
+
+
+            for (var i = 0; i < _aWinningLine.length; i++) {
+                _oPayTable.highlightCombo(_aWinningLine[i].value, _aWinningLine[i].num_win);
+
+                if (_aWinningLine[i].line !== -1) {
                     _oInterface.showLine(_aWinningLine[i].line);
                 }
                 var aList = _aWinningLine[i].list;
-                for(var k=0;k<aList.length;k++){
+                for (var k = 0; k < aList.length; k++) {
                     _aStaticSymbols[aList[k].row][aList[k].col].show(aList[k].value);
                 }
+            }
 
-            }
-            
-            _iTotWin *=_iCurBet;
-            var bet = {
-                totalWin: _iTotWin,
-                id : _iCurRes.id,
-                numLineWin : _aWinningLine.length
-            };
-            $.ajax({
-                url: '/bet/accept',
-                type: 'post',
-                contentType: 'application/json',
-                data: JSON.stringify(bet),
-                dataType: 'json',
-                async: false,
-                success: function (data) {
-                    if(data._accepted_) {
-                        _iMoney += _iTotWin;
-                    }
-                },
-            });
-            
-            if(_iTotWin>0){
-                    _oInterface.refreshMoney(_iMoney);
-                    _oInterface.refreshWinText(_iTotWin);
-            }
-            _iTimeElaps = 0;
-            _iCurState = GAME_STATE_SHOW_ALL_WIN;
-            
-            if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+
+            if (DISABLE_SOUND_MOBILE === false || s_bMobile === false) {
                 _oCurSymbolWinSound = createjs.Sound.play("win");
             }
-        }else{
-            if(_bCanHoldColumns){
+
+
+            _iTotWin *= _iCurBet;
+            _iMoney += _iTotWin;
+            _oInterface.refreshMoney(_iMoney);
+            _oInterface.refreshWinText(_iTotWin);
+            _iTimeElaps = 0;
+            _iCurState = GAME_STATE_SHOW_ALL_WIN;
+
+        } else {
+            if (_bCanHoldColumns) {
                 this.enableColumnHitArea();
             }
             _iCurState = GAME_STATE_IDLE;
         }
-        
-        if(_bCanHoldColumns === false){
+
+        if (_bCanHoldColumns === false) {
             _bCanHoldColumns = true;
         }
-        
-        if(_bBonus === false){
+
+        if (_bBonus === false) {
             _oInterface.disableBetBut(false);
             _oInterface.enableGuiButtons();
         }
-        if(_iMoney < _iTotBet){
+        if (_iMoney < _iTotBet) {
             _oInterface.disableSpin();
         }
 
         _iNumSpinCont++;
         /*if(_iNumSpinCont === _iAdsShowingCont){
-            _iNumSpinCont = 0;
-            
-            $(s_oMain).trigger("show_interlevel_ad");
-        }*/
+         _iNumSpinCont = 0;
 
-        $(s_oMain).trigger("save_score",_iMoney);
+         $(s_oMain).trigger("show_interlevel_ad");
+         }*/
+
+        $(s_oMain).trigger("save_score", _iMoney);
     };
 
-    this.hidePayTable = function(){
+    this.hidePayTable = function () {
         _oPayTable.hide();
     };
-    
-    this._showWin = function(){
+
+    this._showWin = function () {
         var iLineIndex;
-        if(_iCurWinShown>0){ 
-            if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+        if (_iCurWinShown > 0) {
+            if (DISABLE_SOUND_MOBILE === false || s_bMobile === false) {
                 _oCurSymbolWinSound.stop();
             }
-            
-            if(_aWinningLine[_iCurWinShown-1].line !== -1){
-                iLineIndex = _aWinningLine[_iCurWinShown-1].line;
+
+            if (_aWinningLine[_iCurWinShown - 1].line !== -1) {
+                iLineIndex = _aWinningLine[_iCurWinShown - 1].line;
                 _oInterface.hideLine(iLineIndex);
             }
-            var aList = _aWinningLine[_iCurWinShown-1].list;
-            for(var k=0;k<aList.length;k++){
+            var aList = _aWinningLine[_iCurWinShown - 1].list;
+            for (var k = 0; k < aList.length; k++) {
                 _aStaticSymbols[aList[k].row][aList[k].col].stopAnim();
             }
         }
-        
-        if(_iCurWinShown === _aWinningLine.length){
+
+        if (_iCurWinShown === _aWinningLine.length) {
             _iCurWinShown = 0;
         }
-        
-        if(_aWinningLine[_iCurWinShown].line !== -1){
+
+        if (_aWinningLine[_iCurWinShown].line !== -1) {
             iLineIndex = _aWinningLine[_iCurWinShown].line;
             _oInterface.showLine(iLineIndex);
         }
 
         var aList = _aWinningLine[_iCurWinShown].list;
-        for(var k=0;k<aList.length;k++){
+        for (var k = 0; k < aList.length; k++) {
             _aStaticSymbols[aList[k].row][aList[k].col].show(aList[k].value);
         }
-            
+
 
         _iCurWinShown++;
-        
+
     };
-    
-    this._hideAllWins = function(){
-        for(var i=0;i<_aWinningLine.length;i++){
+
+    this._hideAllWins = function () {
+        for (var i = 0; i < _aWinningLine.length; i++) {
             var aList = _aWinningLine[i].list;
-            for(var k=0;k<aList.length;k++){
+            for (var k = 0; k < aList.length; k++) {
                 _aStaticSymbols[aList[k].row][aList[k].col].stopAnim();
             }
         }
-        
+
         _oInterface.hideAllLines();
 
         _iTimeElaps = 0;
         _iCurWinShown = 0;
         _iTimeElaps = TIME_SHOW_WIN;
         _iCurState = GAME_STATE_SHOW_WIN;
-        
-        if(_bBonus){
-            _oBonusPanel.show(_iNumItemInBonus,_iCurRes.maxBonus);
+
+        if (_bBonus) {
+            _oBonusPanel.show(_iNumItemInBonus, _iCurRes.maxBonus);
         }
     };
-    
-    this.enableColumnHitArea = function(){
-        for(var i=0;i<NUM_REELS;i++){
+
+    this.enableColumnHitArea = function () {
+        for (var i = 0; i < NUM_REELS; i++) {
             _aHoldText[i].visible = true;
             _aHitAreaColumn[i].setVisible(true);
         }
     };
 
-    this.disableColumnHitArea = function(){
-        for(var i=0;i<NUM_REELS;i++){
+    this.disableColumnHitArea = function () {
+        for (var i = 0; i < NUM_REELS; i++) {
             _aHoldText[i].visible = false;
             _aHitAreaColumn[i].setVisible(false);
         }
     };
-    
-    this.activateLines = function(iLine){
+
+    this.activateLines = function (iLine) {
         _iLastLineActive = iLine;
         this.removeWinShowing();
-		
-		var iNewTotalBet = _iCurBet * _iLastLineActive;
 
-		_iTotBet = iNewTotalBet;
-		_oInterface.refreshTotalBet(_iTotBet);
-		_oInterface.refreshNumLines(_iLastLineActive);
-		
-		
-		if(iNewTotalBet>_iMoney){
-			_oInterface.disableSpin();
-		}else{
-			_oInterface.enableSpin();
-		}
-    };
-	
-    this.addLine = function(){
-        if(_iLastLineActive === NUM_PAYLINES){
-            _iLastLineActive = 1;  
-        }else{
-            _iLastLineActive++;    
+        var iNewTotalBet = _iCurBet * _iLastLineActive;
+
+        _iTotBet = iNewTotalBet;
+        _oInterface.refreshTotalBet(_iTotBet);
+        _oInterface.refreshNumLines(_iLastLineActive);
+
+
+        if (iNewTotalBet > _iMoney) {
+            _oInterface.disableSpin();
+        } else {
+            _oInterface.enableSpin();
         }
-		
-		var iNewTotalBet = _iCurBet * _iLastLineActive;
-
-		_iTotBet = iNewTotalBet;
-		_oInterface.refreshTotalBet(_iTotBet);
-		_oInterface.refreshNumLines(_iLastLineActive);
-		
-		
-		if(iNewTotalBet>_iMoney){
-			_oInterface.disableSpin();
-		}else{
-			_oInterface.enableSpin();
-		}
     };
-    
-    this.changeCoinBet = function(){
+
+    this.addLine = function () {
+        if (_iLastLineActive === NUM_PAYLINES) {
+            _iLastLineActive = 1;
+        } else {
+            _iLastLineActive++;
+        }
+
+        var iNewTotalBet = _iCurBet * _iLastLineActive;
+
+        _iTotBet = iNewTotalBet;
+        _oInterface.refreshTotalBet(_iTotBet);
+        _oInterface.refreshNumLines(_iLastLineActive);
+
+
+        if (iNewTotalBet > _iMoney) {
+            _oInterface.disableSpin();
+        } else {
+            _oInterface.enableSpin();
+        }
+    };
+
+    this.changeCoinBet = function () {
         var iNewBet = null;
-        for(var i = 0 ;  i < s_aBetCombination.length ; i++){
-            if(s_aBetCombination[i] == _iCurBet){
-                iNewBet = s_aBetCombination[i+1];
+        for (var i = 0; i < s_aBetCombination.length; i++) {
+            if (s_aBetCombination[i] == _iCurBet) {
+                iNewBet = s_aBetCombination[i + 1];
                 break;
             }
         }
         var iNewTotalBet;
 
-        if(iNewBet == null || iNewBet>MAX_BET){
+        if (iNewBet == null || iNewBet > MAX_BET) {
             _iCurBet = MIN_BET;
             _iTotBet = _iCurBet * _iLastLineActive;
             _oInterface.refreshBet(_iCurBet);
             _oInterface.refreshTotalBet(_iTotBet);
             iNewTotalBet = _iTotBet;
-        }else{
+        } else {
             iNewTotalBet = iNewBet * _iLastLineActive;
 
             _iCurBet = iNewBet;
@@ -574,87 +612,87 @@ function CGame(oData){
             _oInterface.refreshTotalBet(_iTotBet);
         }
 
-        if(iNewTotalBet>_iMoney){
+        if (iNewTotalBet > _iMoney) {
             _oInterface.disableSpin();
-        }else{
+        } else {
             _oInterface.enableSpin();
         }
 
 
     };
-	
-    this.onMaxBet = function(){
+
+    this.onMaxBet = function () {
         var iNewBet = MAX_BET;
-		_iLastLineActive = NUM_PAYLINES;
-        
+        _iLastLineActive = NUM_PAYLINES;
+
         var iNewTotalBet = iNewBet * _iLastLineActive;
 
-		_iCurBet = MAX_BET;
-		_iTotBet = iNewTotalBet;
-		_oInterface.refreshBet(_iCurBet);
-		_oInterface.refreshTotalBet(_iTotBet);
-		_oInterface.refreshNumLines(_iLastLineActive);
-        
-		if(iNewTotalBet>_iMoney){
-			_oInterface.disableSpin();
-		}else{
-			_oInterface.enableSpin();
-			this.onSpin();
-		}
+        _iCurBet = MAX_BET;
+        _iTotBet = iNewTotalBet;
+        _oInterface.refreshBet(_iCurBet);
+        _oInterface.refreshTotalBet(_iTotBet);
+        _oInterface.refreshNumLines(_iLastLineActive);
+
+        if (iNewTotalBet > _iMoney) {
+            _oInterface.disableSpin();
+        } else {
+            _oInterface.enableSpin();
+            this.onSpin();
+        }
     };
-    
-    this._onHitAreaCol = function(oParam){
+
+    this._onHitAreaCol = function (oParam) {
         var iIndexCol = oParam.index;
-        if(_aIndexColumnHold[iIndexCol] === true){
-            _aIndexColumnHold[iIndexCol] =  false;
+        if (_aIndexColumnHold[iIndexCol] === true) {
+            _aIndexColumnHold[iIndexCol] = false;
             _aSelectCol[iIndexCol].visible = false;
             _aHoldText[iIndexCol].visible = true;
-            
+
             _iNumIndexHold--;
-            
+
             _aMovingColumns[iIndexCol].setHold(false);
-            _aMovingColumns[iIndexCol+NUM_REELS].setHold(false);
-            
-        }else if(_iNumIndexHold < MAX_NUM_HOLD){
-            _aIndexColumnHold[iIndexCol] =  true;
-            _iNumIndexHold++; 
+            _aMovingColumns[iIndexCol + NUM_REELS].setHold(false);
+
+        } else if (_iNumIndexHold < MAX_NUM_HOLD) {
+            _aIndexColumnHold[iIndexCol] = true;
+            _iNumIndexHold++;
             _aSelectCol[iIndexCol].visible = true;
             _aHoldText[iIndexCol].visible = false;
             _aMovingColumns[iIndexCol].setHold(true);
-            _aMovingColumns[iIndexCol+NUM_REELS].setHold(true);
-            
-            if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+            _aMovingColumns[iIndexCol + NUM_REELS].setHold(true);
+
+            if (DISABLE_SOUND_MOBILE === false || s_bMobile === false) {
                 createjs.Sound.play("press_hold");
             }
         }
-        
+
         _bCanHoldColumns = false;
     };
-    
-    this.removeWinShowing = function(){
+
+    this.removeWinShowing = function () {
         _oPayTable.resetHighlightCombo();
-        
+
         _oInterface.resetWin();
-        
-        for(var i=0;i<NUM_ROWS;i++){
-            for(var j=0;j<NUM_REELS;j++){
+
+        for (var i = 0; i < NUM_ROWS; i++) {
+            for (var j = 0; j < NUM_REELS; j++) {
                 _aStaticSymbols[i][j].hide();
             }
         }
-        
-        for(var k=0;k<_aMovingColumns.length;k++){
+
+        for (var k = 0; k < _aMovingColumns.length; k++) {
             _aMovingColumns[k].activate();
         }
-        
+
         _iCurState = GAME_STATE_IDLE;
     };
-    
-    this.endBonus = function(iBonus){
+
+    this.endBonus = function (iBonus) {
 
         var bet = {
             totalWin: iBonus,
-            id : _iCurRes.id,
-            numLineWin : 0
+            id: _iCurRes.id,
+            numLineWin: 0
         };
         $.ajax({
             url: '/bonusSlot/accept',
@@ -664,7 +702,7 @@ function CGame(oData){
             dataType: 'json',
             async: false,
             success: function (data) {
-                if(data._accepted_) {
+                if (data._accepted_) {
                     _iMoney += iBonus;
                 }
                 _oInterface.refreshMoney(_iMoney);
@@ -673,40 +711,41 @@ function CGame(oData){
         _oInterface.disableBetBut(false);
         _oInterface.enableGuiButtons();
     };
-    
-    this.onSpin = function(){
-        
-        if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
-            if(_oCurSymbolWinSound){
+
+    this.onSpin = function () {
+
+        if (DISABLE_SOUND_MOBILE === false || s_bMobile === false) {
+            if (_oCurSymbolWinSound) {
                 _oCurSymbolWinSound.stop();
             }
-            _oReelSound = createjs.Sound.play("reels",{volume:0.3});
+            _oReelSound = createjs.Sound.play("reels", {volume: 0.3});
         }
-        
+
         this.disableColumnHitArea();
         _oInterface.disableBetBut(true);
         this.removeWinShowing();
-        
+
         //FIND MIN WIN
-        MIN_WIN = s_aSymbolWin[0][s_aSymbolWin[0].length-1];
-        for(var i=0;i<s_aSymbolWin.length;i++){
+        MIN_WIN = s_aSymbolWin[0][s_aSymbolWin[0].length - 1];
+        for (var i = 0; i < s_aSymbolWin.length; i++) {
             var aTmp = s_aSymbolWin[i];
-            for(var j=0;j<aTmp.length;j++){
-                if(aTmp[j] !== 0 && aTmp[j] < MIN_WIN){
+            for (var j = 0; j < aTmp.length; j++) {
+                if (aTmp[j] !== 0 && aTmp[j] < MIN_WIN) {
                     MIN_WIN = aTmp[j];
                 }
             }
         }
-		
-		MIN_WIN *= _iCurBet;
 
+        MIN_WIN *= _iCurBet;
+        _iAcceptedRequested = false;
+        _iAcceptedResponded = false;
         var bet = {
             lineCount: _iLastLineActive,
-            bet:_iCurBet,
-            minWin:MIN_WIN,
-            bonus:true,
-            freeSpin:false,
-            gameName :window.location.pathname.split("/")[2]
+            bet: _iCurBet,
+            minWin: MIN_WIN,
+            bonus: true,
+            freeSpin: false,
+            gameName: window.location.pathname.split("/")[2]
         };
         _iCurRes = null;
         $.ajax({
@@ -723,31 +762,39 @@ function CGame(oData){
             },
         });
 
-        
+
         //CHECK IF THERE IS MINIMUM AMOUNT FOR AT LEAST WORST WINNING
-        if(!_iCurRes._win_){
+        if (!_iCurRes._win_) {
             //PLAYER MUST LOSE
-            if(!_iCurRes.bonus) {
+            if (!_iCurRes.bonus) {
                 do {
                     var bRet = this.generateFinalSymbols();
                 } while (bRet === true);
-            }else {
-                do{
+            } else {
+                do {
                     var bRet = this.generateFinalSymbols();
                     var iIndex = 0;
-                    if(_bBonus){
+                    if (_bBonus) {
                         iIndex = _iNumItemInBonus - 3;
                     }
-                }while(bRet === false || _bBonus === false);
+                } while (_iTotWin > 0 || _bBonus === false);
             }
-        }else{
-                //PLAYER WINS
-                if(!_iCurRes.bonus){
-                        //NO BONUS
-                        do{
-                                var bRet = this.generateFinalSymbols();
-                        }while(bRet === false || (_iTotWin*_iCurBet) > _iCurRes._maxWin_ || _bBonus);
-                }
+        } else {
+            var maxIter = 10000;
+            var curIter = 0;
+            //PLAYER WINS
+            if (!_iCurRes.bonus) {
+                //NO BONUS
+                do {
+                    var bRet = this.generateFinalSymbols();
+                    maxIter++;
+                    if (curIter > maxIter) {
+                        _iCurRes._win_ = false;
+                        _iCurRes._maxWin_ = 0;
+                    }
+                } while (bRet === false || (_iTotWin * _iCurBet) > _iCurRes._maxWin_ || _bBonus);
+            }
+
         }
 
         _oInterface.hideAllLines();
@@ -755,58 +802,61 @@ function CGame(oData){
 
         _iCurState = GAME_STATE_SPINNING;
     };
-    
-    this.onInfoClicked = function(){
-        if(_iCurState === GAME_STATE_SPINNING){
+
+    this.onInfoClicked = function () {
+        if (_iCurState === GAME_STATE_SPINNING) {
             return;
         }
-        
-        if(_oPayTable.isVisible()){
+
+        if (_oPayTable.isVisible()) {
             _oPayTable.hide();
-        }else{
+        } else {
             _oPayTable.show();
         }
     };
 
-    this.onExit = function(){
+    this.onExit = function () {
         this.unload();
         s_oMain.gotoMenu();
-        
+
         $(s_oMain).trigger("end_session");
         $(s_oMain).trigger("share_event", {
-                img: "200x200.jpg",
-                title: TEXT_CONGRATULATIONS,
-                msg:  TEXT_MSG_SHARE1+ _iMoney + TEXT_MSG_SHARE2,
-                msg_share: TEXT_MSG_SHARING1 + _iMoney + TEXT_MSG_SHARING2
-            });
+            img: "200x200.jpg",
+            title: TEXT_CONGRATULATIONS,
+            msg: TEXT_MSG_SHARE1 + _iMoney + TEXT_MSG_SHARE2,
+            msg_share: TEXT_MSG_SHARING1 + _iMoney + TEXT_MSG_SHARING2
+        });
     };
-    
-    this.getState = function(){
+
+    this.getState = function () {
         return _iCurState;
     };
-    
-    this.update = function(){
-        if(_bUpdate === false){
+
+    this.update = function () {
+        if (_bUpdate === false) {
             return;
         }
-        
-        switch(_iCurState){
-            case GAME_STATE_SPINNING:{
-                for(var i=0;i<_aMovingColumns.length;i++){
+
+        switch (_iCurState) {
+            case GAME_STATE_SPINNING:
+            {
+                for (var i = 0; i < _aMovingColumns.length; i++) {
                     _aMovingColumns[i].update(_iNextColToStop);
                 }
                 break;
             }
-            case GAME_STATE_SHOW_ALL_WIN:{
-                    _iTimeElaps += s_iTimeElaps;
-                    if(_iTimeElaps> TIME_SHOW_ALL_WINS){  
-                        this._hideAllWins();
-                    }
-                    break;
-            }
-            case GAME_STATE_SHOW_WIN:{
+            case GAME_STATE_SHOW_ALL_WIN:
+            {
                 _iTimeElaps += s_iTimeElaps;
-                if(_iTimeElaps > TIME_SHOW_WIN){
+                if (_iTimeElaps > TIME_SHOW_ALL_WINS) {
+                    this._hideAllWins();
+                }
+                break;
+            }
+            case GAME_STATE_SHOW_WIN:
+            {
+                _iTimeElaps += s_iTimeElaps;
+                if (_iTimeElaps > TIME_SHOW_WIN) {
                     _iTimeElaps = 0;
 
                     this._showWin();
@@ -814,12 +864,12 @@ function CGame(oData){
                 break;
             }
         }
-        
-	
+
+
     };
-    
+
     s_oGame = this;
-    
+
     WIN_OCCURRENCE = oData.win_occurrence;
     SLOT_CASH = oData.slot_cash;
     BONUS_OCCURRENCE = oData.bonus_occurrence;
@@ -832,13 +882,13 @@ function CGame(oData){
     MAX_BET = oData.max_bet;
     MAX_NUM_HOLD = oData.max_hold;
     PERC_WIN_BONUS_PRIZE_1 = oData.perc_win_bonus_prize_1;
-    PERC_WIN_BONUS_PRIZE_2= oData.perc_win_bonus_prize_2;
-    PERC_WIN_BONUS_PRIZE_3= oData.perc_win_bonus_prize_3;
+    PERC_WIN_BONUS_PRIZE_2 = oData.perc_win_bonus_prize_2;
+    PERC_WIN_BONUS_PRIZE_3 = oData.perc_win_bonus_prize_3;
     NUM_SYMBOLS_FOR_BONUS = oData.num_symbol_bonus;
     _iAdsShowingCont = oData.num_spin_ads_showing;
-    
+
     new CSlotSettings();
-    
+
     this._init();
 }
 

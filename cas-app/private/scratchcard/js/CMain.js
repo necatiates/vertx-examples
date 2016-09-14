@@ -97,7 +97,7 @@ function CMain(oData){
         s_oSpriteLibrary.addSprite("but_play","./sprites/but_play.png");
         s_oSpriteLibrary.addSprite("msg_box","./sprites/msg_box.png");
         s_oSpriteLibrary.addSprite("bg_help","./sprites/bg_help.png");
-        s_oSpriteLibrary.addSprite("bg_menu","./sprites/bg_menu.jpg"); 
+        s_oSpriteLibrary.addSprite("bg_menu","./sprites/bg_menu.jpg");
         s_oSpriteLibrary.addSprite("bg_game","./sprites/bg_game.jpg");
         s_oSpriteLibrary.addSprite("but_exit","./sprites/but_exit.png");
         s_oSpriteLibrary.addSprite("audio_icon","./sprites/audio_icon.png");

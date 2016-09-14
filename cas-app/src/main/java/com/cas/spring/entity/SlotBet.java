@@ -63,6 +63,9 @@ public class SlotBet implements Bet{
     @Column
     Double cashBalanceAfterPlay;
 
+    @Column
+    Double maxWin;
+
     public String getUsername() {
         return username;
     }
@@ -226,6 +229,14 @@ public class SlotBet implements Bet{
 
     public void setCashBalanceAfterPlay(Double cashBalanceAfterPlay) {
         this.cashBalanceAfterPlay = cashBalanceAfterPlay;
+    }
+
+    public Double getMaxWin() {
+        return maxWin;
+    }
+
+    public void setMaxWin(Double maxWin) {
+        this.maxWin = maxWin;
     }
 }
 

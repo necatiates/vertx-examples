@@ -49,7 +49,9 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                   <li class="active"><a href="#slots" role="tab" data-toggle="tab">Slots</a></li>
                   <li><a href="#strachs" role="tab" data-toggle="tab">Strach</a></li>
                   <li><a href="#blackjack" role="tab" data-toggle="tab">BlackJack</a></li>
-                    <li><a href="#poker" role="tab" data-toggle="tab">Poker</a></li>
+                  <li><a href="#poker" role="tab" data-toggle="tab">Poker</a></li>
+                  <li><a href="#running" role="tab" data-toggle="tab">100m</a></li>
+                  <li><a href="#gold_miner" role="tab" data-toggle="tab">Gold Miner</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -192,6 +194,72 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                           </tbody>
                       </table>
                   </div>
+                  <div class="tab-pane fade" id="running">
+                        <div class="row">
+                            <div class="col-md-6 margin-bottom-15">
+                                <label for="username_blackjack" class="control-label">Kullanıcı Adı</label>
+                                <input type="text" class="form-control" id="username_running" value="">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" onclick="getRunning()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px">Filtrele</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" onclick="prevRunning()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px"><< Önceki </button>
+                                <button type="button" onclick="nextRunning()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px">Sonraki >></button>
+                            </div>
+                        </div>
+                        <table class="table table-striped" id="running_table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Yatırılan</th>
+                                <th>Kazandı</th>
+                                <th>Toplam Kazanç</th>
+                                <th>Sebep</th>
+                                <th>Kulllanıcı</th>
+                                <th>Kulllanıcı Bakiye</th>
+                                <th>Kasa Bakiye</th>
+                                <th>Tarih</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                  <div class="tab-pane fade" id="gold_miner">
+                        <div class="row">
+                            <div class="col-md-6 margin-bottom-15">
+                                <label for="username_blackjack" class="control-label">Kullanıcı Adı</label>
+                                <input type="text" class="form-control" id="username_gold_miner" value="">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" onclick="getGoldMiner()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px">Filtrele</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" onclick="prevGoldMiner()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px"><< Önceki </button>
+                                <button type="button" onclick="nextGoldMiner()" class="btn btn-primary" data-dismiss="modal" style="margin-top: 25px">Sonraki >></button>
+                            </div>
+                        </div>
+                        <table class="table table-striped" id="gold_miner_table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Yatırılan</th>
+                                <th>Kazandı</th>
+                                <th>Toplam Kazanç</th>
+                                <th>Sebep</th>
+                                <th>Kulllanıcı</th>
+                                <th>Kulllanıcı Bakiye</th>
+                                <th>Kasa Bakiye</th>
+                                <th>Tarih</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
               </div>
             </div>
@@ -232,6 +300,8 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
       slotsPage = 1;
       strachsPage = 1;
       blackJackPage = 1;
+      runningPage = 1;
+      goldMinerPage = 1;
       function prevSlots(){
         slotsPage--;
         getSlots();
@@ -384,6 +454,86 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
               },
           });
       }
+      function prevRunning(){
+          runningPage--;
+          getRunning();
+      }
+      function nextRunning(){
+          runningPage++;
+          getRunning();
+      }
+      function getRunning(){
+          $('#running_table tbody').html("");
+          var requestData = {
+              username: $('#username_running').val(),
+              page : runningPage
+          };
+          $.ajax({
+              url: '/admin/runningGames',
+              type: 'post',
+              contentType: 'application/json',
+              data: JSON.stringify(requestData),
+              dataType: 'json',
+              async: true,
+              success: function (data) {
+                  var date;
+                  for (var i = 0; i < data.length; i++) {
+                      date = new Date(data[i].update_time);
+                      html = '<tr><td>' + data[i].id + '</td> ' +
+                              '<td>' + data[i].bet + '</td>' +
+                              '<td>' + data[i].winResult + '</td>' +
+                              '<td>' + data[i].totalWin + '</td>' +
+                              '<td>' + data[i].loseCause + '</td>' +
+                              '<td>' + data[i].username + '</td>' +
+                              '<td>' + data[i].userBalanceAfterPlay + '</td>' +
+                              '<td>' + data[i].cashBalanceAfterPlay + '</td>' +
+                              '<td>' + data[i].formattedDate + '</td></tr>';
+                      $('#running_table tbody').append(html);
+                  }
+              },
+          });
+      }
+      function nextGoldMiner(){
+          goldMinerPage++;
+          getGoldMiner();
+      }
+      function prevGoldMiner(){
+          goldMinerPage--;
+          getGoldMiner();
+      }
+      function getGoldMiner(){
+          $('#gold_miner_table tbody').html("");
+          var requestData = {
+              username: $('#username_gold_miner').val(),
+              page : goldMinerPage
+          };
+          $.ajax({
+              url: '/admin/goldMinerGames',
+              type: 'post',
+              contentType: 'application/json',
+              data: JSON.stringify(requestData),
+              dataType: 'json',
+              async: true,
+              success: function (data) {
+                  var date;
+                  for (var i = 0; i < data.length; i++) {
+                      date = new Date(data[i].update_time);
+                      html = '<tr><td>' + data[i].id + '</td> ' +
+                              '<td>' + data[i].bet + '</td>' +
+                              '<td>' + data[i].winResult + '</td>' +
+                              '<td>' + data[i].totalWin + '</td>' +
+                              '<td>' + data[i].loseCause + '</td>' +
+                              '<td>' + data[i].username + '</td>' +
+                              '<td>' + data[i].userBalanceAfterPlay + '</td>' +
+                              '<td>' + data[i].cashBalanceAfterPlay + '</td>' +
+                              '<td>' + data[i].formattedDate + '</td></tr>';
+                      $('#gold_miner_table tbody').append(html);
+                  }
+              },
+          });
+      }
+      getGoldMiner();
+      getRunning();
       getSlots();
       getStrachs();
       getBlackJack();

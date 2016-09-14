@@ -10,8 +10,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import org.hibernate.Session;
 
-import java.util.Date;
-
 /**
  * Created by Administrator on 12.05.2016.
  */
@@ -25,7 +23,7 @@ public class BingoBetHandler {
         User user = (User) entityManager.get(User.class,((User)routingContext.session().get(StaticDefinitions.USER_SESSION_KEY)).getUsername());
         bingoBet.setUsername(user.getUsername());
         bingoBet.setUpdate_time(System.currentTimeMillis());
-        JsonObject response = BetDesicionHelper.invoke(bingoBet,entityManager);
+        JsonObject response = BetDesicionHelper.invoke(bingoBet,entityManager, 1);
         entityManager.persist(bingoBet);
         cash.setCash(cash.getCash() + bingoBet.getBet());
         user.setCash(user.getCash() - bingoBet.getBet());

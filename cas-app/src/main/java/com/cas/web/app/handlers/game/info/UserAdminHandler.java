@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by tolga on 15.03.2016.
@@ -39,8 +40,13 @@ public class UserAdminHandler {
             obj.put("cash",user.getCash());
             obj.put("email",user.getEmail());
             obj.put("phone_number",user.getPhone_number());
-            SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            obj.put("lastLogin",dt.format(user.getLastLogin()));
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            if(user.getLastLogin() != null){
+                obj.put("lastLogin",dt.format(user.getLastLogin()));
+            }else{
+                obj.put("lastLogin","Login Olmadı");
+            }
+
             usersArray.add(obj);
         }
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
@@ -58,6 +64,27 @@ public class UserAdminHandler {
         em.getTransaction().commit();
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(user));
+        em.close();
+    }
+
+    public static void setPasswordForUser(RoutingContext routingContext){
+        Session em = Server.factory.openSession();
+        User user = Json.decodeValue(routingContext.getBodyAsString(),User.class);
+        User persistedUser= (User) em.get(User.class,user.getUsername());
+        em.getTransaction().begin();
+
+        String uuid = UUID.randomUUID().toString();
+        uuid.replaceAll("-","");
+        uuid = uuid.substring(0,10);
+        persistedUser.setPassword(uuid);
+
+        JsonObject response = new JsonObject();
+        response.put("password",uuid);
+        em.persist(persistedUser);
+        em.getTransaction().commit();
+
+        routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
+                .end(Json.encodePrettily(response));
         em.close();
     }
 

@@ -8,6 +8,7 @@ import io.vertx.ext.auth.AbstractUser;
 import io.vertx.ext.auth.AuthProvider;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -82,7 +83,12 @@ public class User extends AbstractUser {
     }
 
     public void setCash(double cash) {
-        this.cash = cash;
+        Double toBeTruncated = new Double(cash);
+
+        Double truncatedDouble = new BigDecimal(toBeTruncated)
+                .setScale(2, BigDecimal.ROUND_HALF_UP)
+                .doubleValue();
+        this.cash = truncatedDouble;
     }
 
     public String getPassword_salt() {

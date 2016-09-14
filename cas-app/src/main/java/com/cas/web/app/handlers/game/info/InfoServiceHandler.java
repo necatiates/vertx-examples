@@ -15,6 +15,13 @@ import javax.persistence.EntityManager;
 public class InfoServiceHandler {
     public static void getInfo(RoutingContext routingContext){
         User user = routingContext.session().get("user");
+        if(user == null){
+            JsonObject response = new JsonObject();
+            response.put("username","Unauthorized");
+            routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
+                    .end(Json.encodePrettily(response));
+            return;
+        }
         Session em = Server.factory.openSession();
         JsonObject response = new JsonObject();
         response.put("cash",((User)em.get(User.class,user.getUsername())).getCash());

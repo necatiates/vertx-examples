@@ -4,23 +4,26 @@ import com.cas.StaticDefinitions;
 import com.cas.service.model.SlotGamesHistoryRequest;
 import com.cas.spring.entity.*;
 import com.cas.web.app.Server;
+import io.vertx.core.Handler;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by tolga on 06.03.2016.
  */
-public class SlotMachineBetHandler {
-    public static void bet(RoutingContext routingContext){
+public class SlotMachineBetHandler implements Handler<RoutingContext> {
+
+    private static Logger logger = Logger.getLogger(SlotMachineBetHandler.class);
+    public void handle(RoutingContext routingContext){
         final SlotBet slotBet = Json.decodeValue(routingContext.getBodyAsString(),SlotBet.class);
 
         Session entityManager = Server.factory.openSession();
@@ -31,25 +34,30 @@ public class SlotMachineBetHandler {
         slotBet.setUpdate_time(new Date().getTime());
 
 
-        JsonObject response = BetDesicionHelper.invoke(slotBet,entityManager);
+        JsonObject response = BetDesicionHelper.invoke(slotBet,entityManager, 1);
         entityManager.persist(slotBet);
 
         if(slotBet.getCurFreeSpinCnt() == 0) {
             cash.setCash(cash.getCash() + slotBet.getBet() * slotBet.getLineCount());
             user.setCash(user.getCash() - slotBet.getBet() * slotBet.getLineCount());
-            slotBet.setCashBalanceAfterPlay(cash.getCash());
-            slotBet.setUserBalanceAfterPlay(user.getCash());
         }
+        slotBet.setCashBalanceAfterPlay(cash.getCash());
+        slotBet.setUserBalanceAfterPlay(user.getCash());
         entityManager.getTransaction().commit();
         response.put("id",slotBet.getId());
 
+        logger.debug("Transaction commited");
+
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(response));
+        logger.debug("Response returned");
+
         entityManager.close();
+        logger.debug("Entity Manager closed");
         return;
     }
 
-    public static void getGames(RoutingContext routingContext) {
+    public static void  getGames(RoutingContext routingContext) {
         final SlotGamesHistoryRequest slotGamesHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),SlotGamesHistoryRequest.class);
         Session entityManager = Server.factory.openSession();
         Criteria criteria = entityManager.createCriteria(SlotBet.class);
@@ -60,11 +68,9 @@ public class SlotMachineBetHandler {
             criteria.add(Restrictions.eq("username",slotGamesHistoryRequest.getUsername()));
         }
         List<TransferCheckout> result = criteria.list();
+        entityManager.close();
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(result));
-        entityManager.close();
-    }
-    public static boolean randomBoolean(){
-        return Math.random() < 0.5;
+
     }
 }

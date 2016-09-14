@@ -23,7 +23,7 @@ function CInterface(iCurBet,iTotBet,iMoney){
         _pStartPosExit = {x:CANVAS_WIDTH - (oSprite.width/2) - 2,y:(oSprite.height/2) + 2};
         _oButExit = new CGfxButton(_pStartPosExit.x,_pStartPosExit.y,oSprite,true);
         _oButExit.addEventListener(ON_MOUSE_UP, this._onExit, this);
-        
+
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             _pStartPosAudio = {x:_oButExit.getX() - oSprite.width,y:(oSprite.height/2) + 2};
             _oAudioToggle = new CToggle(_pStartPosAudio.x,_pStartPosAudio.y,s_oSpriteLibrary.getSprite('audio_icon'),s_bAudioActive);

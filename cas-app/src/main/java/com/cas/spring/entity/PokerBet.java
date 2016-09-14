@@ -122,6 +122,11 @@ public class PokerBet implements Bet{
         return false;
     }
 
+    @Override
+    public void setMaxWin(Double maxWin) {
+
+    }
+
     public Double getUserBalanceAfterPlay() {
         return userBalanceAfterPlay;
     }

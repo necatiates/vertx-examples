@@ -8,7 +8,11 @@ function CPayTableSettings(){
         for(var i=0;i<NUM_BETS;i++){
             _aWins[i] = new Array();
             for(var j=0;j<WIN_COMBINATIONS;j++){
-                _aWins[i][j] = COMBO_PRIZES[j] * (i+1);
+                if(j < 6){
+                    _aWins[i][j] = COMBO_PRIZES[j] * (i+1);
+                }else{
+                    _aWins[i][j] = COMBO_PRIZES[j];
+                }
             }
         }
     };

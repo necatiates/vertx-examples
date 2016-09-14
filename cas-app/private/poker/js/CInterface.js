@@ -215,7 +215,7 @@ function CInterface(iMoney,iBet){
     };
     
     this._onExit = function(){
-        document.location =  "/private/games.html";
+        document.location =  "/private/index.html";
     };
     
     this._onAudioToggle = function(){

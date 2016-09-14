@@ -9,4 +9,5 @@ public interface Bet {
     void  setLoseCause(String cause);
     Boolean  hasFreeSpin();
     Boolean  hasBonus();
+    void setMaxWin(Double maxWin);
 }

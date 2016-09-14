@@ -1,7 +1,7 @@
 package com.cas.web.app.handlers.game.desicion;
 
 import com.cas.StaticDefinitions;
-import com.cas.service.model.StrachHistoryRequest;
+import com.cas.service.model.MinerHistoryRequest;
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.MinerBet;
 import com.cas.spring.entity.RunningBet;
@@ -31,7 +31,7 @@ public class MinerBetHandler {
         minerBet.setUsername(user.getUsername());
         minerBet.setUpdate_time(System.currentTimeMillis());
 
-        JsonObject response = BetDesicionHelper.invoke(minerBet,entityManager);
+        JsonObject response = BetDesicionHelper.invoke(minerBet,entityManager, 1);
         entityManager.persist(minerBet);
 
         cash.setCash(cash.getCash() + minerBet.getBet());
@@ -49,15 +49,15 @@ public class MinerBetHandler {
         return;
     }
     public static void getGames(RoutingContext routingContext) {
-        final StrachHistoryRequest strachHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),StrachHistoryRequest.class);
+        final MinerHistoryRequest minerHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),MinerHistoryRequest.class);
         Session entityManager = Server.factory.openSession();
         Criteria criteria = entityManager.createCriteria(RunningBet.class);
-        criteria.setFirstResult(0 + (strachHistoryRequest.getPage() - 1) * 25);
-        criteria.setMaxResults(25 + (strachHistoryRequest.getPage() - 1) * 25);
+        criteria.setFirstResult(0 + (minerHistoryRequest.getPage() - 1) * 25);
+        criteria.setMaxResults(25 + (minerHistoryRequest.getPage() - 1) * 25);
         criteria.addOrder(Order.desc("update_time"));
 
-        if(strachHistoryRequest.getUsername() != null && !strachHistoryRequest.getUsername().equals("")) {
-            criteria.add(Restrictions.eq("username",strachHistoryRequest.getUsername()));
+        if(minerHistoryRequest.getUsername() != null && !minerHistoryRequest.getUsername().equals("")) {
+            criteria.add(Restrictions.eq("username",minerHistoryRequest.getUsername()));
         }
         List<RunningBet> result = criteria.list();
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")

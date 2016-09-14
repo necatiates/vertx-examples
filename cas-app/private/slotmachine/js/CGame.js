@@ -25,6 +25,8 @@ function CGame(oData){
     var _oInterface;
     var _oPayTable = null;
     var _iCurRes = null;
+    var _iAcceptedRequested;
+    var _iAcceptedResponded;
     
     this._init = function(){
         $.ajax({
@@ -184,7 +186,43 @@ function CGame(oData){
     };
     
     this.reelArrived = function(iReelIndex,iCol) {
-        if(_iCurReelLoops>MIN_REEL_LOOPS ){
+
+        if(!_iAcceptedRequested && iCol == 0 && _iCurRes._win_){
+            _iAcceptedRequested = true;
+            if(_iTotWin>0){
+                var bet = {
+                    totalWin: _iTotWin * _iCurBet,
+                    id : _iCurRes.id,
+                    numLineWin : _aWinningLine.length
+                };
+                $.ajax({
+                    url: '/bet/accept',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(bet),
+                    dataType: 'json',
+                    async: true,
+                    success: function (data) {
+
+                        if(!data._accepted_) {
+                            _iCurRes._win_ = false;
+                            do{
+                                var bRet = s_oGame.generateFinalSymbols();
+                            }while (bRet != _iCurRes._win_)
+                        }
+                        _iAcceptedResponded = true;
+                    },
+                });
+
+            }else{
+                _iAcceptedResponded = true;
+            }
+        }else{
+            _iAcceptedRequested = true;
+            _iAcceptedResponded = true;
+        }
+
+        if(_iAcceptedRequested && _iAcceptedResponded && _iCurReelLoops>MIN_REEL_LOOPS ){
             if (_iNextColToStop === iCol) {
                 if (_aMovingColumns[iReelIndex].isReadyToStop() === false) {
                     var iNewReelInd = iReelIndex;
@@ -251,6 +289,7 @@ function CGame(oData){
         //var iTotWin = 0;
         //INCREASE MONEY IF THERE ARE COMBOS
         if(_aWinningLine.length > 0){
+
             //HIGHLIGHT WIN COMBOS IN PAYTABLE
             for(var i=0;i<_aWinningLine.length;i++){
                 _oPayTable.highlightCombo(_aWinningLine[i].value,_aWinningLine[i].num_win);
@@ -259,51 +298,33 @@ function CGame(oData){
                 for(var k=0;k<aList.length;k++){
                     _aStaticSymbols[aList[k].row][aList[k].col].show(aList[k].value);
                 }
-                
+                if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
+                    _oCurSymbolWinSound = playSound("win", 0.3,0);
+                }
                 //iTotWin += _aWinningLine[i].amount;
             }
 
             _iTotWin *=_iCurBet;
 
+            _iMoney = _iMoney + _iTotWin;
 
-            var bet = {
-                totalWin: _iTotWin,
-                id : _iCurRes.id,
-                numLineWin : _aWinningLine.length
-            };
-            $.ajax({
-                url: '/bet/accept',
-                type: 'post',
-                contentType: 'application/json',
-                data: JSON.stringify(bet),
-                dataType: 'json',
-                async: false,
-                success: function (data) {
-                    if(data._accepted_) {
-                        _iMoney += _iTotWin;
-                    }
-                },
-            });
 
-            SLOT_CASH -= _iTotWin;
-            
-            if(_iTotWin>0){
-                    _oInterface.refreshMoney(_iMoney);
-                    _oInterface.refreshWinText(_iTotWin);
-            }
-			
-            _iTimeElaps = 0;
+            _oInterface.refreshMoney(_iMoney);
+            _oInterface.refreshWinText(_iTotWin);
             _iCurState = GAME_STATE_SHOW_ALL_WIN;
-            
-            if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
-                _oCurSymbolWinSound = playSound("win", 0.3,0);
-            }
+
+
+
+            _iTimeElaps = 0;
+
+
+
         }else{
             _iCurState = GAME_STATE_IDLE;
         }
-        
+
         _oInterface.enableGuiButtons();
-		
+
         if(_iMoney < _iTotBet){
                 _oInterface.disableSpin();
         }
@@ -311,7 +332,7 @@ function CGame(oData){
         _iNumSpinCont++;
         if(_iNumSpinCont === _iAdsShowingCont){
             _iNumSpinCont = 0;
-            
+
             $(s_oMain).trigger("show_interlevel_ad");
         }
 
@@ -509,6 +530,8 @@ function CGame(oData){
         }
 		
         MIN_WIN *= _iCurBet;
+        _iAcceptedRequested = false;
+        _iAcceptedResponded = false;
         var bet = {
             lineCount: _iLastLineActive,
             bet:_iCurBet,
@@ -558,9 +581,15 @@ function CGame(oData){
                 }while(bRet === false || (_iTotWin*_iCurBet) > SLOT_CASH);
             }
         }*/
-
+        var maxIter = 10000;
+        var curIter = 0 ;
         do{
             var bRet = this.generateFinalSymbols();
+            maxIter++;
+            if(curIter > maxIter){
+                _iCurRes._win_ = false;
+                _iCurRes._maxWin_ = 0;
+            }
         }while (bRet != _iCurRes._win_ || _iTotWin * _iCurBet > _iCurRes._maxWin_)
         
 

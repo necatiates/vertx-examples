@@ -5,7 +5,6 @@ import com.cas.spring.entity.Bet;
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.GlobalSettings;
 import com.cas.spring.entity.SlotBet;
-import com.cas.web.app.Server;
 import io.vertx.core.json.JsonObject;
 import org.hibernate.Session;
 
@@ -13,7 +12,7 @@ import org.hibernate.Session;
  * Created by tolga on 26.03.2016.
  */
 public class BetDesicionHelper {
-    public static JsonObject invoke(Bet Bet,Session em) {
+    public static JsonObject invoke(Bet Bet, Session em, double percentageModifier) {
         JsonObject response = new JsonObject();
         Cash gameCash = (Cash) em.get(Cash.class, StaticDefinitions.GAME_CASH_NAME);
         Cash bonusCash = (Cash) em.get(Cash.class,StaticDefinitions.BONUS_CASH_NAME);
@@ -25,7 +24,8 @@ public class BetDesicionHelper {
 
          */
 
-         if(gameCash.getCash() <= Double.parseDouble(absoluteValue.getValue())){
+        double absoulteValueDouble = Double.parseDouble(absoluteValue.getValue());
+        if(gameCash.getCash() <= absoulteValueDouble){
              Bet.setWinResult(false);
              Bet.setLoseCause("AbsoluteLose");
              response.put("freeSpin",false);
@@ -44,7 +44,7 @@ public class BetDesicionHelper {
             double genRandom = randomBoolean();
 
             GlobalSettings winPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.WIN_PERCENTAGE_SETTINGS_NAME);
-            boolean isWin = genRandom <= Double.parseDouble(winPerc.getValue());
+            boolean isWin = genRandom <= Double.parseDouble(winPerc.getValue()) * percentageModifier;
             Bet.setWinResult(isWin);
 
             boolean isFreeSpin;
@@ -61,14 +61,17 @@ public class BetDesicionHelper {
             }
 
             boolean isBonus;
-            if(Bet.hasBonus() && bonusCash.getCash() > 0 && !isWin && !isFreeSpin){
-                double genRandomBonus = randomBoolean();
-                GlobalSettings bonusPercentage = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.BONUS_SETTINGS_NAME);
-                isBonus = genRandomBonus <= Double.parseDouble(bonusPercentage.getValue());
-            }else {
+            if(Bet instanceof SlotBet && ((SlotBet) Bet).getCurFreeSpinCnt() > 0){
                 isBonus = false;
+            }else {
+                if (Bet.hasBonus() && bonusCash.getCash() > 0 && !isWin && !isFreeSpin) {
+                    double genRandomBonus = randomBoolean();
+                    GlobalSettings bonusPercentage = (GlobalSettings) em.get(GlobalSettings.class, StaticDefinitions.BONUS_SETTINGS_NAME);
+                    isBonus = genRandomBonus <= Double.parseDouble(bonusPercentage.getValue());
+                } else {
+                    isBonus = false;
+                }
             }
-
             if(isWin){
                 Bet.setLoseCause("RandomWin");
             }else if(isBonus){
@@ -88,7 +91,19 @@ public class BetDesicionHelper {
             response.put("_win_",isWin);
             if(isWin) {
                 GlobalSettings cashGiveAwayPerc = (GlobalSettings) em.get(GlobalSettings.class,StaticDefinitions.CASH_GIVEAWAY_PERCENTAGE);
-                response.put("_maxWin_", gameCash.getCash() * (Double.parseDouble(cashGiveAwayPerc.getValue()) / 100 ));
+                Double maxWin = gameCash.getCash() * (Double.parseDouble(cashGiveAwayPerc.getValue()) / 100 );
+                if(gameCash.getCash() - maxWin < absoulteValueDouble){
+                    response.put("_maxWin_", gameCash.getCash() - absoulteValueDouble);
+                    Bet.setMaxWin(gameCash.getCash() - absoulteValueDouble);
+                }else if(gameCash.getCash() - maxWin == absoulteValueDouble){
+                    response.put("_maxWin_",0);
+                    Bet.setMaxWin(0.0);
+                    response.put("_win_",false);
+                    Bet.setLoseCause("AbsoluteLose");
+                }else{
+                    response.put("_maxWin_", maxWin);
+                    Bet.setMaxWin(maxWin);
+                }
             }else{
                 response.put("_maxWin_", 0);
             }
@@ -96,6 +111,7 @@ public class BetDesicionHelper {
             Bet.setWinResult(false);
             response.put("_win_",false);
             response.put("_maxWin_",0);
+            Bet.setMaxWin(0.0);
             Bet.setLoseCause("CashLose");
         }
         return response;

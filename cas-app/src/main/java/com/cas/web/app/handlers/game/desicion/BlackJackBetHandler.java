@@ -2,7 +2,6 @@ package com.cas.web.app.handlers.game.desicion;
 
 import com.cas.StaticDefinitions;
 import com.cas.service.model.BlackJackHistoryRequest;
-import com.cas.service.model.StrachHistoryRequest;
 import com.cas.spring.entity.*;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
@@ -12,9 +11,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by tolga on 06.03.2016.
@@ -30,7 +27,7 @@ public class BlackJackBetHandler {
         blackJackBet.setUsername(user.getUsername());
 
 
-        JsonObject response = BetDesicionHelper.invoke(blackJackBet,entityManager);
+        JsonObject response = BetDesicionHelper.invoke(blackJackBet,entityManager, 1);
         entityManager.persist(blackJackBet);
 
         cash.setCash(cash.getCash() + blackJackBet.getBet());

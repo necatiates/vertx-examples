@@ -1,10 +1,9 @@
 package com.cas.web.app.handlers.game.desicion;
 
 import com.cas.StaticDefinitions;
-import com.cas.service.model.StrachHistoryRequest;
+import com.cas.service.model.RunningHistoryRequest;
 import com.cas.spring.entity.Cash;
 import com.cas.spring.entity.RunningBet;
-import com.cas.spring.entity.TransferCheckout;
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
@@ -31,7 +30,7 @@ public class RunningBetHandler {
         runBet.setUsername(user.getUsername());
         runBet.setUpdate_time(System.currentTimeMillis());
 
-        JsonObject response = BetDesicionHelper.invoke(runBet,entityManager);
+        JsonObject response = BetDesicionHelper.invoke(runBet,entityManager, 1);
         entityManager.persist(runBet);
 
         cash.setCash(cash.getCash() + runBet.getBet());
@@ -49,7 +48,7 @@ public class RunningBetHandler {
         return;
     }
     public static void getGames(RoutingContext routingContext) {
-        final StrachHistoryRequest strachHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),StrachHistoryRequest.class);
+        final RunningHistoryRequest strachHistoryRequest =  Json.decodeValue(routingContext.getBodyAsString(),RunningHistoryRequest.class);
         Session entityManager = Server.factory.openSession();
         Criteria criteria = entityManager.createCriteria(RunningBet.class);
         criteria.setFirstResult(0 + (strachHistoryRequest.getPage() - 1) * 25);

@@ -31,7 +31,7 @@ public class StrachBetHandler {
         strachBet.setUsername(user.getUsername());
         strachBet.setUpdate_time(System.currentTimeMillis());
 
-        JsonObject response = BetDesicionHelper.invoke(strachBet,entityManager);
+        JsonObject response = BetDesicionHelper.invoke(strachBet,entityManager,0.5);
         entityManager.persist(strachBet);
 
         cash.setCash(cash.getCash() + strachBet.getBet());
