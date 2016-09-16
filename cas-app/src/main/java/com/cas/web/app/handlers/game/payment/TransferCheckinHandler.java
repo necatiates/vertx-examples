@@ -1,9 +1,8 @@
 package com.cas.web.app.handlers.game.payment;
 
 import com.cas.service.model.CheckinsRequest;
-import com.cas.service.model.CheckoutsRequest;
 import com.cas.service.model.FlagChangeRequest;
-import com.cas.spring.entity.TransferCheckin;
+import com.cas.spring.entity.CreditCardDeposit;
 import com.cas.spring.entity.TransferCheckout;
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
@@ -14,7 +13,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -22,20 +20,25 @@ import java.util.List;
  */
 public class TransferCheckinHandler {
     public static void handle(RoutingContext routingContext){
-        final TransferCheckin transferRequest = Json.decodeValue(routingContext.getBodyAsString(),TransferCheckin.class);
+        final CreditCardDeposit transferRequest = Json.decodeValue(routingContext.getBodyAsString(),CreditCardDeposit.class);
         transferRequest.setUsername(((User)routingContext.session().get("user")).getUsername());
         Session em = Server.factory.openSession();
         em.getTransaction().begin();
         em.persist(transferRequest);
+        User user = (User) em.get(User.class,transferRequest.getUsername());
+        user.setCash(user.getCash() + transferRequest.getAmount());
+        em.persist(user);
         em.getTransaction().commit();
         em.close();
+        JsonObject response = new JsonObject().put("id", transferRequest.getId())
+                .put("success","true");
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encodePrettily(new JsonObject().put("id",transferRequest.getId())));
+                .end(Json.encodePrettily(response));
     }
     public static void getTransfers(RoutingContext routingContext){
         final CheckinsRequest transferRequest = Json.decodeValue(routingContext.getBodyAsString(),CheckinsRequest.class);
         Session em = Server.factory.openSession();
-        Criteria criteria = em.createCriteria(TransferCheckin.class);
+        Criteria criteria = em.createCriteria(CreditCardDeposit.class);
         criteria.setFirstResult(0 + (transferRequest.getPage() - 1) * 25);
         criteria.setMaxResults(25 + (transferRequest.getPage() - 1) * 25);
         if(transferRequest.getUsername() != null && !transferRequest.getUsername().equals("")) {
@@ -50,7 +53,7 @@ public class TransferCheckinHandler {
     public static void changeFlag(RoutingContext routingContext){
         final FlagChangeRequest request =  Json.decodeValue(routingContext.getBodyAsString(),FlagChangeRequest.class);
         Session em = Server.factory.openSession();
-        TransferCheckin checkin = (TransferCheckin) em.get(TransferCheckin.class,request.getId());
+        CreditCardDeposit checkin = (CreditCardDeposit) em.get(CreditCardDeposit.class,request.getId());
         checkin.setProcessed(request.isFlag());
         em.getTransaction().begin();
         em.persist(checkin);

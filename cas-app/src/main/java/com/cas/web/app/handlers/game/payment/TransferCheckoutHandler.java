@@ -2,7 +2,6 @@ package com.cas.web.app.handlers.game.payment;
 
 import com.cas.service.model.CheckoutsRequest;
 import com.cas.service.model.FlagChangeRequest;
-import com.cas.spring.entity.TransferCheckin;
 import com.cas.spring.entity.TransferCheckout;
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
@@ -13,7 +12,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 /**

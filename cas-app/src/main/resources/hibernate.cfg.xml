@@ -28,7 +28,7 @@
         <mapping class="com.cas.spring.entity.Product"/>
         <mapping class="com.cas.spring.entity.SlotBet"/>
         <mapping class="com.cas.spring.entity.StrachBet"/>
-        <mapping class="com.cas.spring.entity.TransferCheckin"/>
+        <mapping class="com.cas.spring.entity.CreditCardDeposit"/>
         <mapping class="com.cas.spring.entity.TransferCheckout"/>
         <mapping class="com.cas.spring.entity.GlobalSettings"/>
         <mapping class="com.cas.spring.entity.BingoBet"/>

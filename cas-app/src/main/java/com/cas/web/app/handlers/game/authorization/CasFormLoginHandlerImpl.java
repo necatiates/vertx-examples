@@ -7,6 +7,8 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import com.cas.spring.entity.User;
@@ -56,49 +58,56 @@ public class CasFormLoginHandlerImpl implements CasFormLoginHandler {
 
     public void handle(RoutingContext context) {
         HttpServerRequest req = context.request();
-        if(req.method() != HttpMethod.POST) {
+        if (req.method() != HttpMethod.POST) {
             context.fail(405);
         } else {
-            if(!req.isExpectMultipart()) {
+            if (!req.isExpectMultipart()) {
                 throw new IllegalStateException("Form body not parsed - do you forget to include a BodyHandler?");
             }
 
             MultiMap params = req.formAttributes();
             String username = params.get(this.usernameParam);
             String password = params.get(this.passwordParam);
-            if(username != null && password != null) {
+            JsonObject response = new JsonObject();
+            if (username != null && password != null) {
                 org.hibernate.SessionFactory entityManagerFactory = Server.factory;
                 Session em = entityManagerFactory.openSession();
-                User user = (User) em.get(User.class,username);
-                if(user != null) {
+                User user = (User) em.get(User.class, username);
+                if (user != null) {
                     String hashedStoredPwd = user.getPassword();
                     String salt = user.getPassword_salt();
-                    String enteredPassword = HashUtil.hashWithSalt(password,salt);
-                    if(enteredPassword.equals(hashedStoredPwd)) {
+                    String enteredPassword = HashUtil.hashWithSalt(password, salt);
+                    if (enteredPassword.equals(hashedStoredPwd)) {
                         context.setUser(user);
+                        response.put("username",user.getUsername());
+                        response.put("balance",user.getCash());
                         em.getTransaction().begin();
                         user.setLastLogin(new Date());
                         em.merge(user);
                         em.persist(user);
                         em.getTransaction().commit();
                         em.close();
-                    }else{
+                    } else {
                         em.close();
-                        this.doRedirect(req.response(), "/index.html?context=LoginFail");
+                        //if fail
+                        response.put("error","Wrong password");
+                        context.response().putHeader("content-type", "application/json; charset=utf-8")
+                                .end(Json.encodePrettily(response));
                         return;
                     }
-                }else {
-                  em.close();
-                  this.doRedirect(req.response(),"/index.html?context=LoginFail");
-                  return;
-                }
-                context.session().put("user",user);
-                if(this.directLoggedInOKURL != null) {
-                    this.doRedirect(req.response(), "/private/games.html");
-                    return;
                 } else {
-                    req.response().end("<html><body><h1>Login successful</h1></body></html>");
+                    em.close();
+                    //if fail
+                    response.put("error","Wrong User or password");
+                    context.response().putHeader("content-type", "application/json; charset=utf-8")
+                            .end(Json.encodePrettily(response));
+                    return;
                 }
+                context.session().put("user", user);
+                response.put("success","true");
+                context.response().putHeader("content-type", "application/json; charset=utf-8")
+                        .end(Json.encodePrettily(response));
+                // If successs
             } else {
                 log.warn("No username or password provided in form - did you forget to include a BodyHandler?");
                 context.fail(400);

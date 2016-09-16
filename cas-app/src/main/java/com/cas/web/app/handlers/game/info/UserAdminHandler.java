@@ -1,8 +1,6 @@
 package com.cas.web.app.handlers.game.info;
 
 import com.cas.service.model.UsersRequest;
-import com.cas.spring.entity.Cash;
-import com.cas.spring.entity.TransferCheckin;
 import com.cas.spring.entity.User;
 import com.cas.web.app.Server;
 import io.vertx.core.json.Json;
@@ -13,8 +11,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaQuery;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;

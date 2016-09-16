@@ -7,6 +7,8 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -56,6 +58,7 @@ public class FormRegisterHandlerImpl implements FormRegisterHandler {
             String password = params.get(this.passwordParam);
             String email    = params.get("email");
             String mobile_phone = params.get("phone_number");
+            JsonObject response = new JsonObject();
             if(username != null && password != null) {
                 SessionFactory entityManagerFactory = Server.factory;
                 Session em = entityManagerFactory.openSession();
@@ -68,7 +71,12 @@ public class FormRegisterHandlerImpl implements FormRegisterHandler {
                 em.persist(user);
                 em.getTransaction().commit();
                 em.close();
-                this.doRedirect(context.response(),this.returnUrl + "?context=RegisterSuccess");
+                response.put("username",user.getUsername());
+                response.put("balance",user.getCash());
+                context.session().put("user", user);
+                response.put("success","true");
+                context.response().putHeader("content-type", "application/json; charset=utf-8")
+                        .end(Json.encodePrettily(response));
                 return;
             }
         }

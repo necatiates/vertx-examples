@@ -26,6 +26,7 @@ public class InfoServiceHandler {
         JsonObject response = new JsonObject();
         response.put("cash",((User)em.get(User.class,user.getUsername())).getCash());
         response.put("username",user.getUsername());
+        response.put("success","true");
         routingContext.response().putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(response));
         em.close();
