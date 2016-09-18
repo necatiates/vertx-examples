@@ -10,12 +10,12 @@
 /* Basic */
 
 	body {
-		background: #0f1116;
+		background: #010923;
 	}
 
 	body, span, input, select, textarea {
 		color: #555555;
-		font-family: 'Helvetica Neue', sans-serif;
+		font-family: 'Raleway', sans-serif;
 		font-size: 12pt;
 		font-weight: 300;
 		line-height: 1.65em;
@@ -426,7 +426,7 @@
 		-o-transition: background-color 0.35s ease-in-out;
 		-ms-transition: background-color 0.35s ease-in-out;
 		transition: background-color 0.35s ease-in-out;
-		background: #d84780;
+		background: #010923;
 		border-radius: 6px;
 		border: 0;
 		color: white;
@@ -437,8 +437,8 @@
 		text-decoration: none;
 		text-transform: uppercase;
 		display: inline-block;
-		font-size: 1.2em;
-		font-weight: 600;
+		font-size: 1 em;
+		font-weight: 400;
 		color: #FFF !important;
 	}
 
@@ -446,7 +446,7 @@
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			background: #e1719d;
+			background: #240763;
 		}
 
 		input[type="submit"].alt,
@@ -484,7 +484,7 @@
 	.wrapper.style1 {
 		padding-top: 10em;
 		padding-bottom: 2em;
-		background: url(../images/bg.jpg) no-repeat center top;
+		background: #010923;
 		background-size: cover;
 		background-attachment: fixed;
 		-webkit-backface-visibility: hidden;
@@ -492,8 +492,8 @@
 	}
 
 	.wrapper.style2 {
-		padding: 4em 0;
-		background: #1f2326;
+		padding: 6em 0;
+		background: #010923;
 		color: white;
 	}
 
@@ -503,7 +503,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		background: #bb3517;
+		background: #000000;
 		color: #fff;
 		padding: 1.25em 1.25em 1.25em 1.25em;
 		z-index: 100;
@@ -622,7 +622,7 @@
 
 	.box {
 		padding: 3em 2em;
-		background: #FFF;
+		background: #000000;
 		text-align: center;
 		border-radius: 0px 0px 6px 6px;
 	}

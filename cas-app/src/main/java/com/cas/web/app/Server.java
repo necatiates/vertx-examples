@@ -210,7 +210,6 @@ public class Server{
 
     router.get("/tokengen").handler(BrainTreeTokanizerHandler::getToken);
     router.post("/checkout").handler(BrainTreeCheckoutHandler::checkout);
-    router.post("/creditCardHandler").handler(CreditCardHandler::handleCardOK);
 
     router.get("/admin/gameCash").handler(GameCashHandler::getCashes);
     router.post("/admin/gameCash").handler(GameCashHandler::updateCash);
