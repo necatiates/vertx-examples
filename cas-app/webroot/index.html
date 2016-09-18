@@ -39,7 +39,7 @@
 								<li><a ng-show="!currentUserSignedIn" href="#signin">Sign In</a></li>
 								<li><a ng-show="!currentUserSignedIn" href="#signup">Sign Up</a></li>
 								<li ng-show="currentUserSignedIn"><a>Username:{{user.username}}</a></li>
-								<li ng-show="currentUserSignedIn"><a>Balance:{{user.balance}}</a></li>
+								<li style="border-right: 0.1em solid #0f0a21;" ng-show="currentUserSignedIn"><a><b>Balance:</b> {{user.balance}}</a></li>
 								<li><a href="#games">Games</a></li>
 								<li ng-show="currentUserSignedIn"><a href="#deposit">Deposit</a></li>
 								<li ng-show="currentUserSignedIn"><a href="#cashout">Cashout</a></li>

@@ -15,7 +15,7 @@
 
 	body, span, input, select, textarea {
 		color: #555555;
-		font-family: 'Raleway', sans-serif;
+		font-family: 'Helvetica Neue', sans-serif;
 		font-size: 12pt;
 		font-weight: 300;
 		line-height: 1.65em;
@@ -492,8 +492,8 @@
 	}
 
 	.wrapper.style2 {
-		padding: 6em 0;
-		background: #d84780;
+		padding: 4em 0;
+		background: #1f2326;
 		color: white;
 	}
 

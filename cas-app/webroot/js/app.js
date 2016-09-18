@@ -1,7 +1,24 @@
+var iframeUrl = "localhost";
 var casApp = angular.module('casApp', ['ngRoute']);
-        casApp.factory('Auth', function(){
+        casApp.factory('Auth',['$http', function($http){
             var user = { username : '-',balance : '-'};
+            $http({
+                method  : 'GET',
+                url     : '/bet/info',  // pass in data as strings
+                headers : { 'Accept': 'application/json' }  // set the headers so angular passing info as form data (not request payload)
+            })
+                .success(function(data) {
+                    console.log(data);
 
+                    if (!data.success) {
+                        // if not successful, bind errors to error variables
+                        $scope.errorName = data.errors.name;
+                        $scope.errorSuperhero = data.errors.superheroAlias;
+                    } else {
+                        user = {username : data.username,balance : data.cash};
+                        // if successful, bind success message to message
+                    }
+                });
 
             return{
                 setUser : function(aUser){
@@ -27,7 +44,7 @@ var casApp = angular.module('casApp', ['ngRoute']);
                     user.username = "-";
                 }
               }
-        });
+        }]);
         casApp.factory('SizingService', ['$window',function($window) {
             return {
                 getGameHeight: function() {
@@ -322,115 +339,115 @@ var casApp = angular.module('casApp', ['ngRoute']);
         }]);
 
         casApp.controller('scratchCardController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/scratchcard/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/scratchcard/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('pokerController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/poker/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/poker/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('gorillazController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/gorillaz/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/gorillaz/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('assasinController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/assasins/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/assasins/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('mayansController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/mayan/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/mayan/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('nasaController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/nasa/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/nasa/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('xcomController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/xcom/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/xcom/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('amonraController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/amon_ra/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/amon_ra/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('stoneageController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/stoneage/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/stoneage/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('theftController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/theft/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/theft/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('moviesController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/movies/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/movies/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('100mController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/100m/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/100m/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('goldMinerController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/gold_miner/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/gold_miner/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('specialForcesController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/special_forces/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/special_forces/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('scaryHouseController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/korku_evi/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/korku_evi/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('fruitsController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/slotmachine/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/slotmachine/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('spaceAdventureController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/spaceadventure/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/spaceadventure/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('ultimateSoccerController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/ultimatesoccer/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/ultimatesoccer/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('christmasController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/christmas/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/christmas/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('arabianNightController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/arabiannight/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/arabiannight/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('istanbulController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/istanbul/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/istanbul/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('parisController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/paris/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/paris/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('coctailController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/coctailstrach/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/coctailstrach/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('bingoController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/bingo/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/bingo/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('wallStreetController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/wallstreet/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/wallstreet/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('superRichController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/rich/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/rich/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('blackJackController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/blackjack/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/blackjack/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
         casApp.controller('catsController', [ '$scope', '$window','Auth','SizingService',function($scope,$window,Auth,SizingService) {
-            $scope.iframeUrl = "https://localhost/private/cats/index.html";
+            $scope.iframeUrl = "https://" + iframeUrl + "/private/cats/index.html";
             $scope.iframeHeight = SizingService.getGameHeight() + "px";
         }]);
 
