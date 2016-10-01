@@ -1,4 +1,4 @@
-var iframeUrl = "ec2-50-112-43-63.us-west-2.compute.amazonaws.com";
+var iframeUrl = "localhost";
 var casApp = angular.module('casApp', ['ngRoute','ngMessages']);
 var compareTo = function () {
     return {

@@ -225,8 +225,10 @@
 			position: static;
 			display: block;
 			margin: 0;
-			border-left: 1px solid rgba(0, 235, 255, 0.13);
-			border-right: 1px solid rgba(0, 235, 255, 0.13);
+			    border-left: 4px solid #185832;
+                border-right: 4px solid #185832;
+                border-top: 4px solid #185832;
+                border-bottom: 4px solid #185832;
 		}
 
 			.image.featured img {
@@ -452,7 +454,7 @@
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			background: #240763;
+			background: #9dde21;
 		}
 
 		input[type="submit"].alt,
@@ -509,7 +511,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		background: #000000;
+		background: rgb(24, 88, 50);
 		color: #fff;
 		padding: 1.25em 1.25em 1.25em 1.25em;
 		z-index: 100;
@@ -621,8 +623,7 @@
 
 		#copyright a {
 			text-decoration: none;
-			color: #ddd;
-			color: rgba(255, 255, 255, 0.4) !important;
+			color: white;
 		}
 
 /* Box */
