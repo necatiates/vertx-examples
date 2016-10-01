@@ -11,6 +11,7 @@
         <!-- Generate L2 cache statistics. -->
         <property name="generate_statistics">true</property>
 
+
         <!-- Specify GridGain as L2 cache provider. -->
         <property name="cache.region.factory_class"> org.apache.ignite.cache.hibernate.HibernateRegionFactory</property>
 
