@@ -35,6 +35,8 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server{
   private static String WEBROOT_FOLDER =  "cas-app/webroot";
@@ -75,6 +77,9 @@ public class Server{
             .setKeyPath("cas-app/shambala.bet.key"));
     httpOpts.setSsl(true);
     vertx.createHttpServer(httpOpts).requestHandler(router::accept).listen(443);
+    List<Integer> a = new ArrayList<Integer>();
+     a.toArray(new Integer[a.size()]);
+    int[] arr = a.stream().mapToInt(j -> j).toArray();
   }
 
   private static void initAdmins() {
@@ -237,7 +242,7 @@ public class Server{
       context.clearUser();
       context.session().destroy();
       // Redirect back to the index page
-      context.response().putHeader("location", "/").setStatusCode(302).end();
+      context.response().end();
     });
 
     router.route("/admin/logout").handler(context -> {

@@ -1,14 +1,17 @@
-<form ng-submit="login()">
+<form ng-submit="login()" >
+  <section>
+    <p> <strong></strong>
+    <p>To play awesome games you should <strong>sign in</strong> or <strong>sign up</strong></p>
+  </section>
   <div class="form-group">
-    <label for="username">Username:</label>
-    <input type="text" class="form-control" id="username" ng-model="formData.username">
+    <label for="username">E-Mail:</label>
+    <input type="text" class="form-control" id="username" ng-model="formData.username" required>
   </div>
   <div class="form-group">
     <label for="pwd">Password:</label>
     <input type="password" class="form-control" id="pwd" ng-model="formData.password">
   </div>
-  <div class="checkbox">
-    <label><input type="checkbox"> Remember me</label>
+  <div class="form-group" style="padding: 1em 0">
+    <button type="submit" ng-disabled="isSignInDisabled" class="button">{{signInButtonMessage}}</button>
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
 </form>

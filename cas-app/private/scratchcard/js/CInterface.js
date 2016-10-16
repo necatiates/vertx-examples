@@ -103,6 +103,7 @@ function CInterface(){
         _pStartPosExit = {x: CANVAS_WIDTH - (oSprite.height/2)- 5, y: (oSprite.height/2) + 5};
         _oButExit = new CGfxButton(_pStartPosExit.x, _pStartPosExit.y, oSprite,true);
         _oButExit.addEventListener(ON_MOUSE_UP, this._onExit, this);
+        _oButExit.setVisible(false);
         
         oExitX = CANVAS_WIDTH - (oSprite.width/2) - 70;
         _pStartPosAudio = {x: oExitX, y: (oSprite.height/2) + 5};

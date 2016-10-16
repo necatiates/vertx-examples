@@ -20,7 +20,11 @@
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.8/angular-messages.js"></script>
    		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+		<script src="/js/angular-ui-notification.min.js"></script>
+		<link rel="stylesheet" href="/css/angular-ui-notification.min.css">
+		<script src="https://use.fontawesome.com/242c9baedd.js"></script>
    		
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 	</head>
@@ -29,22 +33,19 @@
 		<!-- Wrapper -->
 
 				<!-- Header -->
-					<div id="header" class="skel-panels-fixed">
-						<div id="logo">
-							<h1><a href="#/">WINXLARGE</a></h1>
-							<span class="tag"></span>
-						</div>
+					<div style="display: none" id="header" class="skel-panels-fixed">
+
 						<nav id="nav">
 							<ul>
-								<li><a ng-show="!currentUserSignedIn" href="#signin">Sign In</a></li>
-								<li><a ng-show="!currentUserSignedIn" href="#signup">Sign Up</a></li>
-								<li ng-show="currentUserSignedIn"><a>Username:{{user.username}}</a></li>
-								<li ng-show="currentUserSignedIn"><a>Balance:{{user.balance}}</a></li>
-								<li><a href="#games">Games</a></li>
-								<li ng-show="currentUserSignedIn"><a href="#deposit">Deposit</a></li>
-								<li ng-show="currentUserSignedIn"><a href="#cashout">Cashout</a></li>
-								<li><a href="#helpdesk">Helpdesk</a></li>
-								<li ng-show="currentUserSignedIn"><a href="#exit">Exit</a></li>
+								<li><a ng-show="!currentUserSignedIn" href="#signin">SIGN IN<i class="fa fa-sign-in" aria-hidden="true"></i></a></li>
+								<li><a ng-show="!currentUserSignedIn" href="#signup">SIGN UP</a></li>
+								<li  ng-show="currentUserSignedIn"><a><i class="fa fa-user" aria-hidden="true"></i> <b>Email:</b> {{user.username}}</a></li>
+								<li  ng-show="currentUserSignedIn"><a><b>Balance:</b> {{user.balance}} <i class="fa fa-dollar" aria-hidden="true"></i></a></li>
+								<li><a href="#games">GAMES</a></li>
+								<li ng-show="currentUserSignedIn"><a href="#deposit">DEPOSIT</a></li>
+								<li ng-show="currentUserSignedIn"><a href="#cashout">CASHOUT</a></li>
+								<li><a href="#helpdesk">HELPDESK</a></li>
+								<li ng-show="currentUserSignedIn"><a href="#exit">EXIT</a></li>
 							</ul>
 						</nav>
 					</div>

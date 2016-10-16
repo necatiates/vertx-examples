@@ -37,7 +37,7 @@
 /* Layers */
 
 	#titleBar {
-		background: #000;
+		background: rgb(24, 67, 80);
 		height: 44px;
 		line-height: 44px;
 	}
@@ -101,7 +101,7 @@
 			}
 
 	#navPanel {
-		background: #000;
+		background: rgb(24, 67, 80);
 	}
 
 		#navPanel .link {
@@ -165,7 +165,7 @@
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			background: #c72e6a;
+			background: #9dde21;
 		}
 
 		input[type="submit"].alt,
@@ -294,4 +294,5 @@
 			display: block;
 			padding-bottom: 1em;
 			font-size: 1em;
+,
 		}

@@ -17,14 +17,15 @@ function CInterface(iCurBet,iTotBet,iMoney){
     var _oNumLinesText;
     
     this._init = function(iCurBet,iTotBet,iMoney){
-        
+
         var oSprite = s_oSpriteLibrary.getSprite('but_exit');
         _pStartPosExit = {x:CANVAS_WIDTH - (oSprite.width/2) - 20,y:(oSprite.height/2) + 20};
         _oButExit = new CGfxButton(_pStartPosExit.x,_pStartPosExit.y,oSprite,true);
         _oButExit.addEventListener(ON_MOUSE_UP, this._onExit, this);
-        
+        _oButExit.setVisible(false);
+
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
-            _pStartPosAudio = {x: _oButExit.getX() - oSprite.width, y: (oSprite.height/2) + 20};  
+            _pStartPosAudio = {x: _oButExit.getX(), y: (oSprite.height/2) + 20};
             _oAudioToggle = new CToggle(_pStartPosAudio.x,_pStartPosAudio.y,s_oSpriteLibrary.getSprite('audio_icon'));
             _oAudioToggle.addEventListener(ON_MOUSE_UP, this._onAudioToggle, this);
         }

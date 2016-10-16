@@ -25,6 +25,7 @@
         _pStartPosExit = {x: CANVAS_WIDTH - (oSprite.height/2)- 10, y: (oSprite.height/2) + 10};
         _oButExit = new CGfxButton(_pStartPosExit.x, _pStartPosExit.y, oSprite,true);
         _oButExit.addEventListener(ON_MOUSE_UP, this._onExit, this);
+        _oButExit.setVisible(false);
         
         var iOffsetX = 10;
         if(s_bMobile && !isTablet()){
