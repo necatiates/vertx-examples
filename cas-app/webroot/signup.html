@@ -1,12 +1,11 @@
 <form ng-submit="signup()" name="registrationForm">
 	<div class="form-group">
-		<label for="username">Username:</label>
-		<input type="text"  ng-minlength="3"
-			   ng-maxlength="8" class="form-control" name="username"  id="username" ng-model="formData.username" required>
+		<label for="username">Email:</label>
+		<input type="email"
+			   class="form-control" name="username"  id="username" ng-model="formData.username" required>
 		<div ng-messages="registrationForm.username.$error">
-			<p ng-message="minlength">Your name is too short.</p>
-			<p ng-message="maxlength">Your name is too long.</p>
-			<p ng-message="required">Your name is required.</p>
+			<p ng-message="email">Your email address is not valid</p>
+			<p ng-message="required">Email is required.</p>
 		</div>
 	</div>
 
@@ -18,6 +17,7 @@
 		<label for="pwd_cntr">Confirm Password:</label>
 		<input type="password" class="form-control" id="pwd_cntr" ng-model="formData.confirmPassword" required  required compare-to="formData.password">
 	</div>
-
-	<button type="submit" class="btn btn-default">Submit</button>
+	<div class="form-group" style="padding: 1em 0">
+		<button type="submit" ng-disabled="isSignUpDisabled" class="button">{{signUpButtonMessage}}</button>
+	</div>
 </form>

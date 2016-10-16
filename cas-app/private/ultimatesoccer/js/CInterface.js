@@ -22,6 +22,7 @@ function CInterface(iCurBet,iTotBet,iMoney){
         var oSprite = s_oSpriteLibrary.getSprite('but_exit');
         _oButExit = new CGfxButton(CANVAS_WIDTH - (oSprite.width/2) - 20,(oSprite.height/2) + 20,oSprite,true);
         _oButExit.addEventListener(ON_MOUSE_UP, this._onExit, this);
+        _oButExit.setVisible(false);
         
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             _oAudioToggle = new CToggle(_oButExit.getX() - oSprite.width,(oSprite.height/2) + 20,s_oSpriteLibrary.getSprite('audio_icon'));

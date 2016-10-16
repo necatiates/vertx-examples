@@ -1,5 +1,5 @@
 var iframeUrl = "localhost";
-var casApp = angular.module('casApp', ['ngRoute','ngMessages']);
+var casApp = angular.module('casApp', ['ngRoute','ngMessages','ui-notification']);
 var compareTo = function () {
     return {
         require: "ngModel",
@@ -21,7 +21,7 @@ var compareTo = function () {
 
 casApp.directive("compareTo", compareTo);
 
-casApp.factory('Auth', ['$http', function ($http) {
+casApp.factory('Auth', ['$http','Notification', function ($http,Notification) {
     var user = {username: '-', balance: '-'};
     $http({
         method: 'GET',
@@ -54,6 +54,13 @@ casApp.factory('Auth', ['$http', function ($http) {
             });
         },
         logout: function () {
+            $http({
+                method: 'GET',
+                url: '/logout' // set the headers so angular passing info as form data (not request payload)
+            }).success(function (data) {
+                Notification.warning('You have logged out');
+            });
+
             user.balance = 0;
             user.username = "-";
         }
@@ -277,7 +284,7 @@ casApp.config(function ($routeProvider) {
             controller: 'catsController'
         })
         .when('/exit', {
-            templateUrl: 'exit.html',
+            templateUrl: 'games.html',
             controller: 'exitController'
         });
 });
@@ -294,27 +301,35 @@ casApp.controller('helpdeskController', function ($scope) {
 
 });
 
-casApp.controller('signupController', ['$scope', 'Auth', '$location', '$http', function ($scope, Auth, $location, $http) {
+casApp.controller('signupController', ['$scope', 'Auth', '$location', '$http','Notification', function ($scope, Auth, $location, $http,Notification) {
     $scope.formData = {};
+    $scope.isSignUpDisabled = false;
+    $scope.signUpButtonMessage = "SIGN UP";
     $scope.signup = function () {
+        $scope.isSignUpDisabled = true;
+        $scope.signUpButtonMessage = "PLEASE WAIT";
         $http({
             method: 'POST',
             url: '/registerhandler',
             data: $.param($scope.formData),  // pass in data as strings
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
-        })
-            .success(function (data) {
-                console.log(data);
-
+        }).success(function (data) {
                 if (!data.success) {
                     // if not successful, bind errors to error variables
                     $scope.errorName = data.errors.name;
                     $scope.errorSuperhero = data.errors.superheroAlias;
                 } else {
                     Auth.setUser({username: data.username, balance: data.balance});
+                    Notification.success('You have successfully signed up.');
                     // if successful, bind success message to message
                 }
-            });
+                $scope.isSignUpDisabled = false;
+                $scope.signUpButtonMessage = "SIGN UP";
+        }).error(function (data) {
+            Notification.error('A problem occurred while processing your request. Please try again.');
+            $scope.isSignUpDisabled = false;
+            $scope.signUpButtonMessage = "SIGN UP";
+        });
 
     };
 }]);
@@ -465,27 +480,33 @@ casApp.controller('catsController', ['$scope', '$window', 'Auth', 'SizingService
     $scope.iframeHeight = SizingService.getGameHeight() + "px";
 }]);
 
-casApp.controller('signinController', ['$scope', 'Auth', '$location', '$http', function ($scope, Auth, $location, $http) {
+casApp.controller('signinController', ['$scope', 'Auth', '$location', '$http','Notification', function ($scope, Auth, $location, $http,Notification) {
+    $scope.isSignInDisabled = false;
+    $scope.signInButtonMessage = "SIGN IN";
     $scope.formData = {};
     $scope.login = function () {
+        $scope.isSignInDisabled = true;
+        $scope.signInButtonMessage = "PLEASE WAIT..";
         $http({
             method: 'POST',
             url: '/loginhandler',
             data: $.param($scope.formData),  // pass in data as strings
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
-        })
-            .success(function (data) {
-                console.log(data);
-
+        }).success(function (data) {
                 if (!data.success) {
-                    // if not successful, bind errors to error variables
-                    $scope.errorName = data.errors.name;
-                    $scope.errorSuperhero = data.errors.superheroAlias;
+                    Notification.error('Your email or password does not match. Please try again');
+                    $scope.formData.password = "";
                 } else {
                     Auth.setUser({username: data.username, balance: data.balance});
-                    // if successful, bind success message to message
+                    Notification.success('You have signed in successfully');
                 }
-            });
+            $scope.isSignInDisabled = false;
+            $scope.signInButtonMessage = "SIGN IN";
+         }).error(function (error) {
+            Notification.error('Your email or password does not match. Please try again');
+            $scope.isSignInDisabled = false;
+            $scope.signInButtonMessage = "SIGN IN";
+        });
 
     };
 }]);

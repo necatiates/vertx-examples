@@ -37,7 +37,7 @@
 /* Layers */
 
 	#titleBar {
-		background: #185832;
+		background: rgb(24, 67, 80);
 		height: 44px;
 		line-height: 44px;
 	}
@@ -101,7 +101,7 @@
 			}
 
 	#navPanel {
-		background: #185832;
+		background: rgb(24, 67, 80);
 	}
 
 		#navPanel .link {

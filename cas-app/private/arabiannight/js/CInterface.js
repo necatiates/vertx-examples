@@ -25,10 +25,11 @@ function CInterface(iCurBet,iTotBet,iMoney){
         _pStartPosExit = {x:CANVAS_WIDTH - (oSprite.width/2) - 2,y:(oSprite.height/2) + 2};
         _oButExit = new CGfxButton(_pStartPosExit.x,_pStartPosExit.y,oSprite,s_oAttachSection);
         _oButExit.addEventListener(ON_MOUSE_UP, this._onExit, this);
+        _oButExit.setVisible(false);
         
         if(DISABLE_SOUND_MOBILE === false || s_bMobile === false){
             var oSprite = s_oSpriteLibrary.getSprite('audio_icon')
-            _pStartPosAudio = {x:_pStartPosExit.x - (oSprite.width/2) - 2,y:(oSprite.height/2) + 2};
+            _pStartPosAudio = {x:_pStartPosExit.x,y:(oSprite.height/2) + 2};
             _oAudioToggle = new CToggle(_pStartPosAudio.x,_pStartPosAudio.y,oSprite,s_bAudioActive);
             _oAudioToggle.addEventListener(ON_MOUSE_UP, this._onAudioToggle, this);
         }
